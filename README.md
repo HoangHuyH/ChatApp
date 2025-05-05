@@ -1,0 +1,1 @@
+This project aims to build a simple web messaging application for the Basic Network Programming course. The application will be developed in C# with ASP.NET Core, using SQLite as the database and SignalR to support real-time communication.
