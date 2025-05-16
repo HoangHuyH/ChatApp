@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "KSUMEtVpo5Pql7LGVt2y6gmTihPwAIJMWAew6jDFWKU=",
+  "Hash": "nYupYweavFvnxYeZ/mpd2raM0xbBw+jTCJzZnZzWHP0=",
   "Source": "ChatApp.Web",
   "BasePath": "_content/ChatApp.Web",
   "Mode": "Default",
@@ -1466,6 +1466,27 @@
       "OriginalItemSpec": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
     },
     {
+      "Identity": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\1wdy5fwceh-5ipweew5fc.gz",
+      "SourceId": "ChatApp.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "_content/ChatApp.Web",
+      "RelativePath": "js/sync-status#[.{fingerprint=5ipweew5fc}]?.js.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\sync-status.js",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "5ipweew5fc",
+      "Integrity": "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\sync-status.js"
+    },
+    {
       "Identity": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\2gbuq36rly-y7v9cxd14o.gz",
       "SourceId": "ChatApp.Web",
       "SourceType": "Discovered",
@@ -1548,6 +1569,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Identity": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\3njl61xci9-34ybpfnus6.gz",
+      "SourceId": "ChatApp.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "_content/ChatApp.Web",
+      "RelativePath": "media/notification_placeholder#[.{fingerprint=34ybpfnus6}]?.txt.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\media\\notification_placeholder.txt",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "5f674q8ik3",
+      "Integrity": "v7cG76qxPQaCjeykK+5VIZMDE+dTFfHq/UG/TN8k16g=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\media\\notification_placeholder.txt"
     },
     {
       "Identity": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\3rafqkv3jt-493y06b0oq.gz",
@@ -1697,6 +1739,27 @@
       "OriginalItemSpec": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
     },
     {
+      "Identity": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\534pxr7hdg-5ipweew5fc.gz",
+      "SourceId": "ChatApp.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "_content/ChatApp.Web",
+      "RelativePath": "js/fix-online-status#[.{fingerprint=5ipweew5fc}]?.js.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\fix-online-status.js",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "5ipweew5fc",
+      "Integrity": "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\fix-online-status.js"
+    },
+    {
       "Identity": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\56md9e2axz-o1o13a6vjx.gz",
       "SourceId": "ChatApp.Web",
       "SourceType": "Discovered",
@@ -1760,12 +1823,12 @@
       "OriginalItemSpec": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
     },
     {
-      "Identity": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\5nhq0t8azg-8rndd6ptvu.gz",
+      "Identity": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\5nhq0t8azg-fo9imyomhd.gz",
       "SourceId": "ChatApp.Web",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/ChatApp.Web",
-      "RelativePath": "js/chat#[.{fingerprint=8rndd6ptvu}]?.js.gz",
+      "RelativePath": "js/chat#[.{fingerprint=fo9imyomhd}]?.js.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -1774,8 +1837,8 @@
       "RelatedAsset": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\chat.js",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "4ptkzj13le",
-      "Integrity": "qC1PH3IatcqTG2UK/a7BhU1jiwYU7twyuMAaKwGdJuY=",
+      "Fingerprint": "maib28a7ow",
+      "Integrity": "ogzNnNBXPfKCCCkqTNWG6Hy6oFgy9nInQ5tlgRGeDuM=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\chat.js"
@@ -2138,12 +2201,12 @@
       "OriginalItemSpec": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
     },
     {
-      "Identity": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\b2s6e1u0tp-cflk045k77.gz",
+      "Identity": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\b2s6e1u0tp-x5204ft74n.gz",
       "SourceId": "ChatApp.Web",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/ChatApp.Web",
-      "RelativePath": "css/chat#[.{fingerprint=cflk045k77}]?.css.gz",
+      "RelativePath": "css/chat#[.{fingerprint=x5204ft74n}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -2152,8 +2215,8 @@
       "RelatedAsset": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\css\\chat.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "kvriayicmn",
-      "Integrity": "oI+jn5AWcSVUVgcpFPiTdWqpth482Qb9CurIl94ZLlU=",
+      "Fingerprint": "f2d4jswqvy",
+      "Integrity": "2YHwYB2s/GLfbEJQfQUk5EsOv2xeAgKAmixSvxBlh4U=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\css\\chat.css"
@@ -3524,6 +3587,27 @@
       "OriginalItemSpec": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\site.js"
     },
     {
+      "Identity": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\sws8dnqgjj-yxj858glv5.gz",
+      "SourceId": "ChatApp.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "_content/ChatApp.Web",
+      "RelativePath": "js/fix-room-status#[.{fingerprint=yxj858glv5}]?.js.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\fix-room-status.js",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "pups2qxi51",
+      "Integrity": "HxRpgzq24SSXU0T4p6AJQdUGb94qQYHyBgT33VYjl9U=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\fix-room-status.js"
+    },
+    {
       "Identity": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\t0qo7o574p-o1o13a6vjx.gz",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
@@ -4084,8 +4168,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "cflk045k77",
-      "Integrity": "eIlEuqE73Z0ucFI6EjAOrZbe9NF/Av/SEox5ctpOkNc=",
+      "Fingerprint": "x5204ft74n",
+      "Integrity": "C0URenfMnVHrVCivPKqawbIbhW5pNUVgekMUorfoE+o=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\chat.css"
@@ -4147,11 +4231,53 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "8rndd6ptvu",
-      "Integrity": "fHGsxdxo/AaGDYDymIHpKTXx9Mi3UiocC2/4XK5OX38=",
+      "Fingerprint": "fo9imyomhd",
+      "Integrity": "gWCdX7Y9ASaycYiImnzCCjBiUylMuFWQPW7fkrUdsWc=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\chat.js"
+    },
+    {
+      "Identity": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\fix-online-status.js",
+      "SourceId": "ChatApp.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\",
+      "BasePath": "_content/ChatApp.Web",
+      "RelativePath": "js/fix-online-status#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "5ipweew5fc",
+      "Integrity": "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\fix-online-status.js"
+    },
+    {
+      "Identity": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\fix-room-status.js",
+      "SourceId": "ChatApp.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\",
+      "BasePath": "_content/ChatApp.Web",
+      "RelativePath": "js/fix-room-status#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "yxj858glv5",
+      "Integrity": "CmTloK4L6Jj5q63PEGtZWBcxL96DIR8LyNRhb2xrpGM=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\fix-room-status.js"
     },
     {
       "Identity": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\site.js",
@@ -4173,6 +4299,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\site.js"
+    },
+    {
+      "Identity": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\sync-status.js",
+      "SourceId": "ChatApp.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\",
+      "BasePath": "_content/ChatApp.Web",
+      "RelativePath": "js/sync-status#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "5ipweew5fc",
+      "Integrity": "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\sync-status.js"
     },
     {
       "Identity": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
@@ -5435,6 +5582,27 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\LICENSE.txt"
     },
     {
+      "Identity": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\media\\notification_placeholder.txt",
+      "SourceId": "ChatApp.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\",
+      "BasePath": "_content/ChatApp.Web",
+      "RelativePath": "media/notification_placeholder#[.{fingerprint}]?.txt",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "34ybpfnus6",
+      "Integrity": "c8ayuZR1yE0nuxjrZ1AWU+djofo7nWTNzg9BgTHGMj4=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\media\\notification_placeholder.txt"
+    },
+    {
       "Identity": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\uploads\\images\\632cb5b2-c6a4-42c8-b2af-87b2f7729ed6_Screenshot 2025-05-05 154649.png",
       "SourceId": "ChatApp.Web",
       "SourceType": "Discovered",
@@ -6054,13 +6222,13 @@
       ]
     },
     {
-      "Route": "css/chat.cflk045k77.css",
-      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\b2s6e1u0tp-cflk045k77.gz",
+      "Route": "css/chat.css",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\b2s6e1u0tp-x5204ft74n.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000534473544"
+          "Quality": "0.000375657400"
         }
       ],
       "ResponseHeaders": [
@@ -6070,19 +6238,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1870"
+          "Value": "2661"
         },
         {
           "Name": "ETag",
-          "Value": "\"oI+jn5AWcSVUVgcpFPiTdWqpth482Qb9CurIl94ZLlU=\""
+          "Value": "\"2YHwYB2s/GLfbEJQfQUk5EsOv2xeAgKAmixSvxBlh4U=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 05 May 2025 10:08:37 GMT"
+          "Value": "Fri, 09 May 2025 15:41:01 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
+          "Value": "no-cache"
         },
         {
           "Name": "Content-Encoding",
@@ -6098,26 +6266,18 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"eIlEuqE73Z0ucFI6EjAOrZbe9NF/Av/SEox5ctpOkNc=\""
+          "Value": "W/\"C0URenfMnVHrVCivPKqawbIbhW5pNUVgekMUorfoE+o=\""
         }
       ],
       "EndpointProperties": [
         {
-          "Name": "fingerprint",
-          "Value": "cflk045k77"
-        },
-        {
-          "Name": "label",
-          "Value": "css/chat.css"
-        },
-        {
           "Name": "integrity",
-          "Value": "sha256-eIlEuqE73Z0ucFI6EjAOrZbe9NF/Av/SEox5ctpOkNc="
+          "Value": "sha256-C0URenfMnVHrVCivPKqawbIbhW5pNUVgekMUorfoE+o="
         }
       ]
     },
     {
-      "Route": "css/chat.cflk045k77.css",
+      "Route": "css/chat.css",
       "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\css\\chat.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -6127,7 +6287,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "8938"
+          "Value": "13266"
         },
         {
           "Name": "Content-Type",
@@ -6135,11 +6295,156 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"eIlEuqE73Z0ucFI6EjAOrZbe9NF/Av/SEox5ctpOkNc=\""
+          "Value": "\"C0URenfMnVHrVCivPKqawbIbhW5pNUVgekMUorfoE+o=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 05 May 2025 10:08:37 GMT"
+          "Value": "Fri, 09 May 2025 15:41:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-C0URenfMnVHrVCivPKqawbIbhW5pNUVgekMUorfoE+o="
+        }
+      ]
+    },
+    {
+      "Route": "css/chat.css.gz",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\b2s6e1u0tp-x5204ft74n.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2661"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"2YHwYB2s/GLfbEJQfQUk5EsOv2xeAgKAmixSvxBlh4U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 15:41:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-2YHwYB2s/GLfbEJQfQUk5EsOv2xeAgKAmixSvxBlh4U="
+        }
+      ]
+    },
+    {
+      "Route": "css/chat.x5204ft74n.css",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\b2s6e1u0tp-x5204ft74n.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000375657400"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2661"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"2YHwYB2s/GLfbEJQfQUk5EsOv2xeAgKAmixSvxBlh4U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 15:41:01 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"C0URenfMnVHrVCivPKqawbIbhW5pNUVgekMUorfoE+o=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "x5204ft74n"
+        },
+        {
+          "Name": "label",
+          "Value": "css/chat.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-C0URenfMnVHrVCivPKqawbIbhW5pNUVgekMUorfoE+o="
+        }
+      ]
+    },
+    {
+      "Route": "css/chat.x5204ft74n.css",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\css\\chat.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "13266"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"C0URenfMnVHrVCivPKqawbIbhW5pNUVgekMUorfoE+o=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 15:41:01 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6149,7 +6454,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "cflk045k77"
+          "Value": "x5204ft74n"
         },
         {
           "Name": "label",
@@ -6157,13 +6462,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-eIlEuqE73Z0ucFI6EjAOrZbe9NF/Av/SEox5ctpOkNc="
+          "Value": "sha256-C0URenfMnVHrVCivPKqawbIbhW5pNUVgekMUorfoE+o="
         }
       ]
     },
     {
-      "Route": "css/chat.cflk045k77.css.gz",
-      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\b2s6e1u0tp-cflk045k77.gz",
+      "Route": "css/chat.x5204ft74n.css.gz",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\b2s6e1u0tp-x5204ft74n.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -6172,7 +6477,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1870"
+          "Value": "2661"
         },
         {
           "Name": "Content-Type",
@@ -6180,11 +6485,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"oI+jn5AWcSVUVgcpFPiTdWqpth482Qb9CurIl94ZLlU=\""
+          "Value": "\"2YHwYB2s/GLfbEJQfQUk5EsOv2xeAgKAmixSvxBlh4U=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 05 May 2025 10:08:37 GMT"
+          "Value": "Fri, 09 May 2025 15:41:01 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6202,7 +6507,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "cflk045k77"
+          "Value": "x5204ft74n"
         },
         {
           "Name": "label",
@@ -6210,144 +6515,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-oI+jn5AWcSVUVgcpFPiTdWqpth482Qb9CurIl94ZLlU="
-        }
-      ]
-    },
-    {
-      "Route": "css/chat.css",
-      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\b2s6e1u0tp-cflk045k77.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000534473544"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1870"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"oI+jn5AWcSVUVgcpFPiTdWqpth482Qb9CurIl94ZLlU=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 05 May 2025 10:08:37 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"eIlEuqE73Z0ucFI6EjAOrZbe9NF/Av/SEox5ctpOkNc=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-eIlEuqE73Z0ucFI6EjAOrZbe9NF/Av/SEox5ctpOkNc="
-        }
-      ]
-    },
-    {
-      "Route": "css/chat.css",
-      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\css\\chat.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "8938"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"eIlEuqE73Z0ucFI6EjAOrZbe9NF/Av/SEox5ctpOkNc=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 05 May 2025 10:08:37 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-eIlEuqE73Z0ucFI6EjAOrZbe9NF/Av/SEox5ctpOkNc="
-        }
-      ]
-    },
-    {
-      "Route": "css/chat.css.gz",
-      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\b2s6e1u0tp-cflk045k77.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1870"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"oI+jn5AWcSVUVgcpFPiTdWqpth482Qb9CurIl94ZLlU=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 05 May 2025 10:08:37 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-oI+jn5AWcSVUVgcpFPiTdWqpth482Qb9CurIl94ZLlU="
+          "Value": "sha256-2YHwYB2s/GLfbEJQfQUk5EsOv2xeAgKAmixSvxBlh4U="
         }
       ]
     },
@@ -15553,13 +15721,13 @@
       ]
     },
     {
-      "Route": "js/chat.8rndd6ptvu.js",
-      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\5nhq0t8azg-8rndd6ptvu.gz",
+      "Route": "js/chat.fo9imyomhd.js",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\5nhq0t8azg-fo9imyomhd.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000171232877"
+          "Quality": "0.000079884966"
         }
       ],
       "ResponseHeaders": [
@@ -15569,15 +15737,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5839"
+          "Value": "12517"
         },
         {
           "Name": "ETag",
-          "Value": "\"qC1PH3IatcqTG2UK/a7BhU1jiwYU7twyuMAaKwGdJuY=\""
+          "Value": "\"ogzNnNBXPfKCCCkqTNWG6Hy6oFgy9nInQ5tlgRGeDuM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 05 May 2025 10:08:37 GMT"
+          "Value": "Fri, 09 May 2025 17:18:17 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -15597,13 +15765,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"fHGsxdxo/AaGDYDymIHpKTXx9Mi3UiocC2/4XK5OX38=\""
+          "Value": "W/\"gWCdX7Y9ASaycYiImnzCCjBiUylMuFWQPW7fkrUdsWc=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "8rndd6ptvu"
+          "Value": "fo9imyomhd"
         },
         {
           "Name": "label",
@@ -15611,12 +15779,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-fHGsxdxo/AaGDYDymIHpKTXx9Mi3UiocC2/4XK5OX38="
+          "Value": "sha256-gWCdX7Y9ASaycYiImnzCCjBiUylMuFWQPW7fkrUdsWc="
         }
       ]
     },
     {
-      "Route": "js/chat.8rndd6ptvu.js",
+      "Route": "js/chat.fo9imyomhd.js",
       "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\chat.js",
       "Selectors": [],
       "ResponseHeaders": [
@@ -15626,7 +15794,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "33660"
+          "Value": "73645"
         },
         {
           "Name": "Content-Type",
@@ -15634,11 +15802,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"fHGsxdxo/AaGDYDymIHpKTXx9Mi3UiocC2/4XK5OX38=\""
+          "Value": "\"gWCdX7Y9ASaycYiImnzCCjBiUylMuFWQPW7fkrUdsWc=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 05 May 2025 10:08:37 GMT"
+          "Value": "Fri, 09 May 2025 17:18:17 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -15648,7 +15816,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "8rndd6ptvu"
+          "Value": "fo9imyomhd"
         },
         {
           "Name": "label",
@@ -15656,13 +15824,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-fHGsxdxo/AaGDYDymIHpKTXx9Mi3UiocC2/4XK5OX38="
+          "Value": "sha256-gWCdX7Y9ASaycYiImnzCCjBiUylMuFWQPW7fkrUdsWc="
         }
       ]
     },
     {
-      "Route": "js/chat.8rndd6ptvu.js.gz",
-      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\5nhq0t8azg-8rndd6ptvu.gz",
+      "Route": "js/chat.fo9imyomhd.js.gz",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\5nhq0t8azg-fo9imyomhd.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -15671,7 +15839,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5839"
+          "Value": "12517"
         },
         {
           "Name": "Content-Type",
@@ -15679,11 +15847,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"qC1PH3IatcqTG2UK/a7BhU1jiwYU7twyuMAaKwGdJuY=\""
+          "Value": "\"ogzNnNBXPfKCCCkqTNWG6Hy6oFgy9nInQ5tlgRGeDuM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 05 May 2025 10:08:37 GMT"
+          "Value": "Fri, 09 May 2025 17:18:17 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -15701,7 +15869,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "8rndd6ptvu"
+          "Value": "fo9imyomhd"
         },
         {
           "Name": "label",
@@ -15709,18 +15877,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-qC1PH3IatcqTG2UK/a7BhU1jiwYU7twyuMAaKwGdJuY="
+          "Value": "sha256-ogzNnNBXPfKCCCkqTNWG6Hy6oFgy9nInQ5tlgRGeDuM="
         }
       ]
     },
     {
       "Route": "js/chat.js",
-      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\5nhq0t8azg-8rndd6ptvu.gz",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\5nhq0t8azg-fo9imyomhd.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000171232877"
+          "Quality": "0.000079884966"
         }
       ],
       "ResponseHeaders": [
@@ -15730,15 +15898,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5839"
+          "Value": "12517"
         },
         {
           "Name": "ETag",
-          "Value": "\"qC1PH3IatcqTG2UK/a7BhU1jiwYU7twyuMAaKwGdJuY=\""
+          "Value": "\"ogzNnNBXPfKCCCkqTNWG6Hy6oFgy9nInQ5tlgRGeDuM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 05 May 2025 10:08:37 GMT"
+          "Value": "Fri, 09 May 2025 17:18:17 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -15758,13 +15926,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"fHGsxdxo/AaGDYDymIHpKTXx9Mi3UiocC2/4XK5OX38=\""
+          "Value": "W/\"gWCdX7Y9ASaycYiImnzCCjBiUylMuFWQPW7fkrUdsWc=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-fHGsxdxo/AaGDYDymIHpKTXx9Mi3UiocC2/4XK5OX38="
+          "Value": "sha256-gWCdX7Y9ASaycYiImnzCCjBiUylMuFWQPW7fkrUdsWc="
         }
       ]
     },
@@ -15779,7 +15947,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "33660"
+          "Value": "73645"
         },
         {
           "Name": "Content-Type",
@@ -15787,11 +15955,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"fHGsxdxo/AaGDYDymIHpKTXx9Mi3UiocC2/4XK5OX38=\""
+          "Value": "\"gWCdX7Y9ASaycYiImnzCCjBiUylMuFWQPW7fkrUdsWc=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 05 May 2025 10:08:37 GMT"
+          "Value": "Fri, 09 May 2025 17:18:17 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -15801,13 +15969,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-fHGsxdxo/AaGDYDymIHpKTXx9Mi3UiocC2/4XK5OX38="
+          "Value": "sha256-gWCdX7Y9ASaycYiImnzCCjBiUylMuFWQPW7fkrUdsWc="
         }
       ]
     },
     {
       "Route": "js/chat.js.gz",
-      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\5nhq0t8azg-8rndd6ptvu.gz",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\5nhq0t8azg-fo9imyomhd.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -15816,7 +15984,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5839"
+          "Value": "12517"
         },
         {
           "Name": "Content-Type",
@@ -15824,11 +15992,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"qC1PH3IatcqTG2UK/a7BhU1jiwYU7twyuMAaKwGdJuY=\""
+          "Value": "\"ogzNnNBXPfKCCCkqTNWG6Hy6oFgy9nInQ5tlgRGeDuM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 05 May 2025 10:08:37 GMT"
+          "Value": "Fri, 09 May 2025 17:18:17 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -15846,7 +16014,603 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-qC1PH3IatcqTG2UK/a7BhU1jiwYU7twyuMAaKwGdJuY="
+          "Value": "sha256-ogzNnNBXPfKCCCkqTNWG6Hy6oFgy9nInQ5tlgRGeDuM="
+        }
+      ]
+    },
+    {
+      "Route": "js/fix-online-status.5ipweew5fc.js",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\534pxr7hdg-5ipweew5fc.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "1.000000000000"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "0"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 17:18:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "5ipweew5fc"
+        },
+        {
+          "Name": "label",
+          "Value": "js/fix-online-status.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+        }
+      ]
+    },
+    {
+      "Route": "js/fix-online-status.5ipweew5fc.js",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\fix-online-status.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "0"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 17:18:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "5ipweew5fc"
+        },
+        {
+          "Name": "label",
+          "Value": "js/fix-online-status.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+        }
+      ]
+    },
+    {
+      "Route": "js/fix-online-status.5ipweew5fc.js.gz",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\534pxr7hdg-5ipweew5fc.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "0"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 17:18:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "5ipweew5fc"
+        },
+        {
+          "Name": "label",
+          "Value": "js/fix-online-status.js.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+        }
+      ]
+    },
+    {
+      "Route": "js/fix-online-status.js",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\534pxr7hdg-5ipweew5fc.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "1.000000000000"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "0"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 17:18:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+        }
+      ]
+    },
+    {
+      "Route": "js/fix-online-status.js",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\fix-online-status.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "0"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 17:18:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+        }
+      ]
+    },
+    {
+      "Route": "js/fix-online-status.js.gz",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\534pxr7hdg-5ipweew5fc.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "0"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 17:18:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+        }
+      ]
+    },
+    {
+      "Route": "js/fix-room-status.js",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\sws8dnqgjj-yxj858glv5.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.001801801802"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "554"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"HxRpgzq24SSXU0T4p6AJQdUGb94qQYHyBgT33VYjl9U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 16:41:40 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"CmTloK4L6Jj5q63PEGtZWBcxL96DIR8LyNRhb2xrpGM=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-CmTloK4L6Jj5q63PEGtZWBcxL96DIR8LyNRhb2xrpGM="
+        }
+      ]
+    },
+    {
+      "Route": "js/fix-room-status.js",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\fix-room-status.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1494"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"CmTloK4L6Jj5q63PEGtZWBcxL96DIR8LyNRhb2xrpGM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 16:41:40 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-CmTloK4L6Jj5q63PEGtZWBcxL96DIR8LyNRhb2xrpGM="
+        }
+      ]
+    },
+    {
+      "Route": "js/fix-room-status.js.gz",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\sws8dnqgjj-yxj858glv5.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "554"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"HxRpgzq24SSXU0T4p6AJQdUGb94qQYHyBgT33VYjl9U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 16:41:40 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-HxRpgzq24SSXU0T4p6AJQdUGb94qQYHyBgT33VYjl9U="
+        }
+      ]
+    },
+    {
+      "Route": "js/fix-room-status.yxj858glv5.js",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\sws8dnqgjj-yxj858glv5.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.001801801802"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "554"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"HxRpgzq24SSXU0T4p6AJQdUGb94qQYHyBgT33VYjl9U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 16:41:40 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"CmTloK4L6Jj5q63PEGtZWBcxL96DIR8LyNRhb2xrpGM=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "yxj858glv5"
+        },
+        {
+          "Name": "label",
+          "Value": "js/fix-room-status.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-CmTloK4L6Jj5q63PEGtZWBcxL96DIR8LyNRhb2xrpGM="
+        }
+      ]
+    },
+    {
+      "Route": "js/fix-room-status.yxj858glv5.js",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\fix-room-status.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1494"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"CmTloK4L6Jj5q63PEGtZWBcxL96DIR8LyNRhb2xrpGM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 16:41:40 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "yxj858glv5"
+        },
+        {
+          "Name": "label",
+          "Value": "js/fix-room-status.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-CmTloK4L6Jj5q63PEGtZWBcxL96DIR8LyNRhb2xrpGM="
+        }
+      ]
+    },
+    {
+      "Route": "js/fix-room-status.yxj858glv5.js.gz",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\sws8dnqgjj-yxj858glv5.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "554"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"HxRpgzq24SSXU0T4p6AJQdUGb94qQYHyBgT33VYjl9U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 16:41:40 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "yxj858glv5"
+        },
+        {
+          "Name": "label",
+          "Value": "js/fix-room-status.js.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-HxRpgzq24SSXU0T4p6AJQdUGb94qQYHyBgT33VYjl9U="
         }
       ]
     },
@@ -16182,6 +16946,304 @@
         {
           "Name": "integrity",
           "Value": "sha256-Ydq7YvQUzhbo68waLZeQvZnPOvmTeQ+HyDqjkA1whsA="
+        }
+      ]
+    },
+    {
+      "Route": "js/sync-status.5ipweew5fc.js",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\1wdy5fwceh-5ipweew5fc.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "1.000000000000"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "0"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 17:18:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "5ipweew5fc"
+        },
+        {
+          "Name": "label",
+          "Value": "js/sync-status.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+        }
+      ]
+    },
+    {
+      "Route": "js/sync-status.5ipweew5fc.js",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\sync-status.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "0"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 17:18:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "5ipweew5fc"
+        },
+        {
+          "Name": "label",
+          "Value": "js/sync-status.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+        }
+      ]
+    },
+    {
+      "Route": "js/sync-status.5ipweew5fc.js.gz",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\1wdy5fwceh-5ipweew5fc.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "0"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 17:18:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "5ipweew5fc"
+        },
+        {
+          "Name": "label",
+          "Value": "js/sync-status.js.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+        }
+      ]
+    },
+    {
+      "Route": "js/sync-status.js",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\1wdy5fwceh-5ipweew5fc.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "1.000000000000"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "0"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 17:18:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+        }
+      ]
+    },
+    {
+      "Route": "js/sync-status.js",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\sync-status.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "0"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 17:18:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+        }
+      ]
+    },
+    {
+      "Route": "js/sync-status.js.gz",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\1wdy5fwceh-5ipweew5fc.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "0"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 09 May 2025 17:18:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
         }
       ]
     },
@@ -36066,6 +37128,304 @@
         {
           "Name": "integrity",
           "Value": "sha256-JKWeHUaANNuffeRatdc54UCb84RoxjEw/nTq8Mops8Y="
+        }
+      ]
+    },
+    {
+      "Route": "media/notification_placeholder.34ybpfnus6.txt",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\3njl61xci9-34ybpfnus6.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.008264462810"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "120"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"v7cG76qxPQaCjeykK+5VIZMDE+dTFfHq/UG/TN8k16g=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 06 May 2025 03:28:44 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/plain"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"c8ayuZR1yE0nuxjrZ1AWU+djofo7nWTNzg9BgTHGMj4=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "34ybpfnus6"
+        },
+        {
+          "Name": "label",
+          "Value": "media/notification_placeholder.txt"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-c8ayuZR1yE0nuxjrZ1AWU+djofo7nWTNzg9BgTHGMj4="
+        }
+      ]
+    },
+    {
+      "Route": "media/notification_placeholder.34ybpfnus6.txt",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\media\\notification_placeholder.txt",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "162"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/plain"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"c8ayuZR1yE0nuxjrZ1AWU+djofo7nWTNzg9BgTHGMj4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 06 May 2025 03:28:44 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "34ybpfnus6"
+        },
+        {
+          "Name": "label",
+          "Value": "media/notification_placeholder.txt"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-c8ayuZR1yE0nuxjrZ1AWU+djofo7nWTNzg9BgTHGMj4="
+        }
+      ]
+    },
+    {
+      "Route": "media/notification_placeholder.34ybpfnus6.txt.gz",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\3njl61xci9-34ybpfnus6.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "120"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/plain"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"v7cG76qxPQaCjeykK+5VIZMDE+dTFfHq/UG/TN8k16g=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 06 May 2025 03:28:44 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "34ybpfnus6"
+        },
+        {
+          "Name": "label",
+          "Value": "media/notification_placeholder.txt.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-v7cG76qxPQaCjeykK+5VIZMDE+dTFfHq/UG/TN8k16g="
+        }
+      ]
+    },
+    {
+      "Route": "media/notification_placeholder.txt",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\3njl61xci9-34ybpfnus6.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.008264462810"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "120"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"v7cG76qxPQaCjeykK+5VIZMDE+dTFfHq/UG/TN8k16g=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 06 May 2025 03:28:44 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/plain"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"c8ayuZR1yE0nuxjrZ1AWU+djofo7nWTNzg9BgTHGMj4=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-c8ayuZR1yE0nuxjrZ1AWU+djofo7nWTNzg9BgTHGMj4="
+        }
+      ]
+    },
+    {
+      "Route": "media/notification_placeholder.txt",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\media\\notification_placeholder.txt",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "162"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/plain"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"c8ayuZR1yE0nuxjrZ1AWU+djofo7nWTNzg9BgTHGMj4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 06 May 2025 03:28:44 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-c8ayuZR1yE0nuxjrZ1AWU+djofo7nWTNzg9BgTHGMj4="
+        }
+      ]
+    },
+    {
+      "Route": "media/notification_placeholder.txt.gz",
+      "AssetFile": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\obj\\Debug\\net9.0\\compressed\\3njl61xci9-34ybpfnus6.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "120"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/plain"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"v7cG76qxPQaCjeykK+5VIZMDE+dTFfHq/UG/TN8k16g=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 06 May 2025 03:28:44 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-v7cG76qxPQaCjeykK+5VIZMDE+dTFfHq/UG/TN8k16g="
         }
       ]
     },

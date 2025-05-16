@@ -2,7 +2,6 @@ D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\bin\Debug\net9.0\appsettings.Development.j
 D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\bin\Debug\net9.0\appsettings.json
 D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\bin\Debug\net9.0\ChatApp.Web.staticwebassets.runtime.json
 D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\bin\Debug\net9.0\ChatApp.Web.staticwebassets.endpoints.json
-D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\bin\Debug\net9.0\app.db
 D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\bin\Debug\net9.0\ChatApp.Web.exe
 D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\bin\Debug\net9.0\ChatApp.Web.deps.json
 D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\bin\Debug\net9.0\ChatApp.Web.runtimeconfig.json
@@ -293,8 +292,6 @@ D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\obj\Debug\net9.0\refint\ChatApp.Web.dll
 D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\obj\Debug\net9.0\ChatApp.Web.pdb
 D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\obj\Debug\net9.0\ChatApp.Web.genruntimeconfig.cache
 D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\obj\Debug\net9.0\ref\ChatApp.Web.dll
-D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\obj\Debug\net9.0\compressed\b2s6e1u0tp-cflk045k77.gz
-D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\obj\Debug\net9.0\compressed\5nhq0t8azg-8rndd6ptvu.gz
 D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\bin\Debug\net9.0\Microsoft.AspNetCore.Razor.Language.dll
 D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\bin\Debug\net9.0\Microsoft.Build.dll
 D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\bin\Debug\net9.0\Microsoft.Build.Framework.dll
@@ -413,3 +410,11 @@ D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis
 D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Scripting.resources.dll
 D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Scripting.resources.dll
 D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\obj\Debug\net9.0\ChatApp.Web.sourcelink.json
+D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\obj\Debug\net9.0\compressed\3njl61xci9-34ybpfnus6.gz
+D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\bin\Debug\net9.0\app.db
+D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\obj\Debug\net9.0\compressed\b2s6e1u0tp-x5204ft74n.gz
+D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\obj\Debug\net9.0\compressed\5nhq0t8azg-fo9imyomhd.gz
+D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\obj\Debug\net9.0\compressed\sws8dnqgjj-yxj858glv5.gz
+D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\obj\Debug\net9.0\compressed\534pxr7hdg-5ipweew5fc.gz
+D:\An_DoAnMMT\ChatApp\src\ChatApp.Web\obj\Debug\net9.0\compressed\1wdy5fwceh-5ipweew5fc.gz

@@ -81,23 +81,23 @@ public class ApplicationDbContext : IdentityDbContext<User>
         builder.Entity<Friendship>(entity =>
         {
             entity.HasKey(e => e.FriendshipId);
-            entity.HasOne(e => e.User1)
+            entity.HasOne(e => e.User)
                 .WithMany()
-                .HasForeignKey(e => e.User1Id)
+                .HasForeignKey(e => e.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            entity.HasOne(e => e.User2)
+            entity.HasOne(e => e.Friend)
                 .WithMany()
-                .HasForeignKey(e => e.User2Id)
+                .HasForeignKey(e => e.FriendId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            entity.HasIndex(e => new { e.User1Id, e.User2Id }).IsUnique();
+            entity.HasIndex(e => new { e.UserId, e.FriendId }).IsUnique();
             entity.HasCheckConstraint("CK_Friendships_Status",
                 "Status IN ('Pending', 'Accepted', 'Declined', 'Blocked')");
             
             // Modified to use string comparison
             // We'll handle this in the application logic instead of database constraint
-            // entity.HasCheckConstraint("CK_Friendships_Users", "User1Id < User2Id");
+            // entity.HasCheckConstraint("CK_Friendships_Users", "UserId < FriendId");
         });
 
         // Configure Story entity

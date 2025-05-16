@@ -43,12 +43,12 @@ public class IndexModel : PageModel
                 
                 // Get friends
                 var friendships = await _context.Friendships
-                    .Where(f => (f.User1Id == currentUser.Id || f.User2Id == currentUser.Id) && 
+                    .Where(f => (f.UserId == currentUser.Id || f.FriendId == currentUser.Id) && 
                                 f.Status == "Accepted")
                     .ToListAsync();
                 
                 var friendIds = friendships
-                    .Select(f => f.User1Id == currentUser.Id ? f.User2Id : f.User1Id)
+                    .Select(f => f.UserId == currentUser.Id ? f.FriendId : f.UserId)
                     .ToList();
                 
                 Friends = await _userManager.Users

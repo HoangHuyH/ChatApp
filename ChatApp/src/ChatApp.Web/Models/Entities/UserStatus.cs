@@ -8,6 +8,7 @@ namespace ChatApp.Web.Models.Entities
         public string UserId { get; set; } = string.Empty;
         public bool IsOnline { get; set; }
         public DateTime LastSeen { get; set; }
+        public string? CurrentRoom { get; set; }
 
         // Navigation property
         public virtual User User { get; set; } = null!;

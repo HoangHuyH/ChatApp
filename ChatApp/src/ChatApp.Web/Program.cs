@@ -70,13 +70,18 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
+        // Apply pending migrations and create database if it doesn't exist
+        var dbContext = services.GetRequiredService<ApplicationDbContext>();
+        dbContext.Database.Migrate();
+        
+        // Seed initial data
         var initializer = services.GetRequiredService<DatabaseInitializer>();
         initializer.SeedAsync().Wait();
     }
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred while seeding the database.");
+        logger.LogError(ex, "An error occurred while initializing the database.");
     }
 }
 

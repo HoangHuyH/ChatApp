@@ -26,6 +26,10 @@ namespace ChatApp.Web.Data.Migrations
                     b.Property<DateTime?>("AcceptedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("FriendId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("RequestedAt")
                         .HasColumnType("TEXT");
 
@@ -33,19 +37,15 @@ namespace ChatApp.Web.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("User1Id")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("User2Id")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("FriendshipId");
 
-                    b.HasIndex("User2Id");
+                    b.HasIndex("FriendId");
 
-                    b.HasIndex("User1Id", "User2Id")
+                    b.HasIndex("UserId", "FriendId")
                         .IsUnique();
 
                     b.ToTable("Friendships", t =>
@@ -64,6 +64,10 @@ namespace ChatApp.Web.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -274,6 +278,9 @@ namespace ChatApp.Web.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("CurrentRoom")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("IsOnline")
                         .HasColumnType("INTEGER");
 
@@ -426,21 +433,21 @@ namespace ChatApp.Web.Data.Migrations
 
             modelBuilder.Entity("ChatApp.Web.Models.Entities.Friendship", b =>
                 {
-                    b.HasOne("ChatApp.Web.Models.Entities.User", "User1")
+                    b.HasOne("ChatApp.Web.Models.Entities.User", "Friend")
                         .WithMany()
-                        .HasForeignKey("User1Id")
+                        .HasForeignKey("FriendId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ChatApp.Web.Models.Entities.User", "User2")
+                    b.HasOne("ChatApp.Web.Models.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("User2Id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("User1");
+                    b.Navigation("Friend");
 
-                    b.Navigation("User2");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ChatApp.Web.Models.Entities.Group", b =>

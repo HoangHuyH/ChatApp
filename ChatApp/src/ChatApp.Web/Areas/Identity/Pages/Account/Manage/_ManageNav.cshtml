@@ -1,0 +1,29 @@
+@inject SignInManager<ChatApp.Web.Models.Entities.User> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+    var currentPage = ViewContext.ViewData["ActivePage"] as string ?? string.Empty;
+}
+
+<ul class="nav nav-pills flex-column">
+    <li class="nav-item">
+        <a class="nav-link @(currentPage == "Index" ? "active" : "")" id="profile" asp-page="./Index">Profile</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(currentPage == "Email" ? "active" : "")" id="email" asp-page="./Email">Email</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(currentPage == "ChangePassword" ? "active" : "")" id="change-password" asp-page="./ChangePassword">Password</a>
+    </li>
+    @if (hasExternalLogins)
+    {
+        <li class="nav-item">
+            <a class="nav-link @(currentPage == "ExternalLogins" ? "active" : "")" id="external-logins" asp-page="./ExternalLogins">External logins</a>
+        </li>
+    }
+    <li class="nav-item">
+        <a class="nav-link @(currentPage == "TwoFactorAuthentication" ? "active" : "")" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(currentPage == "PersonalData" ? "active" : "")" id="personal-data" asp-page="./PersonalData">Personal data</a>
+    </li>
+</ul>

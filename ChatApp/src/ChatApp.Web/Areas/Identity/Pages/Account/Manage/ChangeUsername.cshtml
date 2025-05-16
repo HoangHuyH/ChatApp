@@ -1,0 +1,31 @@
+@page
+@model ChangeUsernameModel
+@{
+    ViewData["Title"] = "Change Username";
+    ViewData["ActivePage"] = "ChangeUsername";
+}
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-6">
+        <form id="change-username-form" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group mb-3">
+                <label asp-for="Input.NewUsername"></label>
+                <input asp-for="Input.NewUsername" class="form-control" />
+                <span asp-validation-for="Input.NewUsername" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Update username</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

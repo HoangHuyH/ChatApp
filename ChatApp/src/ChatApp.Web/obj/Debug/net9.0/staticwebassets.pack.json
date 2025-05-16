@@ -21,8 +21,20 @@
       "PackagePath": "staticwebassets\\js\\chat.js"
     },
     {
+      "Id": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\fix-online-status.js",
+      "PackagePath": "staticwebassets\\js\\fix-online-status.js"
+    },
+    {
+      "Id": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\fix-room-status.js",
+      "PackagePath": "staticwebassets\\js\\fix-room-status.js"
+    },
+    {
       "Id": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\js\\sync-status.js",
+      "PackagePath": "staticwebassets\\js\\sync-status.js"
     },
     {
       "Id": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\lib\\bootstrap\\LICENSE",
@@ -263,6 +275,10 @@
     {
       "Id": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\lib\\jquery\\dist\\jquery.slim.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.slim.min.map"
+    },
+    {
+      "Id": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\media\\notification_placeholder.txt",
+      "PackagePath": "staticwebassets\\media\\notification_placeholder.txt"
     },
     {
       "Id": "D:\\An_DoAnMMT\\ChatApp\\src\\ChatApp.Web\\wwwroot\\uploads\\images\\632cb5b2-c6a4-42c8-b2af-87b2f7729ed6_Screenshot 2025-05-05 154649.png",

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ChatApp.Web.Data;
 using ChatApp.Web.Models.Entities;
+using ChatApp.Web.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
@@ -25,6 +26,13 @@ namespace ChatApp.Web.Hubs
             _userManager = userManager;
         }
 
+        // Static method to access online users from outside the hub
+        public static List<UserViewModel> GetOnlineUsers()
+        {
+            // Return a copy of the online users to prevent external modification
+            return _onlineUsers.ToList();
+        }
+
         public async Task JoinRoom(string roomName)
         {
             try
@@ -32,36 +40,119 @@ namespace ChatApp.Web.Hubs
                 var user = await _userManager.GetUserAsync(Context.User);
                 if (user == null) return;
 
-                var currentRoom = _onlineUsers
-                    .FirstOrDefault(u => u.UserId == user.Id)?.CurrentRoom;
+                // Join to chat room regardless of current room
+                await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
 
-                if (currentRoom != roomName)
+                // Update user's CurrentRoom in UserStatus table
+                var userStatus = await _context.UserStatuses.FirstOrDefaultAsync(us => us.UserId == user.Id);
+                if (userStatus != null)
                 {
-                    // Remove user from previous room
-                    if (!string.IsNullOrEmpty(currentRoom))
+                    var previousRoom = userStatus.CurrentRoom;
+                    userStatus.CurrentRoom = roomName;
+                    await _context.SaveChangesAsync();
+                    
+                    // If coming from another room, leave that room's SignalR group
+                    if (!string.IsNullOrEmpty(previousRoom) && previousRoom != roomName)
+                    {
+                        await Groups.RemoveFromGroupAsync(Context.ConnectionId, previousRoom);
+                        await Clients.OthersInGroup(previousRoom).SendAsync("UserLeftRoom", user.Id);
+                    }
+                }
+                
+                // Find and update the user's entry in online users list
+                var userViewModel = _onlineUsers.FirstOrDefault(u => u.UserId == user.Id);
+                if (userViewModel != null)
+                {
+                    var currentRoom = userViewModel.CurrentRoom;
+
+                    // Only notify about leaving previous room if it's different
+                    if (!string.IsNullOrEmpty(currentRoom) && currentRoom != roomName)
                     {
                         await Clients.OthersInGroup(currentRoom).SendAsync("UserLeftRoom", user.Id);
                         await Groups.RemoveFromGroupAsync(Context.ConnectionId, currentRoom);
                     }
 
-                    // Join to new chat room
-                    await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
-                    
                     // Update user's current room
-                    var userViewModel = _onlineUsers.FirstOrDefault(u => u.UserId == user.Id);
-                    if (userViewModel != null)
-                    {
-                        userViewModel.CurrentRoom = roomName;
-                    }
+                    userViewModel.CurrentRoom = roomName;
 
-                    // Tell others to update their list of users in the room
-                    await Clients.OthersInGroup(roomName).SendAsync("UserJoinedRoom", new {
+                    // Notify others in the room about the user joining
+                    // Only send if not already in this room (prevents duplicate notifications)
+                    if (currentRoom != roomName)
+                    {
+                        await Clients.OthersInGroup(roomName).SendAsync("UserJoinedRoom", new {
+                            userId = user.Id,
+                            userName = user.UserName,
+                            displayName = user.DisplayName,
+                            currentRoom = roomName,
+                            isOnline = true,
+                            device = userViewModel.Device
+                        });
+                    }
+                }
+                else
+                {
+                    // If user not found in online users list (should be rare), add them
+                    userViewModel = new UserViewModel
+                    {
                         UserId = user.Id,
                         UserName = user.UserName,
                         DisplayName = user.DisplayName,
-                        CurrentRoom = roomName
+                        IsOnline = true,
+                        CurrentRoom = roomName,
+                        Device = GetUserDevice()
+                    };
+                    _onlineUsers.Add(userViewModel);
+                    
+                    // Notify others about new user
+                    await Clients.OthersInGroup(roomName).SendAsync("UserJoinedRoom", new {
+                        userId = user.Id,
+                        userName = user.UserName,
+                        displayName = user.DisplayName,
+                        currentRoom = roomName,
+                        isOnline = true,
+                        device = userViewModel.Device
                     });
                 }
+                    
+                // Check if user is already a member in the database
+                var room = await _context.Groups.FirstOrDefaultAsync(g => g.GroupName == roomName);
+                if (room != null)
+                {
+                    var isMember = await _context.GroupMembers
+                        .AnyAsync(gm => gm.GroupId == room.GroupId && gm.UserId == user.Id);
+                        
+                    // If not a member yet, add them as a permanent member
+                    if (!isMember)
+                    {
+                        var membership = new GroupMember
+                        {
+                            GroupId = room.GroupId,
+                            UserId = user.Id,
+                            Role = "Member",
+                            JoinedAt = DateTime.UtcNow
+                        };
+                        _context.GroupMembers.Add(membership);
+                        await _context.SaveChangesAsync();
+                        
+                        // Notify everyone that a new user has been added permanently to the room
+                        await Clients.Group($"group_{room.GroupId}").SendAsync("UserAddedToRoom", new {
+                            roomId = room.GroupId,
+                            roomName = roomName,
+                            userId = user.Id,
+                            displayName = user.DisplayName
+                        });
+                    }
+                }
+                  
+                // Use GetUsersInRoom which handles deduplication properly
+                var roomMembers = await GetUsersInRoom(roomName);
+                
+                // Filter out the current user from the list
+                var filteredRoomMembers = roomMembers
+                    .Where(u => u.UserId != user.Id)
+                    .ToList();
+                
+                await Clients.Caller.SendAsync("UpdateRoomUsers", filteredRoomMembers);
             }
             catch (Exception ex)
             {
@@ -84,6 +175,14 @@ namespace ChatApp.Web.Hubs
                 {
                     userViewModel.CurrentRoom = null;
                     await Clients.OthersInGroup(roomName).SendAsync("UserLeftRoom", user.Id);
+                }
+                
+                // Update user status in database to reflect the room change
+                var userStatus = await _context.UserStatuses.FirstOrDefaultAsync(us => us.UserId == user.Id);
+                if (userStatus != null && userStatus.CurrentRoom == roomName)
+                {
+                    userStatus.CurrentRoom = null;
+                    await _context.SaveChangesAsync();
                 }
             }
         }
@@ -201,25 +300,25 @@ namespace ChatApp.Web.Hubs
             // Send to others in the room (excluding the sender)
             await Clients.OthersInGroup(roomName).SendAsync("ReceiveRoomMessage", new
             {
-                messageId = message.MessageId,
-                roomName = roomName,
-                content = message.Content,
-                messageType = message.MessageType,
-                sentAt = message.SentAt,
-                sender = new { id = sender.Id, name = sender.DisplayName },
-                isOwnMessage = false
+                MessageId = message.MessageId,
+                RoomName = roomName,
+                Content = message.Content,
+                MessageType = message.MessageType,
+                SentAt = message.SentAt,
+                Sender = new { Id = sender.Id, Name = sender.DisplayName },
+                IsOwnMessage = false
             });
             
             // Send to the sender separately with isOwnMessage = true
             await Clients.Caller.SendAsync("ReceiveRoomMessage", new
             {
-                messageId = message.MessageId,
-                roomName = roomName,
-                content = message.Content,
-                messageType = message.MessageType,
-                sentAt = message.SentAt,
-                sender = new { id = sender.Id, name = sender.DisplayName },
-                isOwnMessage = true
+                MessageId = message.MessageId,
+                RoomName = roomName,
+                Content = message.Content,
+                MessageType = message.MessageType,
+                SentAt = message.SentAt,
+                Sender = new { Id = sender.Id, Name = sender.DisplayName },
+                IsOwnMessage = true
             });
         }
 
@@ -276,165 +375,255 @@ namespace ChatApp.Web.Hubs
 
         public async Task<List<UserViewModel>> GetUsersInRoom(string roomName)
         {
-            return _onlineUsers.Where(u => u.CurrentRoom == roomName).ToList();
+            // Find the room in the database
+            var room = await _context.Groups.FirstOrDefaultAsync(g => g.GroupName == roomName);
+            
+            // Get online users who are in this room (without duplicates)
+            var onlineRoomUsers = _onlineUsers
+                .Where(u => u.CurrentRoom == roomName)
+                .GroupBy(u => u.UserId)  // Group by user ID to remove duplicates
+                .Select(g => g.First())   // Take the first occurrence from each group
+                .ToList();
+                
+            if (room == null) 
+            {
+                // If no room in database, just return the deduplicated online users in this room
+                return onlineRoomUsers;
+            }
+            
+            // Get all member users from the database
+            var roomMembers = await _context.GroupMembers
+                .Where(gm => gm.GroupId == room.GroupId)
+                .Select(gm => new UserViewModel
+                {
+                    UserId = gm.UserId,
+                    DisplayName = gm.User.DisplayName,
+                    UserName = gm.User.UserName,
+                    IsOnline = gm.User.Status != null && gm.User.Status.IsOnline,
+                    Device = "Web"
+                })
+                .ToListAsync();
+                
+            // Create a dictionary for fast lookup of database users
+            var memberDict = roomMembers.ToDictionary(m => m.UserId);
+                
+            // Update database users with online status and merge online-only users
+            foreach (var onlineUser in onlineRoomUsers)
+            {
+                // If user exists in database members, update with online information
+                if (memberDict.TryGetValue(onlineUser.UserId, out var existingMember))
+                {
+                    existingMember.IsOnline = true;
+                    existingMember.Device = onlineUser.Device;
+                    existingMember.CurrentRoom = onlineUser.CurrentRoom;
+                }
+                else
+                {
+                    // If user is online in the room but not in database members, add them
+                    roomMembers.Add(onlineUser);
+                }
+            }
+            
+            return roomMembers;
+        }
+
+        public async Task InviteUserToGroup(int groupId, string userId)
+        {
+            var sender = await _userManager.GetUserAsync(Context.User);
+            if (sender == null) return;
+
+            // Check if sender is admin
+            var senderMembership = await _context.GroupMembers
+                .FirstOrDefaultAsync(gm => gm.GroupId == groupId && gm.UserId == sender.Id && gm.Role == "Admin");
+            
+            if (senderMembership == null)
+            {
+                await Clients.Caller.SendAsync("OnError", "Only administrators can invite users to groups");
+                return;
+            }
+
+            // Send notification to the invited user
+            await Clients.User(userId).SendAsync("GroupInviteReceived", new
+            {
+                groupId = groupId,
+                groupName = (await _context.Groups.FindAsync(groupId))?.GroupName,
+                inviterId = sender.Id,
+                inviterName = sender.DisplayName
+            });
+        }
+
+        public async Task AcceptGroupInvite(int groupId)
+        {
+            var user = await _userManager.GetUserAsync(Context.User);
+            if (user == null) return;
+
+            var group = await _context.Groups.FindAsync(groupId);
+            if (group == null) return;
+            
+            // Check if already a member
+            var existingMembership = await _context.GroupMembers
+                .AnyAsync(gm => gm.GroupId == groupId && gm.UserId == user.Id);
+            
+            if (existingMembership) return;
+            
+            // Add user to group
+            var membership = new GroupMember
+            {
+                GroupId = groupId,
+                UserId = user.Id,
+                Role = "Member",
+                JoinedAt = DateTime.UtcNow
+            };
+            
+            _context.GroupMembers.Add(membership);
+            await _context.SaveChangesAsync();
+            
+            // Add to SignalR group
+            await Groups.AddToGroupAsync(Context.ConnectionId, $"group_{groupId}");
+            
+            // Notify group members
+            await Clients.Group($"group_{groupId}").SendAsync("UserJoinedGroup", new
+            {
+                groupId = groupId,
+                userId = user.Id,
+                displayName = user.DisplayName,
+                role = "Member",
+                isOnline = true
+            });
+            
+            // Signal client to reload groups list
+            await Clients.Caller.SendAsync("ReloadGroups");
+        }
+
+        public async Task GetGroupMembers(int groupId)
+        {
+            var user = await _userManager.GetUserAsync(Context.User);
+            if (user == null) return;
+            
+            // Check if user is a member of the group
+            var isMember = await _context.GroupMembers
+                .AnyAsync(gm => gm.GroupId == groupId && gm.UserId == user.Id);
+            
+            if (!isMember)
+            {
+                await Clients.Caller.SendAsync("OnError", "You must be a member of the group to view its members");
+                return;
+            }
+            
+            var members = await _context.GroupMembers
+                .Where(gm => gm.GroupId == groupId)
+                .Select(gm => new
+                {
+                    userId = gm.UserId,
+                    displayName = gm.User.DisplayName,
+                    userName = gm.User.UserName,
+                    role = gm.Role,
+                    joinedAt = gm.JoinedAt,
+                    isOnline = gm.User.Status != null && gm.User.Status.IsOnline,
+                    lastSeen = gm.User.Status != null ? gm.User.Status.LastSeen : (DateTime?)null
+                })
+                .ToListAsync();
+            
+            await Clients.Caller.SendAsync("ReceiveGroupMembers", members);
         }
 
         public override async Task OnConnectedAsync()
         {
-            var user = await _userManager.GetUserAsync(Context.User);
-            if (user != null)
+            if (Context.User != null)
             {
-                _userConnections[user.Id] = Context.ConnectionId;
-                
-                // Add to online users list
-                if (!_onlineUsers.Any(u => u.UserId == user.Id))
+                var user = await _userManager.GetUserAsync(Context.User);
+                if (user != null)
                 {
+                    // Store connection ID
+                    if (_userConnections.ContainsKey(user.Id))
+                    {
+                        _userConnections[user.Id] = Context.ConnectionId;
+                    }
+                    else
+                    {
+                        _userConnections.Add(user.Id, Context.ConnectionId);
+                    }
+
+                    // Remove any existing entries for this user before adding a new one
+                    _onlineUsers.RemoveAll(u => u.UserId == user.Id);
+                      // Get current room if user was in one (from database or other connection)
+                    string currentRoom = null;
+                    var userStatus = await _context.UserStatuses.FirstOrDefaultAsync(us => us.UserId == user.Id);                    if (userStatus != null && !string.IsNullOrEmpty(userStatus.CurrentRoom))
+                    {
+                        currentRoom = userStatus.CurrentRoom;
+                    }                    // Add user to online users list
                     _onlineUsers.Add(new UserViewModel
                     {
                         UserId = user.Id,
                         UserName = user.UserName,
-                        DisplayName = user.DisplayName,
-                        IsOnline = true,
-                        CurrentRoom = null,
-                        Device = GetUserDevice()
+                        DisplayName = user.UserName, // You might want to get actual DisplayName if available
+                        ConnectionId = Context.ConnectionId,
+                        CurrentRoom = currentRoom
                     });
-                }
-                
-                // Update user status to online
-                var userStatus = await _context.UserStatuses.FirstOrDefaultAsync(us => us.UserId == user.Id);
-                if (userStatus == null)
-                {
-                    userStatus = new UserStatus
+
+                    // Join the user to their last room if they had one
+                    if (!string.IsNullOrEmpty(currentRoom))
                     {
-                        UserId = user.Id,
-                        IsOnline = true,
-                        LastSeen = DateTime.UtcNow
-                    };
-                    _context.UserStatuses.Add(userStatus);
-                }
-                else
-                {
-                    userStatus.IsOnline = true;
-                    userStatus.LastSeen = DateTime.UtcNow;
-                }
-                
-                await _context.SaveChangesAsync();
-                
-                // Notify friends about the user's online status
-                var friends = await GetUserFriendsAsync(user.Id);
-                foreach (var friend in friends)
-                {
-                    if (_userConnections.TryGetValue(friend.Id, out var connectionId))
-                    {
-                        await Clients.Client(connectionId).SendAsync("UpdateFriendStatus", user.Id, true);
-                    }
-                }
-
-                // Join all groups the user is a member of
-                var userGroups = await _context.GroupMembers
-                    .Where(gm => gm.User.Id == user.Id)
-                    .Select(gm => gm.GroupId)
-                    .ToListAsync();
-
-                foreach (var groupId in userGroups)
-                {
-                    await Groups.AddToGroupAsync(Context.ConnectionId, $"group_{groupId}");
-                }
-                
-                // Send user information to caller
-                await Clients.Caller.SendAsync("GetProfileInfo", new UserViewModel
-                {
-                    UserId = user.Id,
-                    UserName = user.UserName,
-                    DisplayName = user.DisplayName,
-                    IsOnline = true,
-                    CurrentRoom = null,
-                    Device = GetUserDevice()
-                });
-            }
-
-            await base.OnConnectedAsync();
-        }
-
-        public override async Task OnDisconnectedAsync(Exception exception)
-        {
-            var user = await _userManager.GetUserAsync(Context.User);
-            if (user != null)
-            {
-                // Remove from online users list
-                var userViewModel = _onlineUsers.FirstOrDefault(u => u.UserId == user.Id);
-                if (userViewModel != null)
-                {
-                    // If the user was in a room, notify others
-                    if (!string.IsNullOrEmpty(userViewModel.CurrentRoom))
-                    {
-                        await Clients.Group(userViewModel.CurrentRoom).SendAsync("UserLeftRoom", user.Id);
+                        await Groups.AddToGroupAsync(Context.ConnectionId, currentRoom);
+                        await Clients.OthersInGroup(currentRoom).SendAsync("UserJoinedRoom", user.Id);
                     }
                     
-                    _onlineUsers.Remove(userViewModel);
+                    // Notify all clients of user status change
+                    await Clients.All.SendAsync("UpdateUserStatus", user.Id, true);
                 }
-                
-                // Remove from connections dictionary
-                if (_userConnections.ContainsKey(user.Id))
+            }
+            
+            await base.OnConnectedAsync();
+        }
+        private string GetUserDevice()
+        {
+            // In a real implementation, this would parse the User-Agent string
+            // For simplicity, we'll just return "Web" as default
+            return "Web";
+        }
+        // Helper method to determine the device type from user agent string        private string GetUserDevice()
+        // {
+        //     // In a real implementation, this would parse the User-Agent string
+        //     // For simplicity, we'll just return "Web" as default
+        //     return "Web";
+        // }
+        
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            if (Context.User != null)
+            {
+                var user = await _userManager.GetUserAsync(Context.User);
+                if (user != null)
                 {
-                    _userConnections.Remove(user.Id);
-                }
-
-                // Update user status to offline
-                var userStatus = await _context.UserStatuses.FirstOrDefaultAsync(us => us.UserId == user.Id);
-                if (userStatus != null)
-                {
-                    userStatus.IsOnline = false;
-                    userStatus.LastSeen = DateTime.UtcNow;
-                    await _context.SaveChangesAsync();
-                }
-
-                // Notify friends about the user's offline status
-                var friends = await GetUserFriendsAsync(user.Id);
-                foreach (var friend in friends)
-                {
-                    if (_userConnections.TryGetValue(friend.Id, out var connectionId))
+                    // Check if this is the user's only connection
+                    bool userHasOtherConnections = false;
+                    if (_userConnections.TryGetValue(user.Id, out var connectionId) && connectionId != Context.ConnectionId)
                     {
-                        await Clients.Client(connectionId).SendAsync("UpdateFriendStatus", user.Id, false);
+                        userHasOtherConnections = true;
+                    }
+                    
+                    if (!userHasOtherConnections)
+                    {
+                        // Remove from dictionaries
+                        _userConnections.Remove(user.Id);
+                        _onlineUsers.RemoveAll(u => u.UserId == user.Id);
+                        
+                        // Update user status in database
+                        var userStatus = await _context.UserStatuses.FirstOrDefaultAsync(us => us.UserId == user.Id);
+                        if (userStatus != null)
+                        {
+                            userStatus.IsOnline = false;
+                            userStatus.LastSeen = DateTime.UtcNow;
+                            await _context.SaveChangesAsync();
+                        }
+                        
+                        // Notify all clients of user status change
+                        await Clients.All.SendAsync("UpdateUserStatus", user.Id, false);
                     }
                 }
             }
-
+            
             await base.OnDisconnectedAsync(exception);
         }
-
-        private async Task<List<User>> GetUserFriendsAsync(string userId)
-        {
-            var acceptedFriendships = await _context.Friendships
-                .Where(f => (f.User1Id == userId || f.User2Id == userId) && f.Status == "Accepted")
-                .ToListAsync();
-
-            var friendIds = acceptedFriendships
-                .Select(f => f.User1Id == userId ? f.User2Id : f.User1Id)
-                .ToList();
-
-            return await _userManager.Users
-                .Where(u => friendIds.Contains(u.Id))
-                .ToListAsync();
-        }
-        
-        private string GetUserDevice()
-        {
-            var device = Context.GetHttpContext().Request.Headers["Device"].ToString();
-            if (!string.IsNullOrEmpty(device) && (device.Equals("Desktop") || device.Equals("Mobile")))
-                return device;
-
-            return "Web";
-        }
-    }
-    
-    public class UserViewModel
-    {
-        public string UserId { get; set; }
-        public string UserName { get; set; }
-        public string DisplayName { get; set; }
-        public bool IsOnline { get; set; }
-        public string CurrentRoom { get; set; }
-        public string Device { get; set; }
     }
 }

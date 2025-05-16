@@ -30,9 +30,9 @@ function createWindow() {
     mainWindow.loadURL(`http://localhost:${PORT}`);
     
     // Open DevTools in dev mode
-    if (isDev) {
-      mainWindow.webContents.openDevTools();
-    }
+    // if (isDev) {
+    //   mainWindow.webContents.openDevTools();
+    // }
   }, 5000); // Increased timeout to 5 seconds to give more time to start
 
   mainWindow.on('closed', () => {
