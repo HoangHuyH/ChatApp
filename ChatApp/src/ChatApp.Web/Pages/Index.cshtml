@@ -8,22 +8,18 @@
 {
     <input type="hidden" id="current-user-id" value="@Model.CurrentUserId" />
     <input type="hidden" id="auto-join-room" value="true" />
-    
+
     <div class="chat-container">
         <!-- Sidebar with tabs for Contacts, Groups, and Rooms -->
         <div class="contacts-container">
             <ul class="nav nav-tabs" id="sidebarTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="contacts-tab" data-bs-toggle="tab" data-bs-target="#contacts-panel" 
+                    <button class="nav-link active" id="contacts-tab" data-bs-toggle="tab" data-bs-target="#contacts-panel"
                         type="button" role="tab" aria-controls="contacts" aria-selected="true">Contacts</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="groups-tab" data-bs-toggle="tab" data-bs-target="#groups-panel" 
-                        type="button" role="tab" aria-controls="groups" aria-selected="false">Groups</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="rooms-tab" data-bs-toggle="tab" data-bs-target="#rooms-panel" 
-                        type="button" role="tab" aria-controls="rooms" aria-selected="false">Rooms</button>
+                    <button class="nav-link" id="rooms-tab" data-bs-toggle="tab" data-bs-target="#rooms-panel" type="button"
+                        role="tab" aria-controls="rooms" aria-selected="false">Rooms</button>
                 </li>
             </ul>
             <div class="connection-status-container">
@@ -34,11 +30,12 @@
                 <div class="tab-pane fade show active" id="contacts-panel" role="tabpanel" aria-labelledby="contacts-tab">
                     <!-- Friend Requests Section -->
                     <div class="friend-requests-header">
-                        <button class="btn btn-outline-primary w-100 d-flex justify-content-between align-items-center mb-2" 
-                                type="button" data-bs-toggle="collapse" data-bs-target="#friendRequestsCollapse" 
-                                aria-expanded="false" aria-controls="friendRequestsCollapse">
+                        <button class="btn btn-outline-primary w-100 d-flex justify-content-between align-items-center mb-2"
+                            type="button" data-bs-toggle="collapse" data-bs-target="#friendRequestsCollapse"
+                            aria-expanded="false" aria-controls="friendRequestsCollapse">
                             <span><i class="bi bi-person-plus me-1"></i> Friend Requests</span>
-                            <span id="friend-requests-badge" class="badge bg-danger rounded-pill" style="display: none;">0</span>
+                            <span id="friend-requests-badge" class="badge bg-danger rounded-pill"
+                                style="display: none;">0</span>
                         </button>
                         <div class="collapse" id="friendRequestsCollapse">
                             <div id="friend-requests-list" class="list-group mb-3">
@@ -51,9 +48,9 @@
                     <div class="search-container mb-3">
                         <div class="input-group">
                             <input type="text" id="user-search-input" class="form-control" placeholder="Search users...">
-                            <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" 
-                                    data-bs-target="#searchResultsCollapse" aria-expanded="false" 
-                                    aria-controls="searchResultsCollapse">
+                            <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#searchResultsCollapse" aria-expanded="false"
+                                aria-controls="searchResultsCollapse">
                                 <i class="bi bi-search"></i>
                             </button>
                         </div>
@@ -63,63 +60,34 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Friends List -->
                     <h6 class="px-3 mb-2">Friends</h6>
                     <div id="friends-list" class="list-group">
                         <!-- Friends will be loaded here dynamically via JavaScript -->
                     </div>
                 </div>
-                
-                <!-- Groups Tab -->
-                <div class="tab-pane fade" id="groups-panel" role="tabpanel" aria-labelledby="groups-tab">
-                    <div class="search-container">
-                        <input type="text" class="search-input" placeholder="Search groups...">
-                    </div>
-                    
-                    <div id="groups-list" class="list-group">
-                        @foreach (var group in Model.Groups)
-                        {
-                            <div id="group-@group.GroupId" class="contact list-group-item" onclick="selectGroup('@group.GroupId', '@group.GroupName')">
-                                <div class="d-flex align-items-center">
-                                    <div class="contact-avatar">
-                                        @group.GroupName.Substring(0, 1)
-                                    </div>
-                                    <div class="contact-details ms-2">
-                                        <div class="contact-name">@group.GroupName</div>
-                                        <div class="contact-status small">@group.MemberCount members</div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                    
-                    <div class="mt-3 px-3">
-                        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#createGroupModal">
-                            <i class="bi bi-plus-circle me-1"></i> Create Group
-                        </button>
-                    </div>
-                </div>
-                
+
                 <!-- Rooms Tab -->
                 <div class="tab-pane fade" id="rooms-panel" role="tabpanel" aria-labelledby="rooms-tab">
                     <div class="search-container">
                         <input type="text" class="search-input" placeholder="Search rooms...">
                     </div>
-                    
+
                     <div id="rooms-list" class="list-group">
                         <!-- Rooms will be loaded here dynamically -->
                     </div>
-                    
+
                     <div class="mt-3 px-3">
-                        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#createRoomModal">
+                        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal"
+                            data-bs-target="#createRoomModal">
                             <i class="bi bi-plus-circle me-1"></i> Create Room
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <!-- Chat Area -->
         <div id="chat-area" class="chat-area @(string.IsNullOrEmpty(Model.SelectedUserId) ? "d-none" : "")">
             <div class="chat-header">
@@ -135,7 +103,7 @@
                     </button>
                 </div>
             </div>
-            
+
             <div id="message-list" class="chat-body">
                 @if (string.IsNullOrEmpty(Model.SelectedUserId))
                 {
@@ -145,7 +113,7 @@
                     </div>
                 }
             </div>
-            
+
             <!-- Room Info Sidebar (visible only in room chat) -->
             <div id="room-info" class="room-info d-none">
                 <div class="room-info-header">
@@ -156,12 +124,13 @@
                     <!-- Room users will be loaded here dynamically -->
                 </div>
                 <div class="p-3 border-top" id="room-invite-section">
-                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#inviteToRoomModal" onclick="prepareRoomInvite()">
+                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#inviteToRoomModal"
+                        onclick="prepareRoomInvite()">
                         <i class="bi bi-person-plus"></i> Invite Users
                     </button>
                 </div>
             </div>
-            
+
             <!-- Group Members Panel -->
             <div id="group-info" class="group-info d-none">
                 <div class="info-header d-flex justify-content-between align-items-center p-3 border-bottom">
@@ -172,11 +141,11 @@
                     <!-- Group members will be inserted here -->
                 </div>
             </div>
-            
+
             <div id="typing-indicator" class="typing-indicator d-none">Someone is typing...</div>
-            
+
             <div id="notification" class="notification d-none"></div>
-            
+
             <div class="chat-footer">
                 <div class="message-input-container">
                     <input type="text" id="messageInput" class="message-input" placeholder="Type a message...">
@@ -187,7 +156,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Create Room Modal -->
     <div class="modal fade" id="createRoomModal" tabindex="-1" aria-labelledby="createRoomModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -203,7 +172,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="new-room-description" class="form-label">Description (Optional)</label>
-                        <textarea class="form-control" id="new-room-description" rows="2" placeholder="Enter room description"></textarea>
+                        <textarea class="form-control" id="new-room-description" rows="2"
+                        placeholder="Enter room description"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -213,9 +183,10 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Room Invite Modal -->
-    <div class="modal fade" id="inviteToRoomModal" tabindex="-1" aria-labelledby="inviteToRoomModalLabel" aria-hidden="true">
+    <div class="modal fade" id="inviteToRoomModal" tabindex="-1" aria-labelledby="inviteToRoomModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -226,9 +197,8 @@
                     <input type="hidden" id="invite-room-name" value="">
                     <div class="mb-3">
                         <label for="room-invite-search-input" class="form-label">Search users by username</label>
-                        <input type="text" class="form-control" id="room-invite-search-input" 
-                               placeholder="Type username to search..." 
-                               oninput="searchUsersForRoomInvite(this.value)">
+                        <input type="text" class="form-control" id="room-invite-search-input"
+                            placeholder="Type username to search..." oninput="searchUsersForRoomInvite(this.value)">
                     </div>
                     <div id="room-invite-search-results" class="list-group">
                         <!-- Search results will appear here -->
@@ -237,9 +207,10 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Group Invite Modal -->
-    <div class="modal fade" id="inviteToGroupModal" tabindex="-1" aria-labelledby="inviteToGroupModalLabel" aria-hidden="true">
+    <div class="modal fade" id="inviteToGroupModal" tabindex="-1" aria-labelledby="inviteToGroupModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -250,9 +221,8 @@
                     <input type="hidden" id="invite-group-id" value="">
                     <div class="mb-3">
                         <label for="invite-search-input" class="form-label">Search users by name</label>
-                        <input type="text" class="form-control" id="invite-search-input" 
-                               placeholder="Type to search..." 
-                               oninput="searchUsersForInvite(this.value)">
+                        <input type="text" class="form-control" id="invite-search-input" placeholder="Type to search..."
+                            oninput="searchUsersForInvite(this.value)">
                     </div>
                     <div id="invite-search-results" class="list-group">
                         <!-- Search results will appear here -->
@@ -261,7 +231,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Upload File Modal -->
     <div class="modal fade" id="uploadFileModal" tabindex="-1" aria-labelledby="uploadFileModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -283,15 +253,15 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Error Alert -->
     <div id="error-alert" class="alert alert-danger alert-dismissible fade show d-none" role="alert">
         <span id="error-message"></span>
     </div>
-    
+
     <!-- Toast Container for Friend Request Notifications -->
     <div id="toast-container" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
-    
+
     <!-- Notification Sound -->
     <audio id="notification-sound" src="~/media/notification.mp3" preload="auto"></audio>
 }
@@ -301,6 +271,7 @@ else
         <h1 class="display-4">Welcome to ChatApp</h1>
         <p class="lead">A real-time messaging application built with ASP.NET Core and SignalR.</p>
         <hr class="my-4">
-        <p>Please <a asp-area="Identity" asp-page="/Account/Login">log in</a> or <a asp-area="Identity" asp-page="/Account/Register">register</a> to start chatting.</p>
+        <p>Please <a asp-area="Identity" asp-page="/Account/Login">log in</a> or <a asp-area="Identity"
+                asp-page="/Account/Register">register</a> to start chatting.</p>
     </div>
 }
