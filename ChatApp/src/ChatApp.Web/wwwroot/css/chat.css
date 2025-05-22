@@ -316,11 +316,15 @@
     flex: 1;
     margin-right: 15px;
     position: relative;
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
 }
 
 .message-input {
     width: 100%;
     padding: 10px;
+    padding-left: 40px;
     padding-right: 30px;
     border: 1px solid #ddd;
     border-radius: 20px;
@@ -347,6 +351,47 @@
 
 .send-button:hover {
     background-color: #0069d9;
+}
+
+/* Emoji picker styles */
+.emoji-button {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    color: #666;
+    cursor: pointer;
+    padding: 8px 12px;
+    transition: color 0.2s;
+    position: absolute;
+    left: 5px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    width: 38px;
+}
+
+.emoji-button:hover {
+    color: #007bff;
+}
+
+.emoji-picker-container {
+    position: fixed; /* Changed to fixed to avoid positioning issues */
+    bottom: 80px;
+    left: 10px;
+    z-index: 1000;
+    display: none;
+    max-height: 400px;
+    max-width: 350px;
+    overflow: auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    background-color: white; /* Added background color for better visibility */
+}
+
+.emoji-picker-container.visible {
+    display: block;
 }
 
 /* Chat indicators */
