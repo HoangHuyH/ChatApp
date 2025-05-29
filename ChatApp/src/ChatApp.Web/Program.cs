@@ -5,8 +5,15 @@ using ChatApp.Web.Hubs;
 using ChatApp.Web.Models.Entities;
 using ChatApp.Web.Services;
 using ChatApp.Web.Areas.Identity.Data;
+using DotNetEnv;
+
+// Load environment variables from .env file
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add environment variables to configuration
+builder.Configuration.AddEnvironmentVariables();
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -28,6 +35,9 @@ builder.Services.AddDefaultIdentity<User>(options => {
 // Add MVC controllers
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+// Add HttpClient for AI Chat API
+builder.Services.AddHttpClient();
 
 // Add SignalR
 builder.Services.AddSignalR();

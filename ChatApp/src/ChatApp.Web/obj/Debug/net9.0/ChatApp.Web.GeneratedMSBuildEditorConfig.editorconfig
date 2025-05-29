@@ -17,97 +17,97 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ChatApp.Web
 build_property.RootNamespace = ChatApp.Web
-build_property.ProjectDir = D:\A_doanmang\ChatApp\ChatApp\src\ChatApp.Web\
+build_property.ProjectDir = D:\An_DoAnMMT\ChatApp\ChatApp\src\ChatApp.Web\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\A_doanmang\ChatApp\ChatApp\src\ChatApp.Web
+build_property.MSBuildProjectDirectory = D:\An_DoAnMMT\ChatApp\ChatApp\src\ChatApp.Web
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 9.0
 build_property.EnableCodeStyleSeverity = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/Account/Manage/ChangeUsername.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/Account/Manage/ChangeUsername.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcQ2hhbmdlVXNlcm5hbWUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/Account/Manage/Index.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/Account/Manage/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/Account/Manage/_Layout.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/Account/Manage/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX0xheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX01hbmFnZU5hdi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/Account/Manage/_StatusMessage.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/Account/Manage/_StatusMessage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX1N0YXR1c01lc3NhZ2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/Account/Manage/_ViewImports.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/Account/Manage/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/Account/Manage/_ViewStart.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/Account/Manage/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/Account/Register.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/Account/_ViewImports.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/Account/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxfVmlld0ltcG9ydHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/_Layout.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX0xheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/_ViewImports.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/_ViewStart.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Areas/Identity/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Pages/Error.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Pages/Index.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Pages/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Pages/Privacy.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Pages/Shared/_LoginPartial.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Pages/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Pages/Shared/_ValidationScriptsPartial.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Pages/_ViewImports.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Pages/_ViewStart.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/A_doanmang/ChatApp/ChatApp/src/ChatApp.Web/Pages/Shared/_Layout.cshtml]
+[D:/An_DoAnMMT/ChatApp/ChatApp/src/ChatApp.Web/Pages/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-odidunbrk8
