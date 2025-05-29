@@ -1,0 +1,20 @@
+# Emoji Feature Guide
+
+The ChatApp now supports sending emojis in both private and room chats. Here's how to use this feature:
+
+## How to Send Emojis
+
+1. Click on the smile icon (😊) at the left of the message input box
+2. Browse through the emoji categories or use the search bar to find specific emojis
+3. Click on an emoji to add it to your message
+4. You can add multiple emojis by repeating the process
+5. Press Enter or click the send button to send your message with emojis
+
+Emojis work in all chat types:
+- Private chats with friends
+- Group chats
+- Room chats
+
+You can mix text and emojis in the same message for expressive communication.
+
+Enjoy using emojis to express yourself in your conversations!
