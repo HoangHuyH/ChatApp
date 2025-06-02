@@ -1,6 +1,7 @@
 # ChatApp - Real-time Messaging Application
 
-A comprehensive real-time messaging application built with ASP.NET Core, SignalR, and SQLite. This project demonstrates modern web development practices including real-time communication, user authentication, AI integration, and cross-platform desktop deployment.
+This project aims to build a simple messaging application for the Basic Network Programming course (NT106.P21.ANTT). The application will be developed in C# with ASP.NET Core, using SQLite as the database and SignalR to support real-time communication.
+
 
 ## 🚀 Features
 
