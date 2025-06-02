@@ -8,8 +8,8 @@ This project aims to build a simple messaging application for the Basic Network 
 ### Core Messaging Features
 - **Real-time Chat**: Instant messaging with SignalR for real-time communication
 - **Private Messages**: One-on-one conversations between friends
-- **Group Chat**: Create and manage group conversations with multiple participants
-- **Message Types**: Support for text, images, videos, files, and voice messages
+- **Room Chat**: Create and manage room conversations with multiple participants
+- **Message Types**: Support for text, images, files
 - **Message Status**: Track message delivery status (Sent, Delivered, Read)
 - **Typing Indicators**: See when someone is typing in real-time
 - **File Sharing**: Upload and share various file types with size limitations
@@ -23,7 +23,6 @@ This project aims to build a simple messaging application for the Basic Network 
 
 ### Advanced Features
 - **AI Chat Assistant**: Integrated AI chatbot powered by Google's Gemini AI
-- **Stories**: Share temporary content that expires after 24 hours
 - **Desktop App**: Cross-platform desktop application using Electron
 - **Responsive Design**: Mobile-friendly interface with Bootstrap
 - **Room-based Chat**: Organized chat rooms for better conversation management
