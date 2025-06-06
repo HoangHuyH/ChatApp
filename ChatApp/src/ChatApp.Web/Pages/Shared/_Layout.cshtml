@@ -49,8 +49,13 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1.18.3/index.js" type="module"></script>
-    <script src="~/js/chat.js" asp-append-version="true"></script>
-    <script src="~/js/ai-chat.js" asp-append-version="true"></script>
+    
+    @* Only load chat scripts if user is authenticated *@
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <script src="~/js/chat.js" asp-append-version="true"></script>
+        <script src="~/js/ai-chat.js" asp-append-version="true"></script>
+    }
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

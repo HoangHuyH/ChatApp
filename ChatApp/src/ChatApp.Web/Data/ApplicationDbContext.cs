@@ -9,14 +9,13 @@ public class ApplicationDbContext : IdentityDbContext<User>
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
-    }
-
-    public DbSet<Message> Messages { get; set; }
+    }    public DbSet<Message> Messages { get; set; }
     public DbSet<Group> Groups { get; set; }
     public DbSet<GroupMember> GroupMembers { get; set; }
     public DbSet<Friendship> Friendships { get; set; }
     public DbSet<Story> Stories { get; set; }
     public DbSet<UserStatus> UserStatuses { get; set; }
+    public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -109,9 +108,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
                 .HasForeignKey(e => e.UserId);
 
             entity.HasCheckConstraint("CK_Stories_ContentType", "ContentType IN ('Text', 'Image')");
-        });
-
-        // Configure UserStatus entity
+        });        // Configure UserStatus entity
         builder.Entity<UserStatus>(entity =>
         {
             entity.HasKey(e => e.UserStatusId);
@@ -120,6 +117,19 @@ public class ApplicationDbContext : IdentityDbContext<User>
                 .HasForeignKey<UserStatus>(e => e.UserId);
 
             entity.HasIndex(e => e.UserId).IsUnique();
+        });
+
+        // Configure PasswordResetToken
+        builder.Entity<PasswordResetToken>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Token).IsRequired().HasMaxLength(6);
+            entity.Property(e => e.UserId).IsRequired();
+            entity.HasIndex(e => e.Token);
+            entity.HasOne(e => e.User)
+                  .WithMany()
+                  .HasForeignKey(e => e.UserId)
+                  .OnDelete(DeleteBehavior.Cascade);
         });
 
         // Seed some initial data

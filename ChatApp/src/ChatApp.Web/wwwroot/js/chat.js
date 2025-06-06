@@ -8,6 +8,12 @@ const currentUserId = document.getElementById('current-user-id')?.value;
 
 // Initialize connection
 function initializeSignalRConnection() {
+    // Double check that we have a valid user ID before proceeding
+    if (!currentUserId) {
+        console.log('No current user ID found, skipping SignalR initialization');
+        return;
+    }
+
     connection = new signalR.HubConnectionBuilder()
         .withUrl('/chatHub')
         .withAutomaticReconnect()
@@ -40,6 +46,13 @@ function startConnection() {
     }).catch(err => {
         console.error('SignalR Connection Error: ', err);
         updateConnectionStatus("Disconnected");
+        
+        // Don't retry if it's an authentication error (401)
+        if (err.toString().includes('401') || err.toString().includes('Unauthorized')) {
+            console.log('Authentication required - not retrying SignalR connection');
+            return;
+        }
+        
         setTimeout(startConnection, 5000);
     });
 }
@@ -2054,12 +2067,15 @@ function closeEmojiPickerOnClickOutside(event) {
 
 // Add initializeEmojiPicker to the main initialization function
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize SignalR
-    initializeSignalRConnection();
-    
-    // Load friends immediately without waiting for SignalR connection
-    loadFriends();
-    loadPendingFriendRequests();
+    // Only initialize SignalR if user is authenticated and current-user-id exists
+    if (currentUserId) {
+        // Initialize SignalR
+        initializeSignalRConnection();
+        
+        // Load friends immediately without waiting for SignalR connection
+        loadFriends();
+        loadPendingFriendRequests();
+    }
     
     // Set up event handlers
     document.getElementById('send-button')?.addEventListener('click', function() {
