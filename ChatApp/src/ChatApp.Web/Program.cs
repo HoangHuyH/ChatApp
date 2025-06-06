@@ -45,6 +45,10 @@ builder.Services.AddSignalR();
 // Register DatabaseInitializer service
 builder.Services.AddScoped<DatabaseInitializer>();
 
+// Register Email and Password Reset Services
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IPasswordResetService, PasswordResetService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
