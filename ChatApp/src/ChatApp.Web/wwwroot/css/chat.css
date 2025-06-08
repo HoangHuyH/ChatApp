@@ -70,7 +70,8 @@
     box-sizing: border-box;
 }
 
-.chat-body.with-room-info, .chat-body.with-group-info {
+.chat-body.with-room-info,
+.chat-body.with-group-info {
     width: calc(100% - 250px);
 }
 
@@ -377,7 +378,8 @@
 }
 
 .emoji-picker-container {
-    position: fixed; /* Changed to fixed to avoid positioning issues */
+    position: fixed;
+    /* Changed to fixed to avoid positioning issues */
     bottom: 80px;
     left: 10px;
     z-index: 1000;
@@ -385,9 +387,10 @@
     max-height: 400px;
     max-width: 350px;
     overflow: auto;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
-    background-color: white; /* Added background color for better visibility */
+    background-color: white;
+    /* Added background color for better visibility */
 }
 
 .emoji-picker-container.visible {
@@ -425,7 +428,7 @@
 
 #notifications-container .alert {
     margin-bottom: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 #notifications-container .alert p {
@@ -589,6 +592,38 @@
     padding: 12px;
 }
 
+#localVideo {
+    border: 2px solid #38b6ff;
+}
+
+#call-incoming-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #2229;
+    z-index: 10001;
+    align-items: center;
+    justify-content: center;
+}
+
+#call-incoming-popup .btn {
+    min-width: 150px;
+    font-size: 1.1rem;
+}
+
+.system-message {
+    font-size: 0.97em;
+    color: #888;
+    background: #f6f7fa;
+    border-radius: 6px;
+    padding: 4px 12px;
+    margin: 12px 0;
+    display: inline-block;
+}
+
 /* Friends section */
 #friends-list {
     margin-bottom: 15px;
@@ -602,7 +637,7 @@
 
 #friends-list .contact:hover {
     transform: translateY(-2px);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Friend request buttons */
@@ -623,11 +658,19 @@
 
 /* Animations */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.friend-request, .search-result {
+.friend-request,
+.search-result {
     animation: fadeIn 0.3s ease-out;
 }
 
@@ -647,11 +690,11 @@
         width: 35%;
         min-width: 200px;
     }
-    
+
     .chat-area {
         width: 65%;
     }
-    
+
     .room-info {
         position: absolute;
         right: 0;
@@ -661,7 +704,7 @@
         transition: transform 0.3s ease;
         width: 250px;
     }
-    
+
     .room-info.d-none {
         transform: translateX(100%);
     }
@@ -676,42 +719,42 @@
         flex-direction: column;
         height: calc(100vh - 180px);
     }
-    
+
     .contacts-container {
         width: 100%;
         max-width: none;
         height: 100%;
         display: flex;
     }
-    
+
     .chat-area {
         display: none;
         width: 100%;
         height: 100%;
         padding-right: 0;
     }
-    
+
     .chat-container.show-chat .contacts-container {
         display: none;
     }
-    
+
     .chat-container.show-chat .chat-area {
         display: flex;
     }
-    
+
     .room-info {
         width: 80%;
         max-width: none;
     }
-    
+
     .message {
         max-width: 90%;
     }
-    
+
     .chat-header {
         padding: 10px;
     }
-    
+
     .chat-header .btn-back {
         display: block !important;
     }
@@ -723,7 +766,7 @@
     .chat-body.with-group-info {
         grid-template-columns: 1fr;
     }
-    
+
     .group-info {
         position: absolute;
         top: 0;
@@ -740,21 +783,31 @@
         height: calc(100vh - 160px);
         margin-top: 10px;
     }
-    
+
     .contacts-container {
         min-width: 0;
     }
-    
+
     .chat-footer {
         padding: 10px;
     }
-    
+
     .room-info {
         width: 100%;
     }
-    
+
     .message-input {
         font-size: 0.9rem;
+    }
+
+    #video-call-container {
+        width: 95vw !important;
+        max-width: 98vw !important;
+    }
+
+    #localVideo {
+        width: 90px !important;
+        height: 68px !important;
     }
 }
 

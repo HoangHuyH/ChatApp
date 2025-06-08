@@ -12,6 +12,9 @@ Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Tắt log câu lệnh SQL của EF Core
+builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning); // hoặc LogLevel.None
+
 // Add environment variables to configuration
 builder.Configuration.AddEnvironmentVariables();
 
@@ -42,6 +45,16 @@ builder.Services.AddHttpClient();
 // Add SignalR
 builder.Services.AddSignalR();
 
+// 👇 Thêm cấu hình CORS ở đây
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+        policy.SetIsOriginAllowed(_ => true)
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials());
+});
+
 // Register DatabaseInitializer service
 builder.Services.AddScoped<DatabaseInitializer>();
 
@@ -59,7 +72,6 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -67,6 +79,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// 👇 Thêm UseCors trước UseAuthentication
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -84,11 +99,9 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
-        // Apply pending migrations and create database if it doesn't exist
         var dbContext = services.GetRequiredService<ApplicationDbContext>();
         dbContext.Database.Migrate();
-        
-        // Seed initial data
+
         var initializer = services.GetRequiredService<DatabaseInitializer>();
         initializer.SeedAsync().Wait();
     }
