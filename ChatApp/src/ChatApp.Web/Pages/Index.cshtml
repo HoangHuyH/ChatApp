@@ -21,10 +21,7 @@
                     <button class="nav-link" id="groups-tab" data-bs-toggle="tab" data-bs-target="#groups-panel"
                         type="button" role="tab" aria-controls="groups" aria-selected="false">Groups</button>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="rooms-tab" data-bs-toggle="tab" data-bs-target="#rooms-panel" type="button"
-                        role="tab" aria-controls="rooms" aria-selected="false">Rooms</button>
-                </li>
+                <!-- <li class="nav-item" role="presentation"> <button class="nav-link" id="rooms-tab" data-bs-toggle="tab" data-bs-target="#rooms-panel" type="button" role="tab" aria-controls="rooms" aria-selected="false">Rooms</button></li> -->
             </ul>
             <div class="connection-status-container">
                 <span id="connection-status" class="connection-status text-warning">Connecting...</span>
@@ -130,6 +127,12 @@
                         <i class="bi bi-paperclip"></i>
                     </button>
                 </div>
+
+                <div class="chat-header-actions">
+                    <button class="btn btn-sm btn-outline-secondary" onclick="toggleGroupInfo()">
+                        <i class="bi bi-people"></i> Members
+                    </button>
+                </div>
             </div>
 
             <div id="message-list" class="chat-body">
@@ -165,8 +168,15 @@
                     <h5 class="m-0">Group Members</h5>
                     <button type="button" class="btn-close" onclick="toggleGroupInfo()"></button>
                 </div>
+                <div class="p-3 d-flex justify-content-end gap-2"> 
+                    <button button id="group-reload-btn" class="btn btn-sm btn-outline-secondary" title="Reload members">
+                        <i class="bi bi-arrow-repeat"></i> Reload
+                    </button>
+                    <button id="group-leave-btn" class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-box-arrow-right"></i> Leave Group
+                    </button>
+                </div>
                 <div id="group-members-list" class="list-group list-group-flush overflow-auto">
-                    <!-- Group members will be inserted here -->
                 </div>
             </div>
 

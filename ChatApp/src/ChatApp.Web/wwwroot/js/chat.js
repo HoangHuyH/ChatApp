@@ -228,6 +228,15 @@ function setupSignalREventHandlers() {
     addUserToRoom(user);
   });
 
+  connection.on("UserLeftGroup", ({ groupId, userId }) => {
+    removeUserFromGroup(groupId, userId);
+  });
+
+  connection.on("LeftGroup", (groupId) => {
+    showNotification("Bạn đã rời nhóm thành công");
+    setTimeout(() => window.location.reload(), 500);
+  });
+
   connection.on("UserLeftRoom", (userId) => {
     removeUserFromRoom(userId);
   });
@@ -240,12 +249,25 @@ function setupSignalREventHandlers() {
     showRoomInviteNotification(invite);
   });
 
+  connection.on("UserAddedToGroup", (info) => {
+    // Có thể thêm ở đây:
+    connection.invoke("JoinGroup", info.groupId); // Tự động join group SignalR!
+    showNotification("Bạn vừa được thêm vào group: " + info.groupName);
+    loadUserGroups(); // Hoặc reload group list cho user này
+  });
+
   // User added to room event
-  connection.on("UserAddedToRoom", (data) => {
+  connection.on("UserAddedToRoom", (roomInfo) => {
     // Refresh the room list to show newly joined rooms
-    loadAvailableRooms().catch((err) =>
-      console.error("Error reloading rooms after user joined:", err)
-    );
+    loadAvailableRooms();
+    showNotification(`Bạn đã được thêm vào phòng: ${roomInfo.roomName}`);
+  });
+
+  connection.on("YouWereRemovedFromGroup", function (data) {
+    alert("Bạn đã bị xóa khỏi group: " + data.groupName);
+    // Có thể close UI, remove group khỏi list, hoặc tự chuyển sang trang khác...
+    closeGroupChatUI(data.groupId); // (hàm này bạn tự định nghĩa)
+    loadUserGroups(); // reload lại list group user
   });
 
   // Handle reloading rooms list
@@ -288,6 +310,13 @@ function setupSignalREventHandlers() {
       displaySystemMessage("Cuộc gọi đã kết thúc!");
       endCall(true);
     });
+
+  connection.on("GroupMembersUpdated", function (groupId) {
+    console.log("GroupMembersUpdated received for", groupId);
+    if (selectedGroupId == groupId || selectedGroupId == groupId.toString()) {
+      loadGroupMembers(groupId);
+    }
+  });
 }
 
 // Load user's friends
@@ -619,19 +648,29 @@ function selectUser(userId, userName) {
   // Load chat history
   loadChatHistory(userId);
 
-  // Show chat area and hide room info
+  // Show chat area and hide info panels
   document.getElementById("chat-area").classList.remove("d-none");
+
+  // ẨN panel group-info và room-info khi chat riêng
   const roomInfo = document.getElementById("room-info");
-  roomInfo.classList.add("d-none");
-  document.querySelector(".chat-body").classList.remove("with-room-info");
+  if (roomInfo) roomInfo.classList.add("d-none");
+
+  const groupInfo = document.getElementById("group-info");
+  if (groupInfo) groupInfo.classList.add("d-none");
+
+  // XÓA layout class nếu có
+  const chatBody = document.querySelector(".chat-body");
+  if (chatBody) {
+    chatBody.classList.remove("with-room-info", "with-group-info");
+  }
 
   // Show chat on mobile
   document.querySelector(".chat-container").classList.add("show-chat");
+  document.querySelector(".chat-header-actions").style.display = "none";
 }
 
 // Select group to chat with
 function selectGroup(groupId, groupName) {
-  // Reset other selections
   selectedGroupId = groupId;
   selectedUserId = null;
 
@@ -640,40 +679,54 @@ function selectGroup(groupId, groupName) {
     selectedRoom = null;
   }
 
-  // Reset any existing layout classes
+  // Reset layout
   const chatBody = document.querySelector(".chat-body");
   chatBody.classList.remove("with-room-info", "with-group-info");
   chatBody.style.width = "100%";
 
-  // Hide room info panel if visible
+  // Hide room info panel
   const roomInfo = document.getElementById("room-info");
-  if (roomInfo) {
-    roomInfo.classList.add("d-none");
+  if (roomInfo) roomInfo.classList.add("d-none");
+
+  // Show group info panel
+  const groupInfo = document.getElementById("group-info");
+  if (groupInfo) {
+    groupInfo.classList.remove("d-none");
+    // Đảm bảo add layout class đúng lúc hiển thị
+    setTimeout(() => chatBody.classList.add("with-group-info"), 10);
   }
 
-  // Update UI to show selected group
+  // Update UI for selected group
   document
     .querySelectorAll(".contact")
     .forEach((el) => el.classList.remove("active"));
   document.getElementById(`group-${groupId}`).classList.add("active");
-
   document.getElementById("selected-chat-name").innerText = groupName;
 
-  // Clear current messages
+  // Clear messages and load group chat
   document.getElementById("message-list").innerHTML = "";
-
-  // Load group chat history
   loadGroupChatHistory(groupId);
 
   // Show chat area
   document.getElementById("chat-area").classList.remove("d-none");
-
-  // Show chat on mobile
   document.querySelector(".chat-container").classList.add("show-chat");
+  document.querySelector(".chat-header-actions").style.display = "";
 
-  // Add group members button and load group members
+  // Update group header and load members
   updateGroupHeader(groupId, groupName);
   loadGroupMembers(groupId);
+}
+
+async function leaveGroup(groupId) {
+  try {
+    // Gọi phương thức 'LeaveGroup' trên ChatHub của server
+    await connection.invoke("LeaveGroup", groupId);
+    console.log(`Successfully invoked LeaveGroup for group ID: ${groupId}`);
+    // Bạn có thể thêm logic cập nhật UI ở đây sau khi gọi hàm
+  } catch (err) {
+    console.error(`Error calling LeaveGroup for group ID ${groupId}:`, err);
+    // Xử lý lỗi, ví dụ: hiển thị thông báo cho người dùng
+  }
 }
 
 // Select room to chat in
@@ -1774,14 +1827,8 @@ function sendFriendRequest(friendId) {
 // Load group members
 function loadGroupMembers(groupId) {
   fetch(`/Chat/GetGroupMembers?groupId=${groupId}`)
-    .then((response) => response.json())
-    .then((members) => {
-      displayGroupMembers(groupId, members);
-    })
-    .catch((err) => {
-      console.error("Error loading group members:", err);
-      showErrorMessage("Failed to load group members");
-    });
+    .then((r) => r.json())
+    .then((members) => displayGroupMembers(groupId, members));
 }
 
 // Display group members with admin controls
@@ -1889,6 +1936,14 @@ function displayGroupMembers(groupId, members) {
         `;
     membersList.appendChild(inviteSection);
   }
+
+  const leaveBtn = document.getElementById("group-leave-btn");
+  if (leaveBtn) {
+    leaveBtn.onclick = function () {
+      if (selectedGroupId) leaveGroup(selectedGroupId);
+      else console.warn("No group selected!");
+    };
+  }
 }
 
 // Change a member's role
@@ -1916,7 +1971,6 @@ function changeGroupMemberRole(groupId, userId, newRole) {
 
 // Remove a user from the group
 function removeUserFromGroup(groupId, userId) {
-  // Confirm before removing
   if (!confirm("Are you sure you want to remove this user from the group?")) {
     return;
   }
@@ -1953,6 +2007,38 @@ function removeUserFromGroup(groupId, userId) {
       console.error("Error removing user:", err);
       showErrorMessage("Failed to remove user");
     });
+}
+
+function closeGroupChatUI(groupId) {
+  // 1. Xóa khỏi danh sách nhóm (sidebar)
+  const groupItem = document.querySelector(
+    `#groups-list .list-group-item[data-group-id='${groupId}']`
+  );
+  if (groupItem) {
+    groupItem.remove();
+  }
+
+  // 2. Nếu đang xem group này trên khung chat chính, thì ẩn/clear UI chat
+  if (
+    window.selectedGroupId == groupId ||
+    document.body.dataset.selectedGroupId == groupId
+  ) {
+    window.selectedGroupId = null;
+    document.body.dataset.selectedGroupId = ""; // nếu bạn có lưu groupId dạng này
+
+    // Ẩn phần group info nếu đang mở
+    document.getElementById("group-info")?.classList.add("d-none");
+    // Ẩn tên nhóm, clear danh sách tin nhắn
+    document.getElementById("selected-chat-name").innerText = "";
+    document.getElementById("message-list").innerHTML = `
+          <div class="empty-chat-message">
+              <i class="bi bi-chat-dots"></i>
+              <p>Select a contact to start chatting</p>
+          </div>
+      `;
+    // Nếu có các UI khác (file, emoji picker, typing indicator) thì cũng ẩn/clear
+    document.getElementById("typing-indicator")?.classList.add("d-none");
+  }
 }
 
 // Prepare group invite modal
@@ -2614,6 +2700,12 @@ function makePopupDraggable(popupSelector, dragHandleSelector) {
 // Khởi tạo sau khi DOM loaded:
 document.addEventListener("DOMContentLoaded", function () {
   makePopupDraggable("#video-call-container", "#remoteVideo");
+  document
+    .getElementById("group-leave-btn")
+    ?.addEventListener("click", function () {
+      if (selectedGroupId) leaveGroup(selectedGroupId);
+      else console.warn("No group selected!");
+    });
 });
 
 // Add initializeEmojiPicker to the main initialization function
@@ -2689,6 +2781,23 @@ document.addEventListener("DOMContentLoaded", function () {
     ?.addEventListener("input", function () {
       searchUsers(this.value);
     });
+
+  document.getElementById("group-reload-btn").onclick = function () {
+    if (selectedGroupId) {
+      loadGroupMembers(selectedGroupId);
+    }
+  };
+
+  document.addEventListener("click", function (e) {
+    if (
+      e.target &&
+      (e.target.id === "group-leave-btn" ||
+        e.target.closest("#group-leave-btn"))
+    ) {
+      if (selectedGroupId) leaveGroup(selectedGroupId);
+      else console.warn("No group selected!");
+    }
+  });
 
   // If there's a user, group or room selected on page load, handle the chat body
   if (selectedRoom) {

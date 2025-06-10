@@ -16,6 +16,7 @@ namespace ChatApp.Web.Hubs
     public class ChatHub : Hub
     {
         private static Dictionary<string, HashSet<string>> _userConnections = new();
+        public static IReadOnlyDictionary<string, HashSet<string>> UserConnections => _userConnections;
         private static List<UserViewModel> _onlineUsers = new List<UserViewModel>();
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
@@ -32,13 +33,116 @@ namespace ChatApp.Web.Hubs
             // Return a copy of the online users to prevent external modification
             return _onlineUsers.ToList();
         }
+        
+        public async Task JoinGroup(string groupId)
+        {
+            try
+            {
+                var user = await _userManager.GetUserAsync(Context.User);
+                if (user == null) {
+                    Console.WriteLine("User not found in context");
+                    return;
+                }
+
+                // Lấy thông tin group
+                if (!int.TryParse(groupId, out var parsedGroupId)) return;
+                var group = await _context.Groups.FirstOrDefaultAsync(g => g.GroupId == parsedGroupId);
+                if (group == null) return;
+
+                // Add connection vào group SignalR
+                await Groups.AddToGroupAsync(Context.ConnectionId, $"group_{parsedGroupId}");
+
+                // Đảm bảo user là thành viên trong DB (nếu cần)
+                var isMember = await _context.GroupMembers.AnyAsync(gm => gm.GroupId == parsedGroupId && gm.UserId == user.Id);
+                if (!isMember)
+                {
+                    _context.GroupMembers.Add(new GroupMember
+                    {
+                        GroupId = parsedGroupId,
+                        UserId = user.Id,
+                        Role = "Member",
+                        JoinedAt = DateTime.UtcNow
+                    });
+                    await _context.SaveChangesAsync();
+                    await Clients.Group($"group_{parsedGroupId}").SendAsync("GroupMembersUpdated", parsedGroupId);
+                }
+
+                // Notify các thành viên khác trong group
+                await Clients.OthersInGroup($"group_{parsedGroupId}").SendAsync("UserJoinedGroup", new
+                {
+                    userId = user.Id,
+                    displayName = user.DisplayName,
+                    groupId = groupId,
+                    groupName = group.GroupName
+                });
+
+                // Gửi về cho người vừa join: cập nhật danh sách thành viên
+                var members = await _context.GroupMembers
+                    .Where(gm => gm.GroupId == parsedGroupId)
+                    .Join(_context.Users, gm => gm.UserId, u => u.Id,
+                        (gm, u) => new { u.Id, u.DisplayName, gm.Role, gm.JoinedAt })
+                    .ToListAsync();
+
+                await Clients.Caller.SendAsync("UpdateGroupMembers", members);
+            }
+            catch (Exception ex)
+            {
+                await Clients.Caller.SendAsync("OnError", "Failed to join group: " + ex.Message);
+            }
+        }
+
+        public async Task LeaveGroup(string groupId)
+        {
+            try
+            {
+                Console.WriteLine($"groupId raw: {groupId}");
+                if (!int.TryParse(groupId, out var parsedGroupId)) {
+                    Console.WriteLine("Parse groupId failed");
+                    return;
+                }
+                var user = await _userManager.GetUserAsync(Context.User);
+                if (user == null) return;
+
+                // Rời khỏi group SignalR
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"group_{parsedGroupId}");
+
+                // Nếu muốn: Xoá luôn trong DB (tuỳ thiết kế: soft/hard delete hoặc chỉ Remove connection)
+                var membership = await _context.GroupMembers
+                    .FirstOrDefaultAsync(gm => gm.GroupId == parsedGroupId && gm.UserId == user.Id);
+                if (membership != null)
+                {
+                    _context.GroupMembers.Remove(membership);
+                    await _context.SaveChangesAsync();
+                    await Clients.Group($"group_{parsedGroupId}").SendAsync("GroupMembersUpdated", parsedGroupId);
+                }
+
+                // Notify các thành viên còn lại trong group
+                await Clients.OthersInGroup($"group_{parsedGroupId}")
+                    .SendAsync("UserLeftGroup", new
+                    {
+                        userId = user.Id,
+                        displayName = user.DisplayName,
+                        groupId = groupId
+                    });
+
+                // Nếu muốn: gửi về client xác nhận đã rời group thành công
+                await Clients.Caller.SendAsync("LeftGroup", groupId);
+            }
+            catch (Exception ex)
+            {
+                await Clients.Caller.SendAsync("OnError", "Failed to leave group: " + ex.Message);
+            }
+        }
 
         public async Task JoinRoom(string roomName)
         {
             try
             {
                 var user = await _userManager.GetUserAsync(Context.User);
-                if (user == null) return;
+                if (user == null) {
+                    Console.WriteLine("User not found in context");
+                    return;
+                }
 
                 // Join to chat room regardless of current room
                 await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
@@ -137,7 +241,7 @@ namespace ChatApp.Web.Hubs
                         // Notify everyone that a new user has been added permanently to the room
                         await Clients.Group($"group_{room.GroupId}").SendAsync("UserAddedToRoom", new {
                             roomId = room.GroupId,
-                            roomName = roomName,
+                            roomName = room.GroupName,
                             userId = user.Id,
                             displayName = user.DisplayName
                         });
@@ -488,6 +592,7 @@ namespace ChatApp.Web.Hubs
             
             _context.GroupMembers.Add(membership);
             await _context.SaveChangesAsync();
+            await Clients.Group($"group_{groupId}").SendAsync("GroupMembersUpdated", groupId);
             
             // Add to SignalR group
             await Groups.AddToGroupAsync(Context.ConnectionId, $"group_{groupId}");
