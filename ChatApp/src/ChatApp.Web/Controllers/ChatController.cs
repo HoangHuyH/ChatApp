@@ -952,9 +952,14 @@ namespace ChatApp.Web.Controllers
 
             _context.GroupMembers.Add(newMembership);
             await _context.SaveChangesAsync();
+            await _hubContext.Clients.Group($"group_{groupId}").SendAsync("GroupMembersUpdated", groupId);
 
             // Get the group name for notifications
             var group = await _context.Groups.FindAsync(groupId);
+            await _hubContext.Clients.User(userId).SendAsync("UserAddedToGroup", new {
+                groupId,
+                groupName = group?.GroupName ?? ""
+            });
 
             // Notify group members about the new member
             await _hubContext.Clients.Group($"group_{groupId}").SendAsync("UserAddedToGroup", new
@@ -984,7 +989,7 @@ namespace ChatApp.Web.Controllers
             // Check if the current user is an admin of the group
             var currentUserMembership = await _context.GroupMembers
                 .FirstOrDefaultAsync(gm => gm.GroupId == groupId && gm.UserId == currentUser.Id);
-            
+
             // Allow admins to remove any user or allow users to remove themselves
             if ((currentUserMembership == null || currentUserMembership.Role != "Admin") && 
                 currentUser.Id != userId)
@@ -995,7 +1000,7 @@ namespace ChatApp.Web.Controllers
             // Find the membership to remove
             var membershipToRemove = await _context.GroupMembers
                 .FirstOrDefaultAsync(gm => gm.GroupId == groupId && gm.UserId == userId);
-            
+
             if (membershipToRemove == null)
             {
                 return NotFound("User is not a member of this group");
@@ -1020,17 +1025,37 @@ namespace ChatApp.Web.Controllers
             var group = await _context.Groups.FindAsync(groupId);
             if (group != null)
             {
-                // Notify group members about the removed member
+                // 1. Notify all members that someone was removed
                 await _hubContext.Clients.Group($"group_{groupId}").SendAsync("UserRemovedFromGroup", new
                 {
                     groupId = groupId,
                     groupName = group.GroupName,
                     userId = userId
                 });
+
+                // 2. Notify all members to reload group members list
+                await _hubContext.Clients.Group($"group_{groupId}").SendAsync("GroupMembersUpdated", groupId);
+
+                // 3. Remove user khỏi SignalR group (all connectionIds)
+                if (ChatHub.UserConnections.TryGetValue(userId, out var connIds))
+                {
+                    foreach (var connId in connIds)
+                    {
+                        await _hubContext.Groups.RemoveFromGroupAsync(connId, $"group_{groupId}");
+                        // Notify riêng user bị kick (có thể handle UI ở client)
+                        await _hubContext.Clients.Client(connId).SendAsync("YouWereRemovedFromGroup", new
+                        {
+                            groupId = groupId,
+                            groupName = group.GroupName
+                        });
+                    }
+                }
             }
+
 
             return Ok();
         }
+
 
         [HttpPost]
         public async Task<IActionResult> ChangeGroupMemberRole(int groupId, string userId, string role)

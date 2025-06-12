@@ -15,8 +15,9 @@ namespace ChatApp.Web.Hubs
     [Authorize]
     public class ChatHub : Hub
     {
-        private readonly static Dictionary<string, string> _userConnections = new Dictionary<string, string>();
-        private readonly static List<UserViewModel> _onlineUsers = new List<UserViewModel>();
+        private static Dictionary<string, HashSet<string>> _userConnections = new();
+        public static IReadOnlyDictionary<string, HashSet<string>> UserConnections => _userConnections;
+        private static List<UserViewModel> _onlineUsers = new List<UserViewModel>();
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
 
@@ -32,13 +33,116 @@ namespace ChatApp.Web.Hubs
             // Return a copy of the online users to prevent external modification
             return _onlineUsers.ToList();
         }
+        
+        public async Task JoinGroup(string groupId)
+        {
+            try
+            {
+                var user = await _userManager.GetUserAsync(Context.User);
+                if (user == null) {
+                    Console.WriteLine("User not found in context");
+                    return;
+                }
+
+                // Lấy thông tin group
+                if (!int.TryParse(groupId, out var parsedGroupId)) return;
+                var group = await _context.Groups.FirstOrDefaultAsync(g => g.GroupId == parsedGroupId);
+                if (group == null) return;
+
+                // Add connection vào group SignalR
+                await Groups.AddToGroupAsync(Context.ConnectionId, $"group_{parsedGroupId}");
+
+                // Đảm bảo user là thành viên trong DB (nếu cần)
+                var isMember = await _context.GroupMembers.AnyAsync(gm => gm.GroupId == parsedGroupId && gm.UserId == user.Id);
+                if (!isMember)
+                {
+                    _context.GroupMembers.Add(new GroupMember
+                    {
+                        GroupId = parsedGroupId,
+                        UserId = user.Id,
+                        Role = "Member",
+                        JoinedAt = DateTime.UtcNow
+                    });
+                    await _context.SaveChangesAsync();
+                    await Clients.Group($"group_{parsedGroupId}").SendAsync("GroupMembersUpdated", parsedGroupId);
+                }
+
+                // Notify các thành viên khác trong group
+                await Clients.OthersInGroup($"group_{parsedGroupId}").SendAsync("UserJoinedGroup", new
+                {
+                    userId = user.Id,
+                    displayName = user.DisplayName,
+                    groupId = groupId,
+                    groupName = group.GroupName
+                });
+
+                // Gửi về cho người vừa join: cập nhật danh sách thành viên
+                var members = await _context.GroupMembers
+                    .Where(gm => gm.GroupId == parsedGroupId)
+                    .Join(_context.Users, gm => gm.UserId, u => u.Id,
+                        (gm, u) => new { u.Id, u.DisplayName, gm.Role, gm.JoinedAt })
+                    .ToListAsync();
+
+                await Clients.Caller.SendAsync("UpdateGroupMembers", members);
+            }
+            catch (Exception ex)
+            {
+                await Clients.Caller.SendAsync("OnError", "Failed to join group: " + ex.Message);
+            }
+        }
+
+        public async Task LeaveGroup(string groupId)
+        {
+            try
+            {
+                Console.WriteLine($"groupId raw: {groupId}");
+                if (!int.TryParse(groupId, out var parsedGroupId)) {
+                    Console.WriteLine("Parse groupId failed");
+                    return;
+                }
+                var user = await _userManager.GetUserAsync(Context.User);
+                if (user == null) return;
+
+                // Rời khỏi group SignalR
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"group_{parsedGroupId}");
+
+                // Nếu muốn: Xoá luôn trong DB (tuỳ thiết kế: soft/hard delete hoặc chỉ Remove connection)
+                var membership = await _context.GroupMembers
+                    .FirstOrDefaultAsync(gm => gm.GroupId == parsedGroupId && gm.UserId == user.Id);
+                if (membership != null)
+                {
+                    _context.GroupMembers.Remove(membership);
+                    await _context.SaveChangesAsync();
+                    await Clients.Group($"group_{parsedGroupId}").SendAsync("GroupMembersUpdated", parsedGroupId);
+                }
+
+                // Notify các thành viên còn lại trong group
+                await Clients.OthersInGroup($"group_{parsedGroupId}")
+                    .SendAsync("UserLeftGroup", new
+                    {
+                        userId = user.Id,
+                        displayName = user.DisplayName,
+                        groupId = groupId
+                    });
+
+                // Nếu muốn: gửi về client xác nhận đã rời group thành công
+                await Clients.Caller.SendAsync("LeftGroup", groupId);
+            }
+            catch (Exception ex)
+            {
+                await Clients.Caller.SendAsync("OnError", "Failed to leave group: " + ex.Message);
+            }
+        }
 
         public async Task JoinRoom(string roomName)
         {
             try
             {
                 var user = await _userManager.GetUserAsync(Context.User);
-                if (user == null) return;
+                if (user == null) {
+                    Console.WriteLine("User not found in context");
+                    return;
+                }
 
                 // Join to chat room regardless of current room
                 await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
@@ -137,7 +241,7 @@ namespace ChatApp.Web.Hubs
                         // Notify everyone that a new user has been added permanently to the room
                         await Clients.Group($"group_{room.GroupId}").SendAsync("UserAddedToRoom", new {
                             roomId = room.GroupId,
-                            roomName = roomName,
+                            roomName = room.GroupName,
                             userId = user.Id,
                             displayName = user.DisplayName
                         });
@@ -205,7 +309,7 @@ namespace ChatApp.Web.Hubs
             _context.Messages.Add(message);
             await _context.SaveChangesAsync();
 
-            // Send to the sender
+            // Gửi cho chính sender
             await Clients.Caller.SendAsync("ReceiveMessage", new
             {
                 MessageId = message.MessageId,
@@ -215,17 +319,20 @@ namespace ChatApp.Web.Hubs
                 IsOwnMessage = true
             });
 
-            // Send to the receiver if online
-            if (_userConnections.TryGetValue(receiverId, out var connectionId))
+            // Gửi cho tất cả tab/device của receiver (nếu online)
+            if (_userConnections.TryGetValue(receiverId, out var connIds))
             {
-                await Clients.Client(connectionId).SendAsync("ReceiveMessage", new
+                foreach (var connId in connIds)
                 {
-                    MessageId = message.MessageId,
-                    Content = message.Content,
-                    SentAt = message.SentAt,
-                    Sender = new { Id = sender.Id, Name = sender.DisplayName },
-                    IsOwnMessage = false
-                });
+                    await Clients.Client(connId).SendAsync("ReceiveMessage", new
+                    {
+                        MessageId = message.MessageId,
+                        Content = message.Content,
+                        SentAt = message.SentAt,
+                        Sender = new { Id = sender.Id, Name = sender.DisplayName },
+                        IsOwnMessage = false
+                    });
+                }
 
                 // Update message status to delivered
                 message.Status = "Delivered";
@@ -235,6 +342,7 @@ namespace ChatApp.Web.Hubs
                 await Clients.Caller.SendAsync("UpdateMessageStatus", message.MessageId, "Delivered");
             }
         }
+
 
         public async Task SendGroupMessage(int groupId, string content)
         {
@@ -333,10 +441,13 @@ namespace ChatApp.Web.Hubs
             message.Status = "Read";
             await _context.SaveChangesAsync();
 
-            // Notify the sender that the message was read
-            if (_userConnections.TryGetValue(message.SenderId, out var senderConnectionId))
+            // Notify all tab/device của sender
+            if (_userConnections.TryGetValue(message.SenderId, out var connIds))
             {
-                await Clients.Client(senderConnectionId).SendAsync("UpdateMessageStatus", messageId, "Read");
+                foreach (var connId in connIds)
+                {
+                    await Clients.Client(connId).SendAsync("UpdateMessageStatus", messageId, "Read");
+                }
             }
         }
 
@@ -345,11 +456,15 @@ namespace ChatApp.Web.Hubs
             var sender = await _userManager.GetUserAsync(Context.User);
             if (sender == null) return;
 
-            if (_userConnections.TryGetValue(receiverId, out var connectionId))
+            if (_userConnections.TryGetValue(receiverId, out var connIds))
             {
-                await Clients.Client(connectionId).SendAsync("ReceiveTypingIndicator", sender.Id);
+                foreach (var connId in connIds)
+                {
+                    await Clients.Client(connId).SendAsync("ReceiveTypingIndicator", sender.Id);
+                }
             }
         }
+
 
         public async Task NotifyGroupTyping(int groupId)
         {
@@ -477,6 +592,7 @@ namespace ChatApp.Web.Hubs
             
             _context.GroupMembers.Add(membership);
             await _context.SaveChangesAsync();
+            await Clients.Group($"group_{groupId}").SendAsync("GroupMembersUpdated", groupId);
             
             // Add to SignalR group
             await Groups.AddToGroupAsync(Context.ConnectionId, $"group_{groupId}");
@@ -534,52 +650,66 @@ namespace ChatApp.Web.Hubs
                 var user = await _userManager.GetUserAsync(Context.User);
                 if (user != null)
                 {
-                    // Store connection ID
-                    if (_userConnections.ContainsKey(user.Id))
+                    // Lưu nhiều connectionId cho mỗi user
+                    lock (_userConnections)
                     {
-                        _userConnections[user.Id] = Context.ConnectionId;
-                    }
-                    else
-                    {
-                        _userConnections.Add(user.Id, Context.ConnectionId);
+                        if (!_userConnections.ContainsKey(user.Id))
+                            _userConnections[user.Id] = new HashSet<string>();
+                        _userConnections[user.Id].Add(Context.ConnectionId);
                     }
 
                     // Remove any existing entries for this user before adding a new one
                     _onlineUsers.RemoveAll(u => u.UserId == user.Id);
-                      // Get current room if user was in one (from database or other connection)
+
                     string currentRoom = null;
-                    var userStatus = await _context.UserStatuses.FirstOrDefaultAsync(us => us.UserId == user.Id);                    if (userStatus != null && !string.IsNullOrEmpty(userStatus.CurrentRoom))
+                    var userStatus = await _context.UserStatuses.FirstOrDefaultAsync(us => us.UserId == user.Id);
+                    if (userStatus == null)
                     {
-                        currentRoom = userStatus.CurrentRoom;
-                    }                    // Add user to online users list
+                        userStatus = new UserStatus
+                        {
+                            UserId = user.Id,
+                            IsOnline = true,
+                            LastSeen = DateTime.UtcNow
+                        };
+                        _context.UserStatuses.Add(userStatus);
+                    }
+                    else
+                    {
+                        userStatus.IsOnline = true;
+                        userStatus.LastSeen = DateTime.UtcNow;
+                    }
+                    await _context.SaveChangesAsync();
+
                     _onlineUsers.Add(new UserViewModel
                     {
                         UserId = user.Id,
                         UserName = user.UserName,
-                        DisplayName = user.UserName, // You might want to get actual DisplayName if available
+                        DisplayName = user.DisplayName ?? user.UserName,
                         ConnectionId = Context.ConnectionId,
                         CurrentRoom = currentRoom
                     });
 
-                    // Join the user to their last room if they had one
                     if (!string.IsNullOrEmpty(currentRoom))
                     {
                         await Groups.AddToGroupAsync(Context.ConnectionId, currentRoom);
                         await Clients.OthersInGroup(currentRoom).SendAsync("UserJoinedRoom", user.Id);
                     }
-                    
-                    // Notify all clients of user status change
-                    await Clients.All.SendAsync("UpdateUserStatus", user.Id, true);
+
+                    // Nếu đây là connection đầu tiên thì mới báo online
+                    if (_userConnections[user.Id].Count == 1)
+                    {
+                        await Clients.All.SendAsync("UpdateUserStatus", user.Id, true);
+                    }
                 }
             }
-            
+
             await base.OnConnectedAsync();
         }
         private string GetUserDevice()
         {
             // In a real implementation, this would parse the User-Agent string
             // For simplicity, we'll just return "Web" as default
-            return "Web";
+            return "Application";
         }
         // Helper method to determine the device type from user agent string        private string GetUserDevice()
         // {
@@ -587,6 +717,96 @@ namespace ChatApp.Web.Hubs
         //     // For simplicity, we'll just return "Web" as default
         //     return "Web";
         // }
+
+        // Gọi user (riêng tư)
+        public async Task CallUser(string targetUserId, object offer, bool video)
+        {
+            var caller = await _userManager.GetUserAsync(Context.User);
+            if (caller == null) return;
+
+            // Truyền offer SDP đến user được gọi
+            await Clients.User(targetUserId).SendAsync("ReceiveCall", new {
+                callerId = caller.Id,
+                callerName = caller.DisplayName,
+                video,
+                offer
+            });
+        }
+
+        // Nhận answer từ user bị gọi
+        public async Task AnswerCall(string targetUserId, object answer)
+        {
+            var callee = await _userManager.GetUserAsync(Context.User);
+            if (callee == null) return;
+
+            await Clients.User(targetUserId).SendAsync("ReceiveCallAnswer", new {
+                calleeId = callee.Id,
+                answer
+            });
+        }
+
+        // Trao đổi ICE candidate
+        public async Task SendIceCandidate(string targetUserId, object candidate)
+        {
+            var user = await _userManager.GetUserAsync(Context.User);
+            if (user == null) return;
+
+            await Clients.User(targetUserId).SendAsync("ReceiveIceCandidate", new {
+                userId = user.Id,
+                candidate
+            });
+        }
+
+        // Gọi group (room)
+        // Gửi offer tới tất cả user khác trong room, trừ caller
+        public async Task CallRoom(string roomName, object offer)
+        {
+            var caller = await _userManager.GetUserAsync(Context.User);
+            if (caller == null) return;
+
+            await Clients.GroupExcept(roomName, Context.ConnectionId).SendAsync("ReceiveGroupCall", new {
+                callerId = caller.Id,
+                callerName = caller.DisplayName,
+                roomName,
+                offer
+            });
+        }
+
+        // Trả lời group call
+        public async Task AnswerRoomCall(string roomName, string callerId, object answer)
+        {
+            var callee = await _userManager.GetUserAsync(Context.User);
+            if (callee == null) return;
+
+            // Trả lời trực tiếp cho người gọi
+            await Clients.User(callerId).SendAsync("ReceiveGroupCallAnswer", new {
+                calleeId = callee.Id,
+                roomName,
+                callerName = callee.DisplayName,
+                answer
+            });
+        }
+
+        // ICE cho nhóm (nếu cần)
+        public async Task SendRoomIceCandidate(string targetUserId, object candidate)
+        {
+            var user = await _userManager.GetUserAsync(Context.User);
+            if (user == null) return;
+
+            await Clients.User(targetUserId).SendAsync("ReceiveRoomIceCandidate", new {
+                userId = user.Id,
+                candidate
+            });
+        }
+
+        // Kết thúc call: gửi sự kiện CallEnded cho cả hai phía
+        public async Task EndCall(string peerUserId)
+        {
+            var myUserId = Context.UserIdentifier;
+            await Clients.User(peerUserId).SendAsync("CallEnded");
+            await Clients.User(myUserId).SendAsync("CallEnded");
+        }
+
         
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
@@ -595,19 +815,24 @@ namespace ChatApp.Web.Hubs
                 var user = await _userManager.GetUserAsync(Context.User);
                 if (user != null)
                 {
-                    // Check if this is the user's only connection
-                    bool userHasOtherConnections = false;
-                    if (_userConnections.TryGetValue(user.Id, out var connectionId) && connectionId != Context.ConnectionId)
+                    bool isOffline = false;
+                    lock (_userConnections)
                     {
-                        userHasOtherConnections = true;
+                        if (_userConnections.ContainsKey(user.Id))
+                        {
+                            _userConnections[user.Id].Remove(Context.ConnectionId);
+                            if (_userConnections[user.Id].Count == 0)
+                            {
+                                _userConnections.Remove(user.Id);
+                                isOffline = true;
+                            }
+                        }
                     }
-                    
-                    if (!userHasOtherConnections)
+
+                    if (isOffline)
                     {
-                        // Remove from dictionaries
-                        _userConnections.Remove(user.Id);
                         _onlineUsers.RemoveAll(u => u.UserId == user.Id);
-                        
+
                         // Update user status in database
                         var userStatus = await _context.UserStatuses.FirstOrDefaultAsync(us => us.UserId == user.Id);
                         if (userStatus != null)
@@ -616,14 +841,14 @@ namespace ChatApp.Web.Hubs
                             userStatus.LastSeen = DateTime.UtcNow;
                             await _context.SaveChangesAsync();
                         }
-                        
-                        // Notify all clients of user status change
+
                         await Clients.All.SendAsync("UpdateUserStatus", user.Id, false);
                     }
                 }
             }
-            
+
             await base.OnDisconnectedAsync(exception);
         }
+
     }
 }
