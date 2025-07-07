@@ -1,0 +1,69 @@
+@page
+@model EmailModel
+@{
+    ViewData["Title"] = "Quản lý Email";
+    ViewData["ActivePage"] = "Email";
+}
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<div class="row">
+    <div class="col-md-6">
+        <form id="email-form" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            
+            @if (Model.IsEmailConfirmed)
+            {
+                <div class="form-floating mb-3">
+                    <input asp-for="Email" class="form-control" placeholder="name@example.com" disabled />
+                    <label asp-for="Email" class="ms-2 text-muted">Email</label>
+                    <div class="text-success mt-1">
+                        <i class="bi bi-check-circle"></i> Email đã được xác thực
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="form-floating mb-3">
+                    <input asp-for="Email" class="form-control" placeholder="name@example.com" disabled />
+                    <label asp-for="Email" class="ms-2 text-muted">Email</label>
+                </div>
+                <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">
+                    Gửi email xác thực
+                </button>
+            }
+            
+            <div class="form-floating mb-3">
+                <input asp-for="Input.NewEmail" class="form-control" autocomplete="email" placeholder="name@example.com" />
+                <label asp-for="Input.NewEmail" class="ms-2 text-muted">Email mới</label>
+                <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
+            </div>
+            
+            <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="btn btn-primary">Thay đổi email</button>
+        </form>
+    </div>
+    
+    @if (!Model.IsEmailConfirmed)
+    {
+        <div class="col-md-6">
+            <div class="alert alert-warning">
+                <h4>Xác thực email</h4>
+                <p>Email của bạn chưa được xác thực. Vui lòng kiểm tra email và nhập mã xác thực dưới đây:</p>
+                
+                <form id="confirm-email-form" method="post">
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.ConfirmationCode" class="form-control" placeholder="Nhập mã xác thực" maxlength="6" />
+                        <label asp-for="Input.ConfirmationCode" class="ms-2 text-muted">Mã xác thực (6 chữ số)</label>
+                        <span asp-validation-for="Input.ConfirmationCode" class="text-danger"></span>
+                    </div>
+                    <button type="submit" asp-page-handler="ConfirmEmail" class="btn btn-success">Xác thực email</button>
+                </form>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

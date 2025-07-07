@@ -6,5 +6,6 @@ namespace ChatApp.Web.Services
     {
         Task<bool> SendPasswordResetEmailAsync(string email, string resetCode);
         Task<bool> SendEmailChangeConfirmationAsync(string email, string confirmationCode);
+        Task<bool> SendEmailVerificationAsync(string email, string confirmationCode);
     }
 }

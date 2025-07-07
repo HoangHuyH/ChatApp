@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using ChatApp.Web.Data;
 using ChatApp.Web.Hubs;
 using ChatApp.Web.Models.Entities;
 using ChatApp.Web.Services;
-using ChatApp.Web.Areas.Identity.Data;
 using DotNetEnv;
 
 // Load environment variables from .env file
@@ -58,9 +58,13 @@ builder.Services.AddCors(options =>
 // Register DatabaseInitializer service
 builder.Services.AddScoped<DatabaseInitializer>();
 
+// Register HttpClient for EmailService
+builder.Services.AddHttpClient<EmailService>();
+
 // Register Email and Password Reset Services
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IPasswordResetService, PasswordResetService>();
+builder.Services.AddScoped<IEmailSender, ChatApp.Web.Services.NoOpEmailSender>();
 
 var app = builder.Build();
 
