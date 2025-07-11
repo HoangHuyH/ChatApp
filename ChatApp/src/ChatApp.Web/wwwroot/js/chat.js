@@ -13,6 +13,8 @@ let lastCallType = null;
 let lastCallUserName = null;
 let lastCallPeerId = null;
 let isCallEnding = false;
+let peerConnections = {};
+
 const iceServers = { iceServers: [{ urls: "stun:stun.l.google.com:19302" }] };
 const currentUserId = document.getElementById("current-user-id")?.value;
 
@@ -26,6 +28,36 @@ if ("Notification" in window && Notification.permission !== "granted") {
 function showSystemNotification(title, body) {
   if ("Notification" in window && Notification.permission === "granted") {
     new Notification(title, { body: body });
+  }
+}
+
+function updateCallButtons() {
+  const audioBtn = document.getElementById("audio-call-btn");
+  const videoBtn = document.getElementById("video-call-btn");
+  if (selectedGroupId) {
+    audioBtn.onclick = () => {
+      showCallUI(false, "Group Call");
+      startGroupCall(false);
+    };
+    videoBtn.style.display = "none";
+  } else if (selectedUserId) {
+    audioBtn.onclick = () => {
+      lastCallUserName =
+        document.getElementById("selected-chat-name")?.textContent || "";
+      showCallUI(false, lastCallUserName);
+      startCall(false);
+    };
+    videoBtn.onclick = () => {
+      lastCallUserName =
+        document.getElementById("selected-chat-name")?.textContent || "";
+      showCallUI(true, lastCallUserName);
+      startCall(true);
+    };
+    videoBtn.style.display = ""; // Hiển thị nút gọi video
+  } else {
+    // Không có ai được chọn thì ẩn hoặc disable nút call
+    audioBtn.onclick = null;
+    videoBtn.onclick = null;
   }
 }
 
@@ -293,20 +325,63 @@ function setupSignalREventHandlers() {
       showIncomingCallPopup({ callerId, callerName, video });
     }
   );
+
+  connection.on(
+    "ReceiveGroupCall",
+    function ({ callerId, callerName, groupName, offer, video }) {
+      console.log("[SignalR] Nhận được ReceiveGroupCall!", {
+        callerId,
+        groupName,
+      });
+      window.lastGroupCallOffer = { offer, callerId, groupName, video };
+      showIncomingGroupCallPopup({ callerId, callerName, groupName, video });
+    }
+  );
+
   connection.on("ReceiveCallAnswer", async ({ calleeId, answer }) => {
     if (peerConnection)
       await peerConnection.setRemoteDescription(
         new RTCSessionDescription(answer)
       );
   });
-  connection.on("ReceiveIceCandidate", async ({ userId, candidate }) => {
-    if (peerConnection)
-      await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+
+  connection.on("ReceiveGroupCallAnswer", async ({ calleeId, answer }) => {
+    if (window.peerConnections && window.peerConnections[calleeId]) {
+      await window.peerConnections[calleeId].setRemoteDescription(
+        new RTCSessionDescription(answer)
+      );
+    }
   });
+
+  connection.on("ReceiveIceCandidate", async ({ userId, candidate }) => {
+    // Nếu đang group call, phải add vào peerConnections[userId]
+    if (window.peerConnections && window.peerConnections[userId]) {
+      await window.peerConnections[userId].addIceCandidate(
+        new RTCIceCandidate(candidate)
+      );
+    } else if (peerConnection) {
+      // Nếu là private call
+      await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+    }
+  });
+
+  connection.on("ReceiveRoomIceCandidate", async ({ userId, candidate }) => {
+  // Nếu là group call, cần add candidate vào đúng peerConnection của user đó
+  if (window.peerConnections && window.peerConnections[userId]) {
+    try {
+      await window.peerConnections[userId].addIceCandidate(new RTCIceCandidate(candidate));
+      console.log("[ReceiveRoomIceCandidate] ICE added for peer:", userId, candidate);
+    } catch (e) {
+      console.error("Error adding ICE candidate for peer", userId, e, candidate);
+    }
+  } else {
+    console.warn("[ReceiveRoomIceCandidate] No peerConnection found for user:", userId, candidate);
+  }
+});
+
   connection?.on &&
     connection.on("CallEnded", () => {
-      alert("[SignalR] CallEnded event received");
-      showNotification("Cuộc gọi đã kết thúc!");
+      showEndCallPopup("Cuộc gọi đã kết thúc!");
       displaySystemMessage("Cuộc gọi đã kết thúc!");
       endCall(true);
     });
@@ -667,6 +742,7 @@ function selectUser(userId, userName) {
   // Show chat on mobile
   document.querySelector(".chat-container").classList.add("show-chat");
   document.querySelector(".chat-header-actions").style.display = "none";
+  updateCallButtons(); // Update call buttons based on selection
 }
 
 // Select group to chat with
@@ -715,6 +791,7 @@ function selectGroup(groupId, groupName) {
   // Update group header and load members
   updateGroupHeader(groupId, groupName);
   loadGroupMembers(groupId);
+  updateCallButtons(); // Update call buttons based on selection
 }
 
 async function leaveGroup(groupId) {
@@ -2451,6 +2528,110 @@ async function startCall(video = false) {
   connection.invoke("CallUser", selectedUserId, offer, video);
 }
 
+async function startGroupCall(video = false) {
+  if (!selectedGroupId && !selectedRoom) {
+    showErrorMessage("Bạn phải chọn group hoặc room để gọi nhóm!");
+    return;
+  }
+
+  // 1. Chuẩn bị stream local
+  window.localStream = await navigator.mediaDevices.getUserMedia({
+    audio: {
+      echoCancellation: true,
+      noiseSuppression: true,
+      autoGainControl: true,
+    },
+    video,
+  });
+  showLocalStream(window.localStream);
+
+  // 2. Lấy danh sách userId trong nhóm
+  let groupId = selectedGroupId;
+  let groupName = selectedGroupId ? `group_${selectedGroupId}` : selectedRoom;
+  let members = await fetch(`/Chat/GetGroupMembers?groupId=${groupId}`).then(
+    (r) => r.json()
+  );
+
+  window.lastGroupPeers = members
+    .filter((m) => m.userId !== currentUserId)
+    .map((m) => m.userId);
+
+  // 3. Khởi tạo peerConnections dictionary nếu chưa có
+  if (!window.peerConnections) window.peerConnections = {};
+
+  // 4. Tạo peerConnection với từng peer (trừ chính mình)
+  for (const member of members) {
+    if (member.userId === currentUserId) continue;
+    const peer = new RTCPeerConnection(iceServers);
+
+    const audioTracks = window.localStream.getAudioTracks();
+    const videoTracks = video ? window.localStream.getVideoTracks() : [];
+    [...audioTracks, ...videoTracks].forEach((track) =>
+      peer.addTrack(track, window.localStream)
+    );
+
+    peer.onicecandidate = (event) => {
+      if (event.candidate) {
+        connection.invoke(
+          "SendRoomIceCandidate",
+          member.userId,
+          event.candidate
+        );
+      }
+    };
+    peer.ontrack = (event) => {
+      showRemoteStream(event.streams[0], member.userId); // member.userId là user của peer đó
+    };
+
+    // Tạo offer
+    const offer = await peer.createOffer();
+    await peer.setLocalDescription(offer);
+
+    // Lưu peerConnection theo userId
+    window.peerConnections[member.userId] = peer;
+
+    // Gửi offer riêng tới từng user trong nhóm
+    connection.invoke("CallGroup", groupName, offer, video, member.userId);
+  }
+
+  showCallUI(video, groupName);
+  lastCallType = "group";
+  lastCallPeerId = groupName;
+}
+
+function showIncomingGroupCallPopup({
+  callerId,
+  callerName,
+  groupName,
+  video,
+}) {
+  const popup = document.getElementById("call-incoming-popup");
+  const nameEl = document.getElementById("call-popup-caller-name");
+  const typeEl = document.getElementById("call-popup-call-type");
+
+  // Hiển thị tên người gọi và phòng
+  nameEl.textContent = `${callerName || "Người lạ"} (Group: ${groupName})`;
+  typeEl.textContent = video ? "Cuộc gọi nhóm Video" : "Cuộc gọi nhóm Audio";
+
+  popup.style.display = "flex";
+
+  // Nhận cuộc gọi nhóm
+  document.getElementById("call-accept-btn").onclick = async function () {
+    popup.style.display = "none";
+    showCallUI(video, `${callerName} (Group: ${groupName})`);
+    // Hàm này sẽ dùng peerConnections nhiều user nếu bạn dùng dạng mesh
+    await acceptGroupCall(window.lastGroupCallOffer.callerId, groupName, video);
+  };
+
+  // Từ chối cuộc gọi nhóm
+  document.getElementById("call-reject-btn").onclick = function () {
+    popup.style.display = "none";
+    showCallControls(false);
+    // Thường EndCall hoặc EndRoomCall (tuỳ bạn đặt tên)
+    connection.invoke("EndCall", callerId); // hoặc "EndRoomCall", nếu bạn tách rõ
+  };
+}
+
 // Hiện popup khi có cuộc gọi đến
 function showIncomingCallPopup({ callerId, callerName, video }) {
   const popup = document.getElementById("call-incoming-popup");
@@ -2472,6 +2653,79 @@ function showIncomingCallPopup({ callerId, callerName, video }) {
     showCallControls(false);
     connection.invoke("EndCall", callerId);
   };
+}
+
+function showEndCallPopup(msg = "Cuộc gọi đã kết thúc!") {
+  // Nếu có modal sẵn, show modal:
+  const popup = document.getElementById("call-end-popup");
+  if (popup) {
+    popup.querySelector(".call-end-message").innerText = msg;
+    popup.style.display = "flex"; // hoặc dùng Bootstrap: new bootstrap.Modal(popup).show()
+    setTimeout(() => {
+      popup.style.display = "none";
+    }, 3000); // auto hide after 3s
+  } else {
+    // Nếu chưa có, tạo popup đơn giản
+    const div = document.createElement("div");
+    div.id = "call-end-popup";
+    div.style.position = "fixed";
+    div.style.top = "30%";
+    div.style.left = "50%";
+    div.style.transform = "translate(-50%, -50%)";
+    div.style.zIndex = "9999";
+    div.style.background = "#fff";
+    div.style.borderRadius = "16px";
+    div.style.boxShadow = "0 2px 24px rgba(0,0,0,0.25)";
+    div.style.padding = "32px 42px";
+    div.style.textAlign = "center";
+    div.style.fontSize = "20px";
+    div.innerHTML = `<span class="call-end-message">${msg}</span>`;
+    document.body.appendChild(div);
+    setTimeout(() => div.remove(), 3000);
+  }
+}
+
+// Nếu dùng dạng multi-peer (mesh), bạn cần biến peerConnections = {}
+async function acceptGroupCall(callerId, groupName, video) {
+  if (!window.peerConnections) window.peerConnections = {};
+  const peerConnections = window.peerConnections;
+
+  if (!peerConnections[callerId]) {
+    peerConnections[callerId] = new RTCPeerConnection(iceServers);
+
+    peerConnections[callerId].onicecandidate = (event) => {
+      if (event.candidate) {
+        connection.invoke("SendRoomIceCandidate", callerId, event.candidate);
+      }
+    };
+    peerConnections[callerId].ontrack = (event) => {
+      showRemoteStream(event.streams[0], callerId);
+    };
+  }
+
+  if (!window.localStream) {
+    window.localStream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: !!video,
+    });
+    showLocalStream(window.localStream);
+  }
+  const audioTracks = window.localStream.getAudioTracks();
+  const videoTracks = video ? window.localStream.getVideoTracks() : [];
+  [...audioTracks, ...videoTracks].forEach((track) =>
+    peerConnections[callerId].addTrack(track, window.localStream)
+  );
+
+  if (window.lastGroupCallOffer) {
+    await peerConnections[callerId].setRemoteDescription(
+      new RTCSessionDescription(window.lastGroupCallOffer.offer)
+    );
+    const answer = await peerConnections[callerId].createAnswer();
+    await peerConnections[callerId].setLocalDescription(answer);
+
+    // Gửi trả lời về server (phải đúng tên hàm SignalR backend)
+    connection.invoke("AnswerRoomGroup", groupName, callerId, answer);
+  }
 }
 
 // Nhận cuộc gọi - chỉ gọi khi bấm nút Nhận
@@ -2518,11 +2772,30 @@ async function acceptCall(fromUserId, video) {
   }
 }
 
-function showRemoteStream(stream) {
+function showRemoteStream(stream, userId = null) {
+  // Nếu có userId => group call (multi-peer)
+  if (userId) {
+    let container = document.getElementById("audio-call-overlay");
+    let elId = `remoteMedia-${userId}`;
+    let el = document.getElementById(elId);
+    if (!el) {
+      el = document.createElement(video ? "video" : "audio");
+      el.id = elId;
+      el.autoplay = true;
+      el.controls = false;
+      el.classList.add("remoteMediaElement");
+      el.style.width = video ? "120px" : "auto";
+      el.style.margin = "8px";
+      container.appendChild(el);
+    }
+    el.srcObject = stream;
+    el.style.display = "";
+    return;
+  }
+
+  // Không có userId => private call (one-to-one)
   const remoteVideo = document.getElementById("remoteVideo");
   remoteVideo.srcObject = stream;
-
-  // Đảm bảo chỉ hiện video-call-container nếu đang gọi video
   if (
     localStream &&
     localStream.getVideoTracks().length > 0 &&
@@ -2534,6 +2807,7 @@ function showRemoteStream(stream) {
     document.getElementById("remoteVideo").style.display = "";
   }
 }
+
 function showLocalStream(stream) {
   const localVideo = document.getElementById("localVideo");
   localVideo.srcObject = stream;
@@ -2624,6 +2898,69 @@ function endCall(fromRemote = false) {
   lastCallUserName = null;
   lastCallPeerId = null;
   isCallEnding = false; // reset flag cho lần sau
+  document.querySelectorAll("[id^=remoteMedia-]").forEach((el) => el.remove());
+}
+
+function endGroupCall(fromRemote = false) {
+  hideCallUI();
+  showCallControls(false);
+  document.getElementById("video-call-container").style.display = "none";
+
+  // ĐÓNG TẤT CẢ PEER CONNECTIONS
+  if (window.peerConnections) {
+    Object.values(window.peerConnections).forEach((peer) => {
+      try {
+        peer.close();
+      } catch (e) {}
+    });
+    window.peerConnections = {};
+  }
+
+  // Cleanup local/remote streams
+  if (localStream) {
+    localStream.getTracks().forEach((track) => track.stop());
+    localStream = null;
+  }
+  // Nếu có nhiều remote stream (nhiều người), clear hết
+  const remoteVideos = document.querySelectorAll(".remoteVideo");
+  remoteVideos.forEach((video) => {
+    video.srcObject = null;
+    video.style.display = "none";
+  });
+
+  document.getElementById("localVideo").srcObject = null;
+  document.getElementById("localVideo").style.display = "none";
+
+  // Hiển thị system message
+  const now = new Date();
+  const time = now.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  displaySystemMessage("Cuộc gọi nhóm đã kết thúc lúc " + time);
+
+  // Gửi "EndCall" cho tất cả peer nếu không phải từ remote
+  if (!fromRemote && lastCallPeerId && lastCallType === "group") {
+    if (!isCallEnding) {
+      isCallEnding = true;
+      // lastCallPeerId có thể là groupName, cần gửi cho từng userId:
+      // Lưu danh sách peerId của group trong biến (vd: window.lastGroupPeers = [userId1, userId2, ...])
+      if (window.lastGroupPeers && Array.isArray(window.lastGroupPeers)) {
+        window.lastGroupPeers.forEach((peerId) => {
+          connection.invoke("EndCall", peerId);
+        });
+      } else {
+        // Fallback: vẫn gửi cho groupName nếu cần
+        connection.invoke("EndCall", lastCallPeerId);
+      }
+    }
+  }
+  lastCallType = null;
+  lastCallUserName = null;
+  lastCallPeerId = null;
+  window.lastGroupPeers = null;
+  isCallEnding = false;
+  document.querySelectorAll("[id^=remoteMedia-]").forEach((el) => el.remove());
 }
 
 // Hàm tạo 1 dòng message thông báo trong vùng chat
@@ -2659,7 +2996,7 @@ function showCallUI(isVideo, userName) {
     document.getElementById("audio-call-username").innerText =
       userName || "Đang kết nối...";
     document.getElementById("audio-call-status").innerText = "Đang gọi...";
-    showCallControls(false);
+    showCallControls(true);
   }
 }
 
@@ -2804,23 +3141,20 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector(".chat-body")?.classList.add("with-room-info");
   }
 
-  document.getElementById("audio-call-btn").addEventListener("click", () => {
-    lastCallUserName =
-      document.getElementById("selected-chat-name")?.textContent || "";
-    showCallUI(false, lastCallUserName); // Chỉ show audio-call UI
-    startCall(false); // Gọi audio
-  });
-  document.getElementById("video-call-btn").addEventListener("click", () => {
-    lastCallUserName =
-      document.getElementById("selected-chat-name")?.textContent || "";
-    showCallUI(true, lastCallUserName); // Show video-call UI
-    startCall(true); // Gọi video
-  });
-
   document
     .getElementById("audio-hangup-btn")
-    ?.addEventListener("click", endCall);
-  document.getElementById("hangup-btn")?.addEventListener("click", endCall);
+    ?.addEventListener("click", function () {
+      if (lastCallType === "incoming") endCall();
+      else if (lastCallType === "outgoing") endCall();
+      else if (lastCallType === "group") endGroupCall();
+    });
+
+  document.getElementById("hangup-btn")?.addEventListener("click", function () {
+    if (lastCallType === "incoming") endCall();
+    else if (lastCallType === "outgoing") endCall();
+    else if (lastCallType === "group") endGroupCall();
+  });
+
   document
     .getElementById("audio-toggle-mic-btn")
     ?.addEventListener("click", toggleMic);

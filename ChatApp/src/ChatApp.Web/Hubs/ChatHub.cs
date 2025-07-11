@@ -759,21 +759,24 @@ namespace ChatApp.Web.Hubs
 
         // Gọi group (room)
         // Gửi offer tới tất cả user khác trong room, trừ caller
-        public async Task CallRoom(string roomName, object offer)
-        {
-            var caller = await _userManager.GetUserAsync(Context.User);
-            if (caller == null) return;
+        public async Task CallGroup(string groupName, object offer, bool video, string targetUserId)
+{
+    var caller = await _userManager.GetUserAsync(Context.User);
+    if (caller == null) return;
 
-            await Clients.GroupExcept(roomName, Context.ConnectionId).SendAsync("ReceiveGroupCall", new {
-                callerId = caller.Id,
-                callerName = caller.DisplayName,
-                roomName,
-                offer
-            });
-        }
+    // Forward chỉ cho targetUserId (không gửi cả group như cũ!)
+    await Clients.User(targetUserId).SendAsync("ReceiveGroupCall", new
+    {
+        callerId = caller.Id,
+        callerName = caller.DisplayName,
+        groupName,
+        offer,
+        video
+    });
+}
 
         // Trả lời group call
-        public async Task AnswerRoomCall(string roomName, string callerId, object answer)
+        public async Task AnswerRoomGroup(string groupName, string callerId, object answer)
         {
             var callee = await _userManager.GetUserAsync(Context.User);
             if (callee == null) return;
@@ -781,7 +784,7 @@ namespace ChatApp.Web.Hubs
             // Trả lời trực tiếp cho người gọi
             await Clients.User(callerId).SendAsync("ReceiveGroupCallAnswer", new {
                 calleeId = callee.Id,
-                roomName,
+                groupName,
                 callerName = callee.DisplayName,
                 answer
             });
