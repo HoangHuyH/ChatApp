@@ -304,7 +304,6 @@ D:/afinal_laptrinhmang/ChatApp/ChatApp/src/ChatApp.Web/obj/Debug/net9.0/ChatApp.
 D:/afinal_laptrinhmang/ChatApp/ChatApp/src/ChatApp.Web/obj/Debug/net9.0/ref/ChatApp.Web.dll
 /Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/bin/Debug/net9.0/appsettings.Development.json
 /Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/bin/Debug/net9.0/appsettings.json
-/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/bin/Debug/net9.0/app.db
 /Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/bin/Debug/net9.0/ChatApp.Web.staticwebassets.runtime.json
 /Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/bin/Debug/net9.0/ChatApp.Web.staticwebassets.endpoints.json
 /Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/bin/Debug/net9.0/ChatApp.Web
@@ -605,4 +604,5 @@ D:/afinal_laptrinhmang/ChatApp/ChatApp/src/ChatApp.Web/obj/Debug/net9.0/ref/Chat
 /Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/obj/Debug/net9.0/ChatApp.Web.pdb
 /Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/obj/Debug/net9.0/ChatApp.Web.genruntimeconfig.cache
 /Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/obj/Debug/net9.0/ref/ChatApp.Web.dll
-/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/obj/Debug/net9.0/compressed/5nhq0t8azg-e9dqkzflnw.gz
+/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/bin/Debug/net9.0/app.db
+/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/obj/Debug/net9.0/compressed/5nhq0t8azg-dc0t5nt23g.gz
