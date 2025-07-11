@@ -33,13 +33,14 @@ namespace ChatApp.Web.Hubs
             // Return a copy of the online users to prevent external modification
             return _onlineUsers.ToList();
         }
-        
+
         public async Task JoinGroup(string groupId)
         {
             try
             {
                 var user = await _userManager.GetUserAsync(Context.User);
-                if (user == null) {
+                if (user == null)
+                {
                     Console.WriteLine("User not found in context");
                     return;
                 }
@@ -95,37 +96,64 @@ namespace ChatApp.Web.Hubs
         {
             try
             {
-                Console.WriteLine($"groupId raw: {groupId}");
-                if (!int.TryParse(groupId, out var parsedGroupId)) {
+                if (!int.TryParse(groupId, out var parsedGroupId))
+                {
                     Console.WriteLine("Parse groupId failed");
                     return;
                 }
+
                 var user = await _userManager.GetUserAsync(Context.User);
                 if (user == null) return;
 
-                // Rời khỏi group SignalR
+                // Rời khỏi SignalR group
                 await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"group_{parsedGroupId}");
 
-                // Nếu muốn: Xoá luôn trong DB (tuỳ thiết kế: soft/hard delete hoặc chỉ Remove connection)
+                // Xoá thành viên khỏi DB
                 var membership = await _context.GroupMembers
                     .FirstOrDefaultAsync(gm => gm.GroupId == parsedGroupId && gm.UserId == user.Id);
                 if (membership != null)
                 {
+                    bool isLeavingAdmin = membership.Role == "Admin";
+
                     _context.GroupMembers.Remove(membership);
                     await _context.SaveChangesAsync();
+
+                    // Nếu user là Admin → gán người khác làm Admin
+                    if (isLeavingAdmin)
+                    {
+                        var nextAdmin = await _context.GroupMembers
+                            .Where(gm => gm.GroupId == parsedGroupId)
+                            .OrderBy(gm => gm.JoinedAt)
+                            .FirstOrDefaultAsync();
+
+                        if (nextAdmin != null)
+                        {
+                            nextAdmin.Role = "Admin";
+                            await _context.SaveChangesAsync();
+
+                            // Gửi sự kiện cho client biết người mới là admin
+                            await Clients.Group($"group_{parsedGroupId}").SendAsync("NewAdminAssigned", new
+                            {
+                                groupId = parsedGroupId,
+                                userId = nextAdmin.UserId,
+                                displayName = (await _userManager.FindByIdAsync(nextAdmin.UserId))?.DisplayName
+                            });
+                        }
+                    }
+
+                    // Gửi sự kiện cập nhật lại danh sách thành viên
                     await Clients.Group($"group_{parsedGroupId}").SendAsync("GroupMembersUpdated", parsedGroupId);
                 }
 
-                // Notify các thành viên còn lại trong group
-                await Clients.OthersInGroup($"group_{parsedGroupId}")
-                    .SendAsync("UserLeftGroup", new
-                    {
-                        userId = user.Id,
-                        displayName = user.DisplayName,
-                        groupId = groupId
-                    });
+                // Gửi cho các thành viên còn lại biết người này đã rời
+                await Clients.OthersInGroup($"group_{parsedGroupId}").SendAsync("UserLeftGroup", new
+                {
+                    userId = user.Id,
+                    displayName = user.DisplayName,
+                    groupId = groupId
+                });
 
-                // Nếu muốn: gửi về client xác nhận đã rời group thành công
+                // Gửi xác nhận về client gọi
                 await Clients.Caller.SendAsync("LeftGroup", groupId);
             }
             catch (Exception ex)
@@ -139,7 +167,8 @@ namespace ChatApp.Web.Hubs
             try
             {
                 var user = await _userManager.GetUserAsync(Context.User);
-                if (user == null) {
+                if (user == null)
+                {
                     Console.WriteLine("User not found in context");
                     return;
                 }
@@ -154,7 +183,7 @@ namespace ChatApp.Web.Hubs
                     var previousRoom = userStatus.CurrentRoom;
                     userStatus.CurrentRoom = roomName;
                     await _context.SaveChangesAsync();
-                    
+
                     // If coming from another room, leave that room's SignalR group
                     if (!string.IsNullOrEmpty(previousRoom) && previousRoom != roomName)
                     {
@@ -162,7 +191,7 @@ namespace ChatApp.Web.Hubs
                         await Clients.OthersInGroup(previousRoom).SendAsync("UserLeftRoom", user.Id);
                     }
                 }
-                
+
                 // Find and update the user's entry in online users list
                 var userViewModel = _onlineUsers.FirstOrDefault(u => u.UserId == user.Id);
                 if (userViewModel != null)
@@ -183,7 +212,8 @@ namespace ChatApp.Web.Hubs
                     // Only send if not already in this room (prevents duplicate notifications)
                     if (currentRoom != roomName)
                     {
-                        await Clients.OthersInGroup(roomName).SendAsync("UserJoinedRoom", new {
+                        await Clients.OthersInGroup(roomName).SendAsync("UserJoinedRoom", new
+                        {
                             userId = user.Id,
                             userName = user.UserName,
                             displayName = user.DisplayName,
@@ -206,9 +236,10 @@ namespace ChatApp.Web.Hubs
                         Device = GetUserDevice()
                     };
                     _onlineUsers.Add(userViewModel);
-                    
+
                     // Notify others about new user
-                    await Clients.OthersInGroup(roomName).SendAsync("UserJoinedRoom", new {
+                    await Clients.OthersInGroup(roomName).SendAsync("UserJoinedRoom", new
+                    {
                         userId = user.Id,
                         userName = user.UserName,
                         displayName = user.DisplayName,
@@ -217,14 +248,14 @@ namespace ChatApp.Web.Hubs
                         device = userViewModel.Device
                     });
                 }
-                    
+
                 // Check if user is already a member in the database
                 var room = await _context.Groups.FirstOrDefaultAsync(g => g.GroupName == roomName);
                 if (room != null)
                 {
                     var isMember = await _context.GroupMembers
                         .AnyAsync(gm => gm.GroupId == room.GroupId && gm.UserId == user.Id);
-                        
+
                     // If not a member yet, add them as a permanent member
                     if (!isMember)
                     {
@@ -237,9 +268,10 @@ namespace ChatApp.Web.Hubs
                         };
                         _context.GroupMembers.Add(membership);
                         await _context.SaveChangesAsync();
-                        
+
                         // Notify everyone that a new user has been added permanently to the room
-                        await Clients.Group($"group_{room.GroupId}").SendAsync("UserAddedToRoom", new {
+                        await Clients.Group($"group_{room.GroupId}").SendAsync("UserAddedToRoom", new
+                        {
                             roomId = room.GroupId,
                             roomName = room.GroupName,
                             userId = user.Id,
@@ -247,15 +279,15 @@ namespace ChatApp.Web.Hubs
                         });
                     }
                 }
-                  
+
                 // Use GetUsersInRoom which handles deduplication properly
                 var roomMembers = await GetUsersInRoom(roomName);
-                
+
                 // Filter out the current user from the list
                 var filteredRoomMembers = roomMembers
                     .Where(u => u.UserId != user.Id)
                     .ToList();
-                
+
                 await Clients.Caller.SendAsync("UpdateRoomUsers", filteredRoomMembers);
             }
             catch (Exception ex)
@@ -264,11 +296,45 @@ namespace ChatApp.Web.Hubs
             }
         }
 
+        public async Task RemoveUserFromGroup(string groupId, string targetUserId)
+        {
+            if (!int.TryParse(groupId, out var parsedGroupId))
+                return;
+
+            var group = await _context.Groups.FindAsync(parsedGroupId);
+            if (group == null)
+                return;
+
+            var targetUser = await _userManager.FindByIdAsync(targetUserId);
+            if (targetUser == null)
+                return;
+
+            // Xóa khỏi DB
+            var membership = await _context.GroupMembers
+                .FirstOrDefaultAsync(gm => gm.GroupId == parsedGroupId && gm.UserId == targetUserId);
+            if (membership != null)
+            {
+                _context.GroupMembers.Remove(membership);
+                await _context.SaveChangesAsync();
+            }
+
+            // Gửi về người bị kick
+            await Clients.User(targetUserId).SendAsync("YouWereRemovedFromGroup", new
+            {
+                groupId = parsedGroupId,
+                groupName = group.GroupName
+            });
+
+            // Gửi cho các thành viên còn lại để cập nhật danh sách
+            await Clients.Group($"group_{parsedGroupId}").SendAsync("GroupMembersUpdated", parsedGroupId);
+        }
+
+
         public async Task LeaveRoom(string roomName)
         {
             if (string.IsNullOrEmpty(roomName))
                 return;
-            
+
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
 
             var user = await _userManager.GetUserAsync(Context.User);
@@ -280,7 +346,7 @@ namespace ChatApp.Web.Hubs
                     userViewModel.CurrentRoom = null;
                     await Clients.OthersInGroup(roomName).SendAsync("UserLeftRoom", user.Id);
                 }
-                
+
                 // Update user status in database to reflect the room change
                 var userStatus = await _context.UserStatuses.FirstOrDefaultAsync(us => us.UserId == user.Id);
                 if (userStatus != null && userStatus.CurrentRoom == roomName)
@@ -377,6 +443,16 @@ namespace ChatApp.Web.Hubs
                 Sender = new { Id = sender.Id, Name = sender.DisplayName },
                 IsOwnMessage = false
             });
+
+            await Clients.Caller.SendAsync("ReceiveGroupMessage", new
+{
+    MessageId = message.MessageId,
+    GroupId = groupId,
+    Content = message.Content,
+    SentAt = message.SentAt,
+    Sender = new { Id = sender.Id, Name = sender.DisplayName },
+    IsOwnMessage = true
+});
         }
 
         public async Task SendRoomMessage(string roomName, string content)
@@ -396,7 +472,7 @@ namespace ChatApp.Web.Hubs
             // Find the room by name
             var room = await _context.Groups
                 .FirstOrDefaultAsync(g => g.GroupName == roomName);
-                
+
             if (room != null)
             {
                 message.ReceiverGroupId = room.GroupId;
@@ -416,7 +492,7 @@ namespace ChatApp.Web.Hubs
                 Sender = new { Id = sender.Id, Name = sender.DisplayName },
                 IsOwnMessage = false
             });
-            
+
             // Send to the sender separately with isOwnMessage = true
             await Clients.Caller.SendAsync("ReceiveRoomMessage", new
             {
@@ -492,20 +568,20 @@ namespace ChatApp.Web.Hubs
         {
             // Find the room in the database
             var room = await _context.Groups.FirstOrDefaultAsync(g => g.GroupName == roomName);
-            
+
             // Get online users who are in this room (without duplicates)
             var onlineRoomUsers = _onlineUsers
                 .Where(u => u.CurrentRoom == roomName)
                 .GroupBy(u => u.UserId)  // Group by user ID to remove duplicates
                 .Select(g => g.First())   // Take the first occurrence from each group
                 .ToList();
-                
-            if (room == null) 
+
+            if (room == null)
             {
                 // If no room in database, just return the deduplicated online users in this room
                 return onlineRoomUsers;
             }
-            
+
             // Get all member users from the database
             var roomMembers = await _context.GroupMembers
                 .Where(gm => gm.GroupId == room.GroupId)
@@ -518,10 +594,10 @@ namespace ChatApp.Web.Hubs
                     Device = "Web"
                 })
                 .ToListAsync();
-                
+
             // Create a dictionary for fast lookup of database users
             var memberDict = roomMembers.ToDictionary(m => m.UserId);
-                
+
             // Update database users with online status and merge online-only users
             foreach (var onlineUser in onlineRoomUsers)
             {
@@ -538,7 +614,7 @@ namespace ChatApp.Web.Hubs
                     roomMembers.Add(onlineUser);
                 }
             }
-            
+
             return roomMembers;
         }
 
@@ -550,7 +626,7 @@ namespace ChatApp.Web.Hubs
             // Check if sender is admin
             var senderMembership = await _context.GroupMembers
                 .FirstOrDefaultAsync(gm => gm.GroupId == groupId && gm.UserId == sender.Id && gm.Role == "Admin");
-            
+
             if (senderMembership == null)
             {
                 await Clients.Caller.SendAsync("OnError", "Only administrators can invite users to groups");
@@ -574,13 +650,13 @@ namespace ChatApp.Web.Hubs
 
             var group = await _context.Groups.FindAsync(groupId);
             if (group == null) return;
-            
+
             // Check if already a member
             var existingMembership = await _context.GroupMembers
                 .AnyAsync(gm => gm.GroupId == groupId && gm.UserId == user.Id);
-            
+
             if (existingMembership) return;
-            
+
             // Add user to group
             var membership = new GroupMember
             {
@@ -589,14 +665,14 @@ namespace ChatApp.Web.Hubs
                 Role = "Member",
                 JoinedAt = DateTime.UtcNow
             };
-            
+
             _context.GroupMembers.Add(membership);
             await _context.SaveChangesAsync();
             await Clients.Group($"group_{groupId}").SendAsync("GroupMembersUpdated", groupId);
-            
+
             // Add to SignalR group
             await Groups.AddToGroupAsync(Context.ConnectionId, $"group_{groupId}");
-            
+
             // Notify group members
             await Clients.Group($"group_{groupId}").SendAsync("UserJoinedGroup", new
             {
@@ -606,7 +682,7 @@ namespace ChatApp.Web.Hubs
                 role = "Member",
                 isOnline = true
             });
-            
+
             // Signal client to reload groups list
             await Clients.Caller.SendAsync("ReloadGroups");
         }
@@ -615,17 +691,17 @@ namespace ChatApp.Web.Hubs
         {
             var user = await _userManager.GetUserAsync(Context.User);
             if (user == null) return;
-            
+
             // Check if user is a member of the group
             var isMember = await _context.GroupMembers
                 .AnyAsync(gm => gm.GroupId == groupId && gm.UserId == user.Id);
-            
+
             if (!isMember)
             {
                 await Clients.Caller.SendAsync("OnError", "You must be a member of the group to view its members");
                 return;
             }
-            
+
             var members = await _context.GroupMembers
                 .Where(gm => gm.GroupId == groupId)
                 .Select(gm => new
@@ -639,7 +715,7 @@ namespace ChatApp.Web.Hubs
                     lastSeen = gm.User.Status != null ? gm.User.Status.LastSeen : (DateTime?)null
                 })
                 .ToListAsync();
-            
+
             await Clients.Caller.SendAsync("ReceiveGroupMembers", members);
         }
 
@@ -725,7 +801,8 @@ namespace ChatApp.Web.Hubs
             if (caller == null) return;
 
             // Truyền offer SDP đến user được gọi
-            await Clients.User(targetUserId).SendAsync("ReceiveCall", new {
+            await Clients.User(targetUserId).SendAsync("ReceiveCall", new
+            {
                 callerId = caller.Id,
                 callerName = caller.DisplayName,
                 video,
@@ -739,7 +816,8 @@ namespace ChatApp.Web.Hubs
             var callee = await _userManager.GetUserAsync(Context.User);
             if (callee == null) return;
 
-            await Clients.User(targetUserId).SendAsync("ReceiveCallAnswer", new {
+            await Clients.User(targetUserId).SendAsync("ReceiveCallAnswer", new
+            {
                 calleeId = callee.Id,
                 answer
             });
@@ -751,29 +829,57 @@ namespace ChatApp.Web.Hubs
             var user = await _userManager.GetUserAsync(Context.User);
             if (user == null) return;
 
-            await Clients.User(targetUserId).SendAsync("ReceiveIceCandidate", new {
+            await Clients.User(targetUserId).SendAsync("ReceiveIceCandidate", new
+            {
                 userId = user.Id,
                 candidate
             });
         }
 
+        public async Task SendRoomIceCandidate(string targetUserId, object candidate)
+        {
+            var user = await _userManager.GetUserAsync(Context.User);
+            if (user == null) return;
+
+            await Clients.User(targetUserId).SendAsync("ReceiveRoomIceCandidate", new
+            {
+                userId = user.Id,
+                candidate
+            });
+        }
+
+
         // Gọi group (room)
         // Gửi offer tới tất cả user khác trong room, trừ caller
-        public async Task CallGroup(string groupName, object offer, bool video, string targetUserId)
-{
-    var caller = await _userManager.GetUserAsync(Context.User);
-    if (caller == null) return;
+        public async Task CallGroup(string groupName, object offer, bool video)
+        {
+            var caller = await _userManager.GetUserAsync(Context.User);
+            if (caller == null) return;
 
-    // Forward chỉ cho targetUserId (không gửi cả group như cũ!)
-    await Clients.User(targetUserId).SendAsync("ReceiveGroupCall", new
-    {
-        callerId = caller.Id,
-        callerName = caller.DisplayName,
-        groupName,
-        offer,
-        video
-    });
-}
+            var group = await _context.Groups.FirstOrDefaultAsync(g => g.GroupName == groupName);
+            if (group == null) return;
+
+            var members = await _context.GroupMembers
+                .Where(gm => gm.GroupId == group.GroupId)
+                .Select(gm => gm.UserId)
+                .ToListAsync();
+
+            foreach (var userId in members)
+            {
+                if (userId != caller.Id)
+                {
+                    await Clients.User(userId).SendAsync("ReceiveGroupCall", new
+                    {
+                        callerId = caller.Id,
+                        callerName = caller.DisplayName,
+                        groupName,
+                        offer,
+                        video
+                    });
+                }
+            }
+        }
+
 
         // Trả lời group call
         public async Task AnswerRoomGroup(string groupName, string callerId, object answer)
@@ -782,23 +888,12 @@ namespace ChatApp.Web.Hubs
             if (callee == null) return;
 
             // Trả lời trực tiếp cho người gọi
-            await Clients.User(callerId).SendAsync("ReceiveGroupCallAnswer", new {
+            await Clients.User(callerId).SendAsync("ReceiveGroupCallAnswer", new
+            {
                 calleeId = callee.Id,
                 groupName,
                 callerName = callee.DisplayName,
                 answer
-            });
-        }
-
-        // ICE cho nhóm (nếu cần)
-        public async Task SendRoomIceCandidate(string targetUserId, object candidate)
-        {
-            var user = await _userManager.GetUserAsync(Context.User);
-            if (user == null) return;
-
-            await Clients.User(targetUserId).SendAsync("ReceiveRoomIceCandidate", new {
-                userId = user.Id,
-                candidate
             });
         }
 
@@ -810,7 +905,7 @@ namespace ChatApp.Web.Hubs
             await Clients.User(myUserId).SendAsync("CallEnded");
         }
 
-        
+
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
             if (Context.User != null)

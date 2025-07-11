@@ -13,7 +13,9 @@ let lastCallType = null;
 let lastCallUserName = null;
 let lastCallPeerId = null;
 let isCallEnding = false;
-let peerConnections = {};
+let peerConnections = (window.peerConnections = window.peerConnections || {});
+let pendingCandidates = (window.pendingCandidates =
+  window.pendingCandidates || {});
 
 const iceServers = { iceServers: [{ urls: "stun:stun.l.google.com:19302" }] };
 const currentUserId = document.getElementById("current-user-id")?.value;
@@ -74,6 +76,20 @@ function initializeSignalRConnection() {
     .configureLogging(signalR.LogLevel.Information)
     .withAutomaticReconnect()
     .build();
+
+  connection.on("NewAdminAssigned", function (data) {
+    if (data.groupId == selectedGroupId) {
+      if (currentUserId === data.userId) {
+        // Bạn chính là admin mới
+        alert("🎉 You have been assigned as the new admin of this group!");
+        loadGroupMembers(data.groupId);
+      } else {
+        // Người khác được làm admin (mình còn trong group)
+        showNotification(`${data.displayName} is now the admin of this group.`);
+        loadGroupMembers(data.groupId);
+      }
+    }
+  });
 
   // Start the connection
   startConnection();
@@ -162,6 +178,71 @@ function setupSignalREventHandlers() {
     showNotification(`${friendInfo.friendName} rejected your friend request`);
   });
 
+  connection.on("ReceiveGroupCall", async (data) => {
+    console.log("📞 Incoming call from", data.callerName);
+
+    const peerConnection = new RTCPeerConnection({
+      iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+    });
+
+    // 💡 Đặt vào Map để dùng lại khi nhận ICE
+    peerConnections[data.callerId] = peerConnection;
+
+    // ✅ Thêm xử lý ICE candidate ở đây
+    peerConnection.onicecandidate = (event) => {
+      if (event.candidate) {
+        connection.invoke(
+          "SendRoomIceCandidate",
+          data.callerId,
+          event.candidate
+        );
+      }
+    };
+
+    await peerConnection.setRemoteDescription(
+      new RTCSessionDescription(data.offer)
+    );
+
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: true,
+    });
+    stream
+      .getTracks()
+      .forEach((track) => peerConnection.addTrack(track, stream));
+    document.getElementById("localVideo").srcObject = stream;
+
+    const answer = await peerConnection.createAnswer();
+    await peerConnection.setLocalDescription(answer);
+
+    connection.invoke("AnswerRoomGroup", data.groupName, data.callerId, answer);
+  });
+
+  connection.on("ReceiveRoomIceCandidate", async ({ userId, candidate }) => {
+    if (!window.peerConnections) window.peerConnections = {};
+    if (!window.pendingCandidates) window.pendingCandidates = {};
+
+    const pc = window.peerConnections[userId];
+    if (pc && pc.remoteDescription && pc.remoteDescription.type) {
+      try {
+        await pc.addIceCandidate(new RTCIceCandidate(candidate));
+        console.log("[ReceiveRoomIceCandidate] ICE added for peer:", userId);
+      } catch (e) {
+        console.error(
+          "Error adding ICE candidate for peer",
+          userId,
+          e,
+          candidate
+        );
+      }
+    } else {
+      if (!window.pendingCandidates[userId])
+        window.pendingCandidates[userId] = [];
+      window.pendingCandidates[userId].push(candidate);
+      console.log("[ReceiveRoomIceCandidate] Queue ICE for", userId, candidate);
+    }
+  });
+
   // Receive private message
   connection.on("ReceiveMessage", (message) => {
     // Only display the message if:
@@ -192,13 +273,8 @@ function setupSignalREventHandlers() {
 
   // Receive group message
   connection.on("ReceiveGroupMessage", (message) => {
+    console.log("[ReceiveGroupMessage]", message);
     displayGroupMessage(message);
-    if (!message.isOwnMessage) {
-      showSystemNotification(
-        `New message in group`,
-        `${message.sender.name}: ${message.content}`
-      );
-    }
   });
 
   // Receive room message
@@ -326,17 +402,23 @@ function setupSignalREventHandlers() {
     }
   );
 
-  connection.on(
-    "ReceiveGroupCall",
-    function ({ callerId, callerName, groupName, offer, video }) {
-      console.log("[SignalR] Nhận được ReceiveGroupCall!", {
-        callerId,
-        groupName,
-      });
-      window.lastGroupCallOffer = { offer, callerId, groupName, video };
-      showIncomingGroupCallPopup({ callerId, callerName, groupName, video });
+  connection.on("ReceiveGroupCall", async (data) => {
+    const { callerId, offer } = data;
+    // Tạo peerConnection
+    const pc = new RTCPeerConnection(config);
+    peerConnections[callerId] = pc;
+
+    await pc.setRemoteDescription(new RTCSessionDescription(offer));
+    // Nếu có pending ICE, add hết luôn
+    if (pendingCandidates[callerId]) {
+      for (const c of pendingCandidates[callerId]) {
+        await pc.addIceCandidate(new RTCIceCandidate(c));
+      }
+      delete pendingCandidates[callerId]; // clear
     }
-  );
+
+    // ...tiếp tục tạo answer, setLocalDescription, gửi lên server
+  });
 
   connection.on("ReceiveCallAnswer", async ({ calleeId, answer }) => {
     if (peerConnection)
@@ -362,35 +444,6 @@ function setupSignalREventHandlers() {
     } else if (peerConnection) {
       // Nếu là private call
       await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-    }
-  });
-
-  connection.on("ReceiveRoomIceCandidate", async ({ userId, candidate }) => {
-    // Nếu là group call, cần add candidate vào đúng peerConnection của user đó
-    if (window.peerConnections && window.peerConnections[userId]) {
-      try {
-        await window.peerConnections[userId].addIceCandidate(
-          new RTCIceCandidate(candidate)
-        );
-        console.log(
-          "[ReceiveRoomIceCandidate] ICE added for peer:",
-          userId,
-          candidate
-        );
-      } catch (e) {
-        console.error(
-          "Error adding ICE candidate for peer",
-          userId,
-          e,
-          candidate
-        );
-      }
-    } else {
-      console.warn(
-        "[ReceiveRoomIceCandidate] No peerConnection found for user:",
-        userId,
-        candidate
-      );
     }
   });
 
@@ -681,24 +734,14 @@ function sendPrivateMessage() {
 // Send group message
 function sendGroupMessage() {
   if (!selectedGroupId) return;
-
   const messageInput = document.getElementById("messageInput");
   const content = messageInput.value.trim();
-
   if (content) {
-    // Send via controller
-    fetch("/Chat/SendMessage", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        content: content,
-        receiverGroupId: selectedGroupId,
-      }),
-    }).catch((err) => console.error("Error sending group message: ", err));
-
+    connection
+      .invoke("SendGroupMessage", selectedGroupId, content)
+      .catch((err) => console.error("Error sending group message: ", err));
     messageInput.value = "";
+    console.log("[sendGroupMessage]", selectedGroupId, content);
   }
 }
 
@@ -771,10 +814,7 @@ function selectGroup(groupId, groupName) {
   selectedGroupId = groupId;
   selectedUserId = null;
 
-  if (selectedRoom) {
-    connection.invoke("LeaveRoom", selectedRoom);
-    selectedRoom = null;
-  }
+  connection.invoke("JoinGroup", groupId).catch((e) => {});
 
   // Reset layout
   const chatBody = document.querySelector(".chat-body");
@@ -815,16 +855,20 @@ function selectGroup(groupId, groupName) {
   updateCallButtons(); // Update call buttons based on selection
 }
 
-async function leaveGroup(groupId) {
-  try {
-    // Gọi phương thức 'LeaveGroup' trên ChatHub của server
-    await connection.invoke("LeaveGroup", groupId);
-    console.log(`Successfully invoked LeaveGroup for group ID: ${groupId}`);
-    // Bạn có thể thêm logic cập nhật UI ở đây sau khi gọi hàm
-  } catch (err) {
-    console.error(`Error calling LeaveGroup for group ID ${groupId}:`, err);
-    // Xử lý lỗi, ví dụ: hiển thị thông báo cho người dùng
-  }
+function leaveGroup(groupId) {
+  if (!confirm("Are you sure you want to leave this group?")) return;
+
+  connection
+    .invoke("LeaveGroup", groupId.toString())
+    .then(() => {
+      alert("You have left the group.");
+      closeGroupChatUI(groupId);
+      loadUserGroups();
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("Failed to leave group.");
+    });
 }
 
 // Select room to chat in
@@ -1032,6 +1076,7 @@ function displayMessage(message) {
 
 // Display a group message in the chat
 function displayGroupMessage(message) {
+  console.log("[displayGroupMessage]", message);
   const messageList = document.getElementById("message-list");
   const messageElement = document.createElement("div");
 
@@ -1182,6 +1227,7 @@ function loadUserGroups() {
                     `;
 
           groupsList.appendChild(groupElement);
+          connection.invoke("JoinGroup", group.id).catch(() => {});
         });
       }
     })
@@ -1922,6 +1968,34 @@ function sendFriendRequest(friendId) {
     });
 }
 
+function removeUserFromGroup(groupId, userId) {
+  if (!confirm("Are you sure you want to remove this user from the group?"))
+    return;
+
+  connection
+    .invoke("RemoveUserFromGroup", groupId.toString(), userId)
+    .then(() => {
+      showNotification("User removed successfully.");
+
+      if (userId === currentUserId) {
+        // Nếu chính mình bị kick → reset UI
+        if (selectedGroupId == groupId) {
+          selectedGroupId = null;
+          document.getElementById("chat-box").innerHTML = "";
+          document.getElementById("member-list").innerHTML = "";
+        }
+        loadUserGroups(); // cập nhật sidebar
+      } else {
+        // Admin kick người khác → reload danh sách thành viên
+        loadGroupMembers(groupId);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      showErrorMessage("Failed to remove user.");
+    });
+}
+
 // Load group members
 function loadGroupMembers(groupId) {
   fetch(`/Chat/GetGroupMembers?groupId=${groupId}`)
@@ -1964,33 +2038,23 @@ function displayGroupMembers(groupId, members) {
     // Create admin action buttons if current user is admin
     let adminActions = "";
     if (isCurrentUserAdmin && member.userId !== currentUserId) {
+      // Admin được phép xóa thành viên khác
       adminActions = `
-                <div class="dropdown ms-2">
-                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                        Actions
-                    </button>
-                    <ul class="dropdown-menu">
-                        ${
-                          member.role === "Member"
-                            ? `<li><a class="dropdown-item" href="#" onclick="changeGroupMemberRole(${groupId}, '${member.userId}', 'Admin')">Make Admin</a></li>`
-                            : `<li><a class="dropdown-item" href="#" onclick="changeGroupMemberRole(${groupId}, '${member.userId}', 'Member')">Remove Admin</a></li>`
-                        }
-                        <li><a class="dropdown-item text-danger" href="#" onclick="removeUserFromGroup(${groupId}, '${
-        member.userId
-      }')">Remove from Group</a></li>
-                    </ul>
-                </div>
-            `;
+        <button class="btn btn-sm btn-outline-danger ms-2"
+                onclick="removeUserFromGroup(${groupId}, '${member.userId}')">
+            Remove
+        </button>
+    `;
+    } else if (member.userId === currentUserId) {
+      // Chính user → hiển thị nút "Leave Group"
+      adminActions = `
+        <button class="btn btn-sm btn-outline-secondary ms-2"
+                onclick="leaveGroup(${groupId})">
+            Leave Group
+        </button>
+    `;
     }
-
-    // Allow self-removal even for non-admins
-    if (!isCurrentUserAdmin && member.userId === currentUserId) {
-      adminActions = `
-                <button class="btn btn-sm btn-outline-danger ms-2" onclick="removeUserFromGroup(${groupId}, '${member.userId}')">
-                    Leave Group
-                </button>
-            `;
-    } // Simple online/offline status
+    // Simple online/offline status
     let statusText = member.isOnline ? "Online" : "Offline";
 
     memberElement.innerHTML = `
@@ -2067,46 +2131,6 @@ function changeGroupMemberRole(groupId, userId, newRole) {
     });
 }
 
-// Remove a user from the group
-function removeUserFromGroup(groupId, userId) {
-  if (!confirm("Are you sure you want to remove this user from the group?")) {
-    return;
-  }
-
-  fetch("/Chat/RemoveUserFromGroup", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: `groupId=${groupId}&userId=${userId}`,
-  })
-    .then((response) => {
-      if (response.ok) {
-        showNotification("User removed from group");
-
-        const currentUserId = document.getElementById("current-user-id").value;
-
-        // If removing self, go back to the contacts view
-        if (userId === currentUserId) {
-          document
-            .querySelector(".chat-container")
-            .classList.remove("show-chat");
-          selectedGroupId = null;
-          document.getElementById("chat-area").classList.add("d-none");
-          showNotification("You have left the group");
-        } else {
-          loadGroupMembers(groupId); // Refresh the members list
-        }
-      } else {
-        response.text().then((text) => showErrorMessage(text));
-      }
-    })
-    .catch((err) => {
-      console.error("Error removing user:", err);
-      showErrorMessage("Failed to remove user");
-    });
-}
-
 function closeGroupChatUI(groupId) {
   // 1. Xóa khỏi danh sách nhóm (sidebar)
   const groupItem = document.querySelector(
@@ -2136,6 +2160,9 @@ function closeGroupChatUI(groupId) {
       `;
     // Nếu có các UI khác (file, emoji picker, typing indicator) thì cũng ẩn/clear
     document.getElementById("typing-indicator")?.classList.add("d-none");
+  }
+  if (!window.selectedGroupId && !window.selectedUserId && !window.selectedRoom) {
+    document.getElementById("chat-area")?.classList.add("d-none");
   }
 }
 
@@ -2859,6 +2886,10 @@ function toggleCam() {
   document.querySelector("#toggle-cam-btn i").className = camEnabled
     ? "bi bi-camera-video-fill"
     : "bi bi-camera-video-off-fill";
+}
+
+function endGroupCall(targetUserId) {
+  connection.invoke("EndCall", targetUserId);
 }
 
 function endCall(fromRemote = false) {
