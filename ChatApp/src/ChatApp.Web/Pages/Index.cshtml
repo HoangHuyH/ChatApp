@@ -402,6 +402,11 @@
         <video id="localVideo" autoplay muted playsinline
             style="width:120px; height:90px; position:absolute; bottom:24px; right:24px; border-radius:12px; box-shadow:0 0 12px #0007; z-index:20; background:#111;">
         </video>
+
+        <div id="call-end-popup" style="display:none; position:fixed; top:30%; left:50%; transform:translate(-50%,-50%); z-index:9999; background:#fff; border-radius:16px; box-shadow:0 2px 24px rgba(0,0,0,0.25); padding:32px 42px; text-align:center; font-size:20px;">
+  <span class="call-end-message">Cuộc gọi đã kết thúc!</span>
+</div>
+
         <!-- Call controls đè lên remote (giữa, dưới) -->
         <div id="call-controls" class="d-none"
             style="

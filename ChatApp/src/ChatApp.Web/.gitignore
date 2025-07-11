@@ -1,0 +1,57 @@
+# .NET Core
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.env
+.vs/
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+# Visual Studio Code
+.vscode/
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Large Electron files
+ChatApp-Desktop/node_modules/
+**/electron/dist/electron.exe
+**/electron/dist/*.zip
+**/electron/dist/*.asar
+*.exe
+*.dll
+*.so
+*.dylib
+**/node_modules/**/*.bin
+
+# Local database files
+*.db
+*.db-shm
+*.db-wal
+
+# Misc
+.DS_Store
+Thumbs.db
+ChatApp/src/ChatApp.Web/.env
