@@ -366,18 +366,33 @@ function setupSignalREventHandlers() {
   });
 
   connection.on("ReceiveRoomIceCandidate", async ({ userId, candidate }) => {
-  // Nếu là group call, cần add candidate vào đúng peerConnection của user đó
-  if (window.peerConnections && window.peerConnections[userId]) {
-    try {
-      await window.peerConnections[userId].addIceCandidate(new RTCIceCandidate(candidate));
-      console.log("[ReceiveRoomIceCandidate] ICE added for peer:", userId, candidate);
-    } catch (e) {
-      console.error("Error adding ICE candidate for peer", userId, e, candidate);
+    // Nếu là group call, cần add candidate vào đúng peerConnection của user đó
+    if (window.peerConnections && window.peerConnections[userId]) {
+      try {
+        await window.peerConnections[userId].addIceCandidate(
+          new RTCIceCandidate(candidate)
+        );
+        console.log(
+          "[ReceiveRoomIceCandidate] ICE added for peer:",
+          userId,
+          candidate
+        );
+      } catch (e) {
+        console.error(
+          "Error adding ICE candidate for peer",
+          userId,
+          e,
+          candidate
+        );
+      }
+    } else {
+      console.warn(
+        "[ReceiveRoomIceCandidate] No peerConnection found for user:",
+        userId,
+        candidate
+      );
     }
-  } else {
-    console.warn("[ReceiveRoomIceCandidate] No peerConnection found for user:", userId, candidate);
-  }
-});
+  });
 
   connection?.on &&
     connection.on("CallEnded", () => {
@@ -393,6 +408,12 @@ function setupSignalREventHandlers() {
     }
   });
 }
+
+window.addEventListener("beforeunload", () => {
+  if (window.connection) {
+    window.connection.stop();
+  }
+});
 
 // Load user's friends
 function loadFriends() {
@@ -3047,6 +3068,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Add initializeEmojiPicker to the main initialization function
 document.addEventListener("DOMContentLoaded", function () {
+  if (window.require) {
+    const { ipcRenderer } = window.require("electron");
+    ipcRenderer.on("app-will-quit", () => {
+      if (window.connection) window.connection.stop();
+    });
+  }
   // Only initialize SignalR if user is authenticated and current-user-id exists
   if (currentUserId) {
     // Initialize SignalR
