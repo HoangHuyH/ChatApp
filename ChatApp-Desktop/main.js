@@ -106,6 +106,11 @@ app.on("activate", () => {
   }
 });
 
+app.on("before-quit", () => {
+  // Gửi tín hiệu về renderer, yêu cầu stop connection trước khi quit
+  if (mainWindow) mainWindow.webContents.send("app-will-quit");
+});
+
 app.on("quit", () => {
   // Kill the ASP.NET Core process when the Electron app quits
   if (dotnetProcess) {
