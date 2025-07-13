@@ -445,14 +445,14 @@ namespace ChatApp.Web.Hubs
             });
 
             await Clients.Caller.SendAsync("ReceiveGroupMessage", new
-{
-    MessageId = message.MessageId,
-    GroupId = groupId,
-    Content = message.Content,
-    SentAt = message.SentAt,
-    Sender = new { Id = sender.Id, Name = sender.DisplayName },
-    IsOwnMessage = true
-});
+            {
+                MessageId = message.MessageId,
+                GroupId = groupId,
+                Content = message.Content,
+                SentAt = message.SentAt,
+                Sender = new { Id = sender.Id, Name = sender.DisplayName },
+                IsOwnMessage = true
+            });
         }
 
         public async Task SendRoomMessage(string roomName, string content)

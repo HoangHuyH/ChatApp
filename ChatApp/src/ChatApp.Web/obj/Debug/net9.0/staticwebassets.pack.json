@@ -289,6 +289,14 @@
       "PackagePath": "staticwebassets/media/notification_placeholder.txt"
     },
     {
+      "Id": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/wwwroot/uploads/images/3f6c8acb-0592-4330-ac8a-936f59500229_meow.jpg",
+      "PackagePath": "staticwebassets/uploads/images/3f6c8acb-0592-4330-ac8a-936f59500229_meow.jpg"
+    },
+    {
+      "Id": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/wwwroot/uploads/images/5bd8f537-d533-4ed2-a30a-bfb8f204b395_meow.jpg",
+      "PackagePath": "staticwebassets/uploads/images/5bd8f537-d533-4ed2-a30a-bfb8f204b395_meow.jpg"
+    },
+    {
       "Id": "obj/Debug/net9.0/staticwebassets/msbuild.ChatApp.Web.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
     },

@@ -37,10 +37,7 @@ function updateCallButtons() {
   const audioBtn = document.getElementById("audio-call-btn");
   const videoBtn = document.getElementById("video-call-btn");
   if (selectedGroupId) {
-    audioBtn.onclick = () => {
-      showCallUI(false, "Group Call");
-      startGroupCall(false);
-    };
+    audioBtn.style.display = "none"; // Ẩn nút gọi audio trong group chat
     videoBtn.style.display = "none";
   } else if (selectedUserId) {
     audioBtn.onclick = () => {
@@ -152,6 +149,8 @@ function setupSignalREventHandlers() {
     // Reload friends list to ensure up-to-date friendship status
     loadFriends();
 
+    loadUserGroups(); // Reload user groups
+
     // Rejoin current room if any
     if (selectedRoom) {
       connection.invoke("JoinRoom", selectedRoom);
@@ -252,7 +251,7 @@ function setupSignalREventHandlers() {
       (selectedUserId === message.sender.id && !message.isOwnMessage) ||
       (message.isOwnMessage && selectedUserId)
     ) {
-      displayMessage(message);
+      displayAnyMessage(message, false);
 
       // If this message is from the currently selected user and it's not our own message
       if (selectedUserId === message.sender.id && !message.isOwnMessage) {
@@ -274,7 +273,8 @@ function setupSignalREventHandlers() {
   // Receive group message
   connection.on("ReceiveGroupMessage", (message) => {
     console.log("[ReceiveGroupMessage]", message);
-    displayGroupMessage(message);
+    displayAnyMessage(message, true);
+    showNotification(`New message in group: ${message.groupId}`);
   });
 
   // Receive room message
@@ -737,11 +737,17 @@ function sendGroupMessage() {
   const messageInput = document.getElementById("messageInput");
   const content = messageInput.value.trim();
   if (content) {
-    connection
-      .invoke("SendGroupMessage", selectedGroupId, content)
-      .catch((err) => console.error("Error sending group message: ", err));
+    fetch("/Chat/SendMessage", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        receiverGroupId: selectedGroupId,
+        content: content,
+      }),
+    }).catch((err) => console.error("Error sending group message: ", err));
     messageInput.value = "";
-    console.log("[sendGroupMessage]", selectedGroupId, content);
   }
 }
 
@@ -1062,6 +1068,55 @@ function displayMessage(message) {
                     ? `<span class="message-status" data-status="${
                         message.status || "Sent"
                       }">
+                        ${getStatusIcon(message.status || "Sent")}
+                    </span>`
+                    : ""
+                }
+            </div>
+        </div>
+    `;
+
+  messageList.appendChild(messageElement);
+  scrollToBottom();
+}
+
+function displayAnyMessage(message, isGroup = false) {
+  const messageList = document.getElementById("message-list");
+  const messageElement = document.createElement("div");
+
+  messageElement.classList.add("message");
+  if (message.isOwnMessage) {
+    messageElement.classList.add("message-out");
+  } else {
+    messageElement.classList.add("message-in");
+  }
+
+  const date = new Date(message.sentAt);
+  const timeString = date.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  let content = message.content;
+
+  // Xử lý Image/File, ...
+  if (message.messageType === "Image") { /* ... */ }
+  if (message.messageType === "File") { /* ... */ }
+
+  let senderHtml = "";
+  if (isGroup || (!message.isOwnMessage && message.sender && message.sender.name)) {
+    senderHtml = `<div class="message-sender">${message.sender.name}</div>`;
+  }
+
+  messageElement.innerHTML = `
+        <div class="message-content" data-message-id="${message.messageId}">
+            ${senderHtml}
+            ${content}
+            <div class="message-info">
+                <span class="message-time">${timeString}</span>
+                ${
+                  message.isOwnMessage && !isGroup
+                    ? `<span class="message-status" data-status="${message.status || "Sent"}">
                         ${getStatusIcon(message.status || "Sent")}
                     </span>`
                     : ""

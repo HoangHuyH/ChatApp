@@ -120,8 +120,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>dc0t5nt23g</Fingerprint>
-      <Integrity>Ayhy2iD6FBrO+X1vQ6TkjBs8N78a/IoVDvv9/th0ETI=</Integrity>
+      <Fingerprint>jhrxeyhzu1</Fingerprint>
+      <Integrity>mZCCJU2y57WZ2ZlD629DVoZ25EEviqLJidKhymfLxiU=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\chat.js'))</OriginalItemSpec>
@@ -1295,6 +1295,42 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\media\notification_placeholder.txt'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\images\3f6c8acb-0592-4330-ac8a-936f59500229_meow.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>ChatApp.Web</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/ChatApp.Web</BasePath>
+      <RelativePath>uploads/images/3f6c8acb-0592-4330-ac8a-936f59500229_meow.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>iqq0lku92j</Fingerprint>
+      <Integrity>plPelvbYQUbZyQBIUslOj6TcGrttkmO7dbxWNjaDC8U=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\images\3f6c8acb-0592-4330-ac8a-936f59500229_meow.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\images\5bd8f537-d533-4ed2-a30a-bfb8f204b395_meow.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>ChatApp.Web</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/ChatApp.Web</BasePath>
+      <RelativePath>uploads/images/5bd8f537-d533-4ed2-a30a-bfb8f204b395_meow.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>iqq0lku92j</Fingerprint>
+      <Integrity>plPelvbYQUbZyQBIUslOj6TcGrttkmO7dbxWNjaDC8U=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\images\5bd8f537-d533-4ed2-a30a-bfb8f204b395_meow.jpg'))</OriginalItemSpec>
     </StaticWebAsset>
   </ItemGroup>
 </Project>
