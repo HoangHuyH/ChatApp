@@ -312,7 +312,7 @@ This project is developed for educational purposes as part of the Basic Network 
 
 ---
 
-For more detailed information, see the additional documentation files:
-- [Design Document](final_design_document.md)
+For more detailed information, see the additional documentation files at master branch:
+- [Design Document](final_design_document.md) 
 - [Requirements Analysis](requirements_analysis.md)
 - [AI Chat Setup](ChatApp/src/ChatApp.Web/AI_CHAT_README.md)
