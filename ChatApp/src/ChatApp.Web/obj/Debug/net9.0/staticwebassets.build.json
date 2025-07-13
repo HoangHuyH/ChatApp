@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "cvOjo4fTF/bCLoqD0VcGTaGh7GrIs5vJABTvtljmq4s=",
+  "Hash": "XkmdoFouwEklHQZNTn05UNxQsqKGUjVKcMIpk4hUtS4=",
   "Source": "ChatApp.Web",
   "BasePath": "_content/ChatApp.Web",
   "Mode": "Default",
@@ -1823,12 +1823,12 @@
       "OriginalItemSpec": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map"
     },
     {
-      "Identity": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/obj/Debug/net9.0/compressed/5nhq0t8azg-dc0t5nt23g.gz",
+      "Identity": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/obj/Debug/net9.0/compressed/5nhq0t8azg-jhrxeyhzu1.gz",
       "SourceId": "ChatApp.Web",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/ChatApp.Web",
-      "RelativePath": "js/chat#[.{fingerprint=dc0t5nt23g}]?.js.gz",
+      "RelativePath": "js/chat#[.{fingerprint=jhrxeyhzu1}]?.js.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -1837,8 +1837,8 @@
       "RelatedAsset": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/wwwroot/js/chat.js",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "vaw0j91k1t",
-      "Integrity": "h2rIR8AJ5h8aTCRmjDu2dtB74YvCaxKw6zHPjXZYNoE=",
+      "Fingerprint": "6npkv6yxyl",
+      "Integrity": "0nW18qpPEFd9fmQmok6rLwVpMfHzGm4+Dl1iYrPnWJk=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/wwwroot/js/chat.js"
@@ -4315,8 +4315,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "dc0t5nt23g",
-      "Integrity": "Ayhy2iD6FBrO+X1vQ6TkjBs8N78a/IoVDvv9/th0ETI=",
+      "Fingerprint": "jhrxeyhzu1",
+      "Integrity": "mZCCJU2y57WZ2ZlD629DVoZ25EEviqLJidKhymfLxiU=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/js/chat.js"
@@ -5685,6 +5685,48 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/media/notification_placeholder.txt"
+    },
+    {
+      "Identity": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/wwwroot/uploads/images/3f6c8acb-0592-4330-ac8a-936f59500229_meow.jpg",
+      "SourceId": "ChatApp.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/wwwroot/",
+      "BasePath": "_content/ChatApp.Web",
+      "RelativePath": "uploads/images/3f6c8acb-0592-4330-ac8a-936f59500229_meow#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "iqq0lku92j",
+      "Integrity": "plPelvbYQUbZyQBIUslOj6TcGrttkmO7dbxWNjaDC8U=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/images/3f6c8acb-0592-4330-ac8a-936f59500229_meow.jpg"
+    },
+    {
+      "Identity": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/wwwroot/uploads/images/5bd8f537-d533-4ed2-a30a-bfb8f204b395_meow.jpg",
+      "SourceId": "ChatApp.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/wwwroot/",
+      "BasePath": "_content/ChatApp.Web",
+      "RelativePath": "uploads/images/5bd8f537-d533-4ed2-a30a-bfb8f204b395_meow#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "iqq0lku92j",
+      "Integrity": "plPelvbYQUbZyQBIUslOj6TcGrttkmO7dbxWNjaDC8U=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/images/5bd8f537-d533-4ed2-a30a-bfb8f204b395_meow.jpg"
     }
   ],
   "Endpoints": [
@@ -16380,13 +16422,13 @@
       ]
     },
     {
-      "Route": "js/chat.dc0t5nt23g.js",
-      "AssetFile": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/obj/Debug/net9.0/compressed/5nhq0t8azg-dc0t5nt23g.gz",
+      "Route": "js/chat.jhrxeyhzu1.js",
+      "AssetFile": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/obj/Debug/net9.0/compressed/5nhq0t8azg-jhrxeyhzu1.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000047163137"
+          "Quality": "0.000046801142"
         }
       ],
       "ResponseHeaders": [
@@ -16396,15 +16438,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "21202"
+          "Value": "21366"
         },
         {
           "Name": "ETag",
-          "Value": "\"h2rIR8AJ5h8aTCRmjDu2dtB74YvCaxKw6zHPjXZYNoE=\""
+          "Value": "\"0nW18qpPEFd9fmQmok6rLwVpMfHzGm4+Dl1iYrPnWJk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 11 Jul 2025 20:17:48 GMT"
+          "Value": "Sun, 13 Jul 2025 04:15:32 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -16424,13 +16466,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"Ayhy2iD6FBrO+X1vQ6TkjBs8N78a/IoVDvv9/th0ETI=\""
+          "Value": "W/\"mZCCJU2y57WZ2ZlD629DVoZ25EEviqLJidKhymfLxiU=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "dc0t5nt23g"
+          "Value": "jhrxeyhzu1"
         },
         {
           "Name": "label",
@@ -16438,12 +16480,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-Ayhy2iD6FBrO+X1vQ6TkjBs8N78a/IoVDvv9/th0ETI="
+          "Value": "sha256-mZCCJU2y57WZ2ZlD629DVoZ25EEviqLJidKhymfLxiU="
         }
       ]
     },
     {
-      "Route": "js/chat.dc0t5nt23g.js",
+      "Route": "js/chat.jhrxeyhzu1.js",
       "AssetFile": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/wwwroot/js/chat.js",
       "Selectors": [],
       "ResponseHeaders": [
@@ -16453,7 +16495,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "102731"
+          "Value": "104457"
         },
         {
           "Name": "Content-Type",
@@ -16461,11 +16503,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"Ayhy2iD6FBrO+X1vQ6TkjBs8N78a/IoVDvv9/th0ETI=\""
+          "Value": "\"mZCCJU2y57WZ2ZlD629DVoZ25EEviqLJidKhymfLxiU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 11 Jul 2025 20:17:48 GMT"
+          "Value": "Sun, 13 Jul 2025 04:15:32 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -16475,7 +16517,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "dc0t5nt23g"
+          "Value": "jhrxeyhzu1"
         },
         {
           "Name": "label",
@@ -16483,13 +16525,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-Ayhy2iD6FBrO+X1vQ6TkjBs8N78a/IoVDvv9/th0ETI="
+          "Value": "sha256-mZCCJU2y57WZ2ZlD629DVoZ25EEviqLJidKhymfLxiU="
         }
       ]
     },
     {
-      "Route": "js/chat.dc0t5nt23g.js.gz",
-      "AssetFile": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/obj/Debug/net9.0/compressed/5nhq0t8azg-dc0t5nt23g.gz",
+      "Route": "js/chat.jhrxeyhzu1.js.gz",
+      "AssetFile": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/obj/Debug/net9.0/compressed/5nhq0t8azg-jhrxeyhzu1.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -16498,7 +16540,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "21202"
+          "Value": "21366"
         },
         {
           "Name": "Content-Type",
@@ -16506,11 +16548,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"h2rIR8AJ5h8aTCRmjDu2dtB74YvCaxKw6zHPjXZYNoE=\""
+          "Value": "\"0nW18qpPEFd9fmQmok6rLwVpMfHzGm4+Dl1iYrPnWJk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 11 Jul 2025 20:17:48 GMT"
+          "Value": "Sun, 13 Jul 2025 04:15:32 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -16528,7 +16570,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "dc0t5nt23g"
+          "Value": "jhrxeyhzu1"
         },
         {
           "Name": "label",
@@ -16536,18 +16578,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-h2rIR8AJ5h8aTCRmjDu2dtB74YvCaxKw6zHPjXZYNoE="
+          "Value": "sha256-0nW18qpPEFd9fmQmok6rLwVpMfHzGm4+Dl1iYrPnWJk="
         }
       ]
     },
     {
       "Route": "js/chat.js",
-      "AssetFile": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/obj/Debug/net9.0/compressed/5nhq0t8azg-dc0t5nt23g.gz",
+      "AssetFile": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/obj/Debug/net9.0/compressed/5nhq0t8azg-jhrxeyhzu1.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000047163137"
+          "Quality": "0.000046801142"
         }
       ],
       "ResponseHeaders": [
@@ -16557,15 +16599,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "21202"
+          "Value": "21366"
         },
         {
           "Name": "ETag",
-          "Value": "\"h2rIR8AJ5h8aTCRmjDu2dtB74YvCaxKw6zHPjXZYNoE=\""
+          "Value": "\"0nW18qpPEFd9fmQmok6rLwVpMfHzGm4+Dl1iYrPnWJk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 11 Jul 2025 20:17:48 GMT"
+          "Value": "Sun, 13 Jul 2025 04:15:32 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -16585,13 +16627,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"Ayhy2iD6FBrO+X1vQ6TkjBs8N78a/IoVDvv9/th0ETI=\""
+          "Value": "W/\"mZCCJU2y57WZ2ZlD629DVoZ25EEviqLJidKhymfLxiU=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-Ayhy2iD6FBrO+X1vQ6TkjBs8N78a/IoVDvv9/th0ETI="
+          "Value": "sha256-mZCCJU2y57WZ2ZlD629DVoZ25EEviqLJidKhymfLxiU="
         }
       ]
     },
@@ -16606,7 +16648,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "102731"
+          "Value": "104457"
         },
         {
           "Name": "Content-Type",
@@ -16614,11 +16656,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"Ayhy2iD6FBrO+X1vQ6TkjBs8N78a/IoVDvv9/th0ETI=\""
+          "Value": "\"mZCCJU2y57WZ2ZlD629DVoZ25EEviqLJidKhymfLxiU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 11 Jul 2025 20:17:48 GMT"
+          "Value": "Sun, 13 Jul 2025 04:15:32 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -16628,13 +16670,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-Ayhy2iD6FBrO+X1vQ6TkjBs8N78a/IoVDvv9/th0ETI="
+          "Value": "sha256-mZCCJU2y57WZ2ZlD629DVoZ25EEviqLJidKhymfLxiU="
         }
       ]
     },
     {
       "Route": "js/chat.js.gz",
-      "AssetFile": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/obj/Debug/net9.0/compressed/5nhq0t8azg-dc0t5nt23g.gz",
+      "AssetFile": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/obj/Debug/net9.0/compressed/5nhq0t8azg-jhrxeyhzu1.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -16643,7 +16685,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "21202"
+          "Value": "21366"
         },
         {
           "Name": "Content-Type",
@@ -16651,11 +16693,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"h2rIR8AJ5h8aTCRmjDu2dtB74YvCaxKw6zHPjXZYNoE=\""
+          "Value": "\"0nW18qpPEFd9fmQmok6rLwVpMfHzGm4+Dl1iYrPnWJk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 11 Jul 2025 20:17:48 GMT"
+          "Value": "Sun, 13 Jul 2025 04:15:32 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -16673,7 +16715,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-h2rIR8AJ5h8aTCRmjDu2dtB74YvCaxKw6zHPjXZYNoE="
+          "Value": "sha256-0nW18qpPEFd9fmQmok6rLwVpMfHzGm4+Dl1iYrPnWJk="
         }
       ]
     },
@@ -38085,6 +38127,170 @@
         {
           "Name": "integrity",
           "Value": "sha256-1dCpeOSgKpkqafo3fO/sflQZTnMFIBZxulzas9lk8d4="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/images/3f6c8acb-0592-4330-ac8a-936f59500229_meow.iqq0lku92j.jpg",
+      "AssetFile": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/wwwroot/uploads/images/3f6c8acb-0592-4330-ac8a-936f59500229_meow.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "121849"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"plPelvbYQUbZyQBIUslOj6TcGrttkmO7dbxWNjaDC8U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 12 Jul 2025 19:17:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "iqq0lku92j"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/images/3f6c8acb-0592-4330-ac8a-936f59500229_meow.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-plPelvbYQUbZyQBIUslOj6TcGrttkmO7dbxWNjaDC8U="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/images/3f6c8acb-0592-4330-ac8a-936f59500229_meow.jpg",
+      "AssetFile": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/wwwroot/uploads/images/3f6c8acb-0592-4330-ac8a-936f59500229_meow.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "121849"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"plPelvbYQUbZyQBIUslOj6TcGrttkmO7dbxWNjaDC8U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 12 Jul 2025 19:17:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-plPelvbYQUbZyQBIUslOj6TcGrttkmO7dbxWNjaDC8U="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/images/5bd8f537-d533-4ed2-a30a-bfb8f204b395_meow.iqq0lku92j.jpg",
+      "AssetFile": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/wwwroot/uploads/images/5bd8f537-d533-4ed2-a30a-bfb8f204b395_meow.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "121849"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"plPelvbYQUbZyQBIUslOj6TcGrttkmO7dbxWNjaDC8U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 12 Jul 2025 20:32:44 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "iqq0lku92j"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/images/5bd8f537-d533-4ed2-a30a-bfb8f204b395_meow.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-plPelvbYQUbZyQBIUslOj6TcGrttkmO7dbxWNjaDC8U="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/images/5bd8f537-d533-4ed2-a30a-bfb8f204b395_meow.jpg",
+      "AssetFile": "/Users/dtam.21/Code/ChatApp/ChatApp/src/ChatApp.Web/wwwroot/uploads/images/5bd8f537-d533-4ed2-a30a-bfb8f204b395_meow.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "121849"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"plPelvbYQUbZyQBIUslOj6TcGrttkmO7dbxWNjaDC8U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 12 Jul 2025 20:32:44 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-plPelvbYQUbZyQBIUslOj6TcGrttkmO7dbxWNjaDC8U="
         }
       ]
     }
